@@ -18,7 +18,7 @@ task :deploy do
     throw "Please configure AWS access tokens in Rakefile."
   end
   puts "## Deploying to S3..."
-  sh "s3sync -r -v --delete /output #{AWS_BUCKET}:/"
+  sh "s3sync -r -v output/ #{AWS_BUCKET}:"
 end
 
 desc "Build and deploy to S3"
