@@ -1,0 +1,498 @@
+/* GENERAL */
+
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
+html, body {
+  background: url("/images/bg.jpg") black;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  padding-top: 5px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+::selection {
+  color: #999;
+  background: #4c4c4c;
+}
+
+::-moz-selection {
+  color: #999;
+  background: #4c4c4c;
+}
+
+::-webkit-selection {
+  color: #999;
+  background: #4c4c4c;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:link,
+a:visited {
+  color: #f30;
+}
+
+a:hover {
+  color: #f90;
+}
+
+#wrapper {
+  min-height: 95%;
+  width: 750px;
+  position: relative;
+  display: block;
+  margin: 0 auto;
+  background: white;
+  border: solid white 2px;
+  border-radius: 10px 10px 10px 10px;
+  overflow: hidden;
+}
+
+#footer {
+  width: 100%;
+  height: 5em;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: -webkit-linear-gradient(
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 1) 100%
+  ); 
+  background-image: -moz-linear-gradient(
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 1) 100%
+  );
+  background-image: -o-linear-gradient(
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 1) 100%
+  );
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 1) 100%
+  );
+  background-image: -ms-linear-gradient(
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 1) 100%
+  );
+}
+
+#footer-content {
+  width: 100%;
+  color: black;
+  text-align: center;
+  font-size: 12px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+#main {
+  position: absolute;
+  top: 0px;
+  bottom: 10px;
+  left: 190px;
+  padding: 10px;
+  padding-bottom: 1em;
+  margin-right: 30px;
+  height: 100%;
+  outline: none;
+  overflow-y: auto;
+}
+
+#main h1 {
+  font-size: 40px;
+  font-weight: normal;
+  line-height: 40px;
+  letter-spacing: -1px;
+}
+
+#main h2 {
+  margin-bottom: -0.8em;
+}
+
+#main p {
+  margin: 20px 0;
+  font-size: 15px;
+  line-height: 20px;
+}
+
+#main ul, #main ol {
+  margin: 20px;
+}
+
+#main li {
+  font-size: 15px;
+
+  line-height: 20px;
+}
+
+#main ul li {
+  list-style-type: square;
+}
+
+.hashtag {
+  margin-top: -1em;
+  color: orange;
+}
+
+#name {
+  font-size: 20px;
+  color: #222;
+  text-shadow: 0px 2px 3px #555;
+  margin-bottom: 1em;
+}
+
+
+/* BEGIN SIDEBAR */
+
+#sidebar {
+  position: relative;
+  top: 5px;
+  left: 0px;
+  width: 150px;
+  padding: 20px 20px 0 0;
+  border-right: 1px solid #ccc;
+  text-align: right;
+}
+
+#sidebar a, span.active {
+  display: block;
+  text-transform: lowercase;
+  font-size: 18px;
+  color: #333;
+  letter-spacing: 1px;
+  line-height: 20px;
+  visibility: hidden;
+}
+
+#sidebar span.active {
+  color: red;
+}
+
+#social a {
+  display: inline-block;
+  text-transform: lowercase;
+  color: #333;
+  letter-spacing: 1px;
+  line-height: 20px;
+  position: relative;
+  transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  visibility: hidden;
+}
+
+#social a:hover {
+  transform: rotate(360deg);
+  -moz-transform: rotate(360deg);
+  -webkit-transform: rotate(360deg);
+  -o-transform: rotate(360deg);
+}
+
+/* SCROLL PANE */
+.jspContainer {
+  overflow: hidden;
+  position: relative;
+}
+
+.jspPane {
+  position: absolute;
+}
+
+.jspVerticalBar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 16px;
+  height: 100%;
+  background: red;
+}
+
+.jspHorizontalBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 16px;
+  background: red;
+}
+
+.jspCap {
+  display: none;
+}
+
+.jspHorizontalBar .jspCap {
+  float: left;
+}
+
+.jspTrack {
+  background: white;
+  position: relative;
+}
+
+.jspDrag {
+  background: #c0c0c0;
+  border-radius: 10px 10px 10px 10px;
+  position: relative;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.jspHorizontalBar .jspTrack, .jspHorizontalBar .jspDrag {
+  float: left;
+  height: 100%;
+}
+
+.jspArrow {
+  background: #50506d;
+  text-indent: -20000px;
+  display: block;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
+
+.jspArrow.jspDisabled {
+  cursor: default;
+  background: #80808d;
+}
+
+.jspVerticalBar .jspArrow {
+  height: 16px;
+}
+
+.jspHorizontalBar .jspArrow {
+  width: 16px;
+  float: left;
+  height: 100%;
+}
+
+.jspVerticalBar .jspArrow:focus {
+  outline: none;
+}
+
+.jspCorner {
+  background: #eeeef4;
+  float: left;
+  height: 100%;
+}
+
+/* Yuk! CSS Hack for IE6 3 pixel bug :( */
+* html .jspCorner {
+  margin: 0 -3px 0 0;
+}
+
+/* ANIMATIONS - thanks to https://daneden.me/animate/ */
+
+.animated {
+    -webkit-animation-fill-mode: both;
+    -moz-animation-fill-mode: both;
+    -ms-animation-fill-mode: both;
+    -o-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-duration: 1s;
+    -moz-animation-duration: 1s;
+    -ms-animation-duration: 1s;
+    -o-animation-duration: 1s;
+    animation-duration: 1s;
+}
+
+@-webkit-keyframes tada { 
+    0% { -webkit-transform: scale(1) }
+    10%,
+    20% { -webkit-transform: scale(0.9) rotate(-3deg) }
+    30%,
+    50%,
+    70%,
+    90% { -webkit-transform: scale(1.1) rotate(3deg) }
+    40%,
+    60%,
+    80% { -webkit-transform: scale(1.1) rotate(-3deg) }
+    100% { -webkit-transform: scale(1) rotate() }
+}
+@-moz-keyframes tada { 
+    0% { -moz-transform: scale(1) }
+    10%,
+    20% { -moz-transform: scale(0.9) rotate(-3deg) }
+    30%,
+    50%,
+    70%,
+    90% { -moz-transform: scale(1.1) rotate(3deg) }
+    40%,
+    60%,
+    80% { -moz-transform: scale(1.1) rotate(-3deg) }
+    100% { -moz-transform: scale(1) rotate() }
+}
+@-o-keyframes tada { 
+    0% { -o-transform: scale(1) }
+    10%,
+    20% { -o-transform: scale(0.9) rotate(-3deg) }
+    30%,
+    50%,
+    70%,
+    90% { -o-transform: scale(1.1) rotate(3deg) }
+    40%,
+    60%,
+    80% { -o-transform: scale(1.1) rotate(-3deg) }
+    100% { -o-transform: scale(1) rotate() }
+}
+@keyframes tada { 
+    0% { transform: scale(1) }
+    10%,
+    20% { transform: scale(0.9) rotate(-3deg) }
+    30%,
+    50%,
+    70%,
+    90% { transform: scale(1.1) rotate(3deg) }
+    40%,
+    60%,
+    80% { transform: scale(1.1) rotate(-3deg) }
+    100% { transform: scale(1) rotate() }
+}
+.tada {
+    -webkit-animation-name: tada;
+    -moz-animation-name: tada;
+    -o-animation-name: tada;
+    animation-name: tada;
+}
+
+@-webkit-keyframes lightSpeedIn { 
+    0% {
+        -webkit-transform: translateX(100%) skewX(-30deg);
+        opacity: 0;
+    }
+    60% {
+        -webkit-transform: translateX(-20%) skewX(30deg);
+        opacity: 1;
+    }
+    80% {
+        -webkit-transform: translateX(0%) skewX(-15deg);
+        opacity: 1;
+    }
+    100% {
+        -webkit-transform: translateX(0%) skewX(0deg);
+        opacity: 1;
+    }
+}
+@-moz-keyframes lightSpeedIn { 
+    0% {
+        -moz-transform: translateX(100%) skewX(-30deg);
+        opacity: 0;
+    }
+    60% {
+        -moz-transform: translateX(-20%) skewX(30deg);
+        opacity: 1;
+    }
+    80% {
+        -moz-transform: translateX(0%) skewX(-15deg);
+        opacity: 1;
+    }
+    100% {
+        -moz-transform: translateX(0%) skewX(0deg);
+        opacity: 1;
+    }
+}
+@-o-keyframes lightSpeedIn { 
+    0% {
+        -o-transform: translateX(100%) skewX(-30deg);
+        opacity: 0;
+    }
+    60% {
+        -o-transform: translateX(-20%) skewX(30deg);
+        opacity: 1;
+    }
+    80% {
+        -o-transform: translateX(0%) skewX(-15deg);
+        opacity: 1;
+    }
+    100% {
+        -o-transform: translateX(0%) skewX(0deg);
+        opacity: 1;
+    }
+}
+@keyframes lightSpeedIn { 
+    0% {
+        transform: translateX(100%) skewX(-30deg);
+        opacity: 0;
+    }
+    60% {
+        transform: translateX(-20%) skewX(30deg);
+        opacity: 1;
+    }
+    80% {
+        transform: translateX(0%) skewX(-15deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(0%) skewX(0deg);
+        opacity: 1;
+    }
+}
+.lightSpeedIn {
+    -webkit-animation-name: lightSpeedIn;
+    -moz-animation-name: lightSpeedIn;
+    -o-animation-name: lightSpeedIn;
+    animation-name: lightSpeedIn;
+    -webkit-animation-timing-function: ease-out;
+    -moz-animation-timing-function: ease-out;
+    -o-animation-timing-function: ease-out;
+    animation-timing-function: ease-out;
+}
+
+/* originally authored by Nick Pettit - https://github.com/nickpettit/glide */
+@-webkit-keyframes rollIn { 
+    0% {
+        opacity: 0;
+        -webkit-transform: translateX(-100%) rotate(-120deg);
+    }
+    100% {
+        opacity: 1;
+        -webkit-transform: translateX(0px) rotate(0deg);
+    }
+}
+@-moz-keyframes rollIn { 
+    0% {
+        opacity: 0;
+        -moz-transform: translateX(-100%) rotate(-120deg);
+    }
+    100% {
+        opacity: 1;
+        -moz-transform: translateX(0px) rotate(0deg);
+    }
+}
+@-o-keyframes rollIn { 
+    0% {
+        opacity: 0;
+        -o-transform: translateX(-100%) rotate(-120deg);
+    }
+    100% {
+        opacity: 1;
+        -o-transform: translateX(0px) rotate(0deg);
+    }
+}
+@keyframes rollIn { 
+    0% {
+        opacity: 0;
+        transform: translateX(-100%) rotate(-120deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0px) rotate(0deg);
+    }
+}
+.rollIn {
+    -webkit-animation-name: rollIn;
+    -moz-animation-name: rollIn;
+    -o-animation-name: rollIn;
+    animation-name: rollIn;
+}

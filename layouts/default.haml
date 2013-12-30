@@ -1,0 +1,62 @@
+!!! HTML
+%html
+  %head
+    %meta(name="generator" content="nanoc #{Nanoc::VERSION}")
+    %meta(name="viewport" content="width=device-width, initial-scale=1")
+    %title
+      = @item[:title]
+      \- Oleg Vaskevich
+    %link(href="http://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css")
+    %link(href="#{all_styles_combined_filename}" rel="stylesheet" type="text/css")
+    %script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript")
+    %script(src="#{all_scripts_combined_filename}" type="text/javascript")
+  %body
+    #wrapper
+      #sidebar
+        #name Oleg Vaskevich
+        -# show HAML items sorted by their index attribute
+        - @items.reject{|i| i[:index].nil?}.sort{|a, b| a[:index] <=> b[:index]}.each do |item|
+          - if !item.binary? and item[:extension] == "haml"
+            = link_to_unless_current(item[:title], item.identifier, { :class => "sidebar-item" })
+        %br
+        #social
+          %a{:href => "https://twitter.com/ohleg", :target => "_blank"}
+            %img{:src => "/images/twitter.png", :width => "22px", :height => "22px"}
+          %a{:href => "http://www.linkedin.com/profile/view?id=98400121", :target => "_blank"}
+            %img{:src => "/images/linkedin.png", :width => "22px", :height => "22px"}
+          %a{:href => "https://github.com/ovaskevich", :target => "_blank"}
+            %img{:src => "/images/github.png", :width => "22px", :height => "22px"}
+      #main
+        = yield
+      #footer
+        #footer-content
+          Last updated
+          = @item.mtime.strftime("%A %B %d, %Y at %I:%M:%S %P") + ", EST"
+    :javascript
+      var SHOW_OFFSET = 200;
+
+      $(document).ready(function() {
+        $('#main').jScrollPane();
+
+        if (Modernizr.cssanimations) {
+          $(".sidebar-item, span.active").each(function(index) {
+            var item = $(this);
+            setTimeout(function() {
+              item.addClass("animated lightSpeedIn");
+              item.css("visibility", "visible");
+            }, index * SHOW_OFFSET)
+          })
+        } else {
+          $(".sidebar-item, span.active").css("visibility", "visible");
+        }
+
+      });
+
+      $("#name").hover(
+        function() {
+          $(this).addClass("animated tada");
+        },
+        function() {
+          $(this).removeClass();
+        }
+      );

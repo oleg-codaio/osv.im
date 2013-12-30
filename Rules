@@ -13,21 +13,48 @@
 #   item, use the pattern “/about/*/”; “/about/*” will also select the parent,
 #   because “*” matches zero or more characters.
 
-compile '/stylesheet/' do
-  # don’t filter or layout
+require 'nanoc-gzip-filter'
+
+compile %r{/(images|script|style)/*/} do
+  # don’t filter or layout images, scripts, or stylesheets
+end
+
+route %r{/(script|style)/*/} do
+  # don't output scripts or styles anywhere as we'll combine them later on
+  nil
+end
+
+# combine all stylesheets and scripts into one file, for performance
+
+compile '/_scripts/' do
+  filter :haml
+  filter :yui_compressor, :type => 'js'
+  filter :gzip
+end
+
+compile '/_styles/' do
+  filter :haml
+  filter :yui_compressor, :type => 'css'
+  filter :gzip
+end
+
+route '/_scripts/' do
+  all_scripts_combined_filename
+end
+
+route '/_styles/' do
+  all_styles_combined_filename
 end
 
 compile '*' do
   if item.binary?
     # don’t filter binary items
   else
-    filter :erb
+    filter :haml, :format => :html4
     layout 'default'
+    filter :minify_html
+    filter :gzip
   end
-end
-
-route '/stylesheet/' do
-  '/style.css'
 end
 
 route '*' do
@@ -40,4 +67,4 @@ route '*' do
   end
 end
 
-layout '*', :erb
+layout '*', :haml, :format => :html4
