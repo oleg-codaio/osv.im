@@ -1,0 +1,95 @@
+@import "compass";
+@import "animation";
+
+/* there are built-in Animate.css animations in compass-animate,
+   but to reduce the size of our css file we just define them here
+   instead */
+.animated {
+    @include animation-duration(1s);
+    @include animation-timing-function(ease);
+    @include animation-fill-mode(both);
+}
+
+@include keyframes(tada) {
+  0% {
+    @include scale(1); }
+  10% {
+    @include transform(scale(0.9) rotate(-3deg)); }
+  20% {
+    @include transform(scale(0.9) rotate(-3deg)); }
+  30% {
+    @include transform(scale(1.1) rotate(3deg)); }
+  40% {
+    @include transform(scale(1.1) rotate(-3deg)); }
+  50% {
+    @include transform(scale(1.1) rotate(3deg)); }
+  60% {
+    @include transform(scale(1.1) rotate(-3deg)); }
+  70% {
+    @include transform(scale(1.1) rotate(3deg)); }
+  80% {
+    @include transform(scale(1.1) rotate(-3deg)); }
+  90% {
+    @include transform(scale(1.1) rotate(3deg)); }
+  100% {
+    @include transform(scale(1) rotate(0)); } }
+
+.tada {
+    @include animation-name(tada);
+}
+
+@include keyframes(rollIn) {
+  0% {
+    @include opacity(0);
+    @include transform(translateX(-100%) rotate(-120deg)); }
+  100% {
+    @include opacity(1);
+    @include transform(translateX(0px) rotate(0deg)); } }
+
+.rollIn {
+    @include animation-name(rollIn);
+}
+
+@include keyframes(bounceInLeft) {
+  0% {
+    opacity: 0;
+    @include translateX(-2000px); }
+  60% {
+    opacity: 1;
+    @include translateX(30px); }
+  80% {
+    @include translateX(-10px); }
+  100% {
+    @include translateX(0); } }
+
+.bounceInLeft {
+    @include animation-name(bounceInLeft);
+}
+
+@include keyframes(pulse) {
+  0% { @include transform(scale(1) translateY(0px)); @include opacity(1.0); }
+
+  50% { @include transform(scale(1.1) translateY(-10px)); @include opacity(0.4); }
+
+  100% { @include transform(scale(1) translateY(0px)); @include opacity(1.0); }
+}
+
+.pulse {
+    @include animation-name(pulse);
+}
+
+@include keyframes(bubbleUp) { 
+    0% { @include transform(translate(50px, -100px) scale(0)); }
+    20% { @include transform(translate(200px, -50px) scale(1)); }
+    60% { @include transform(translate(210px, -150px)); }
+    80% { @include transform(translate(190px, -250px)); }
+    90% { @include opacity(1.0); }
+    100% { @include opacity(0); @include transform(translate(200px, -550px)); }
+}
+.bubbleUp {
+    @include animation-name(bubbleUp);
+    @include animation-duration(6s);
+    @include animation-timing-function(ease-in-out);
+    @include animation-fill-mode(both);
+    z-index: 1001;
+}

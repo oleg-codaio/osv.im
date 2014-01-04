@@ -1,49 +1,71 @@
 #!/usr/bin/env ruby
 
-# A few helpful tips about the Rules file:
-#
-# * The string given to #compile and #route are matching patterns for
-#   identifiers--not for paths. Therefore, you can’t match on extension.
-#
-# * The order of rules is important: for each item, only the first matching
-#   rule is applied.
-#
-# * Item identifiers start and end with a slash (e.g. “/about/” for the file
-#   “content/about.html”). To select all children, grandchildren, … of an
-#   item, use the pattern “/about/*/”; “/about/*” will also select the parent,
-#   because “*” matches zero or more characters.
+# if true, extra (but slower) optimization steps will be run prior to deploying
+PRODUCTION = true
 
+require 'net/http'
 require 'nanoc-gzip-filter'
+require 'compass'
+require 'animation'
 
-compile %r{/(images|script|style)/*/} do
-  # don’t filter or layout images, scripts, or stylesheets
+# Compass CSS authoring framework
+Compass.add_project_configuration 'compass.rb'
+sass_options = Compass.sass_engine_options
+sass_options[:load_paths] << "#{Dir.pwd}/content/style"
+
+preprocess do
+  # add a new item for scripts
+  all_scripts_content = all_scripts.sort_by{|s| s.identifier}.map{|s| s.raw_content}.join("\n")
+  items << Nanoc::Item.new(all_scripts_content, {}, '/_scripts/')
+
+  # ... and for styles (only use _main.css since we use SASS to process it)
+  all_styles_content = @items.find{ |s| s.identifier == '/style/_main/' }.raw_content
+  items << Nanoc::Item.new(all_styles_content, {}, '/_styles/')
 end
 
-route %r{/(script|style)/*/} do
-  # don't output scripts or styles anywhere as we'll combine them later on
-  nil
+compile '/favicon/' do
+  # no filter for favicon (in the future we may need to gzip it, but nanoc-gzip-filter only works with text files)
 end
 
-# combine all stylesheets and scripts into one file, for performance
+route '/favicon/' do
+  '/favicon.ico'
+end
 
-compile '/_scripts/' do
-  filter :haml
-  filter :yui_compressor, :type => 'js'
-  filter :gzip
+# the main css file is processed by SASS and contains '@import's to the other css files
+route '/_styles/' do
+  all_styles_combined_filename
 end
 
 compile '/_styles/' do
-  filter :haml
-  filter :yui_compressor, :type => 'css'
-  filter :gzip
+  filter :sass, sass_options.merge(:syntax => :scss)
+  filter :yui_compressor, :type => 'css' if PRODUCTION
+  filter :gzip_in_memory
+end
+
+compile '/_scripts/' do
+  filter :compress_js_closure if PRODUCTION
+  filter :gzip_in_memory
+end
+
+compile '/images/gravatar*' do
+  # no filter needed for the gravatar images
+end
+
+route '/images/gravatar*' do
+  profile_image_url(item.identifier.end_with?('_retina/'))
 end
 
 route '/_scripts/' do
   all_scripts_combined_filename
 end
 
-route '/_styles/' do
-  all_styles_combined_filename
+compile %r{/(images|script|style)/*/} do
+  # don’t filter or layout images, scripts, or stylesheets other than main.css (which got caught before)
+end
+
+route %r{/(script|style)/*/} do
+  # don't output scripts or other styles anywhere as we combine them into one file
+  nil
 end
 
 compile '*' do
@@ -52,7 +74,7 @@ compile '*' do
   else
     filter :haml, :format => :html4
     layout 'default'
-    filter :minify_html
+    filter :minify_html, :externs => all_scripts_with_closure_externs.map {|s| File.absolute_path(s.raw_filename)} if PRODUCTION
     filter :gzip
   end
 end

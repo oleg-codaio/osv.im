@@ -6,6 +6,7 @@ class MinifyHTMLFilter < Nanoc::Filter
   type :text
 
   def run(content, params={})
+    js_compressor = Closure::Compiler.new(params.merge(:compilation_level => 'ADVANCED_OPTIMIZATIONS'))
   	options = {
   	  :enabled => true,
       :remove_multi_spaces => true,
@@ -24,9 +25,10 @@ class MinifyHTMLFilter < Nanoc::Filter
       :remove_http_protocol => false,
       :remove_https_protocol => false,
       :preserve_line_breaks => false,
-      :simple_boolean_attributes => false
+      :simple_boolean_attributes => false,
+      :javascript_compressor => js_compressor,
     }
-    compressor = HtmlCompressor::Compressor.new(options)
+    compressor = HtmlCompressor::Compressor.new(params.merge(options))
     compressor.compress(content)
   end
 end
