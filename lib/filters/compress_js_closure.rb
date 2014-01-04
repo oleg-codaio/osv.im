@@ -6,9 +6,9 @@ class CompressJsClosureFilter < Nanoc::Filter
 
   def run(content, params={})
     closure = Closure::Compiler.new(params.merge({
-  	  :compilation_level => 'ADVANCED_OPTIMIZATIONS',
-  	  :externs => closure_externs.map{|s| File.absolute_path(s.raw_filename)}
-  	  }))
+      :compilation_level => 'ADVANCED_OPTIMIZATIONS',
+      :externs => closure_externs.map{|s| File.absolute_path(s.raw_filename)}
+      }))
     closure.compress(content)
   end
 end
