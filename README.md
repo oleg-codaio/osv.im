@@ -12,5 +12,5 @@ Building
 
 Development
 -----------
-* During development, it may be desirable to set the `PRODUCTION` boolean to false. This prevents running YUI compressor and other processes that take a long time to run
+* During development, it may be desirable to set the `PRODUCTION` boolean to false. This prevents running YUI Compressor/Closure Compiler and other processes that take a long time to run
 * You can use `rake runTestServer` to access content locally on `localhost:3000`
