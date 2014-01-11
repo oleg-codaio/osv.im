@@ -51,7 +51,7 @@ end
 desc "Build and deploy to S3"
 task :buildAndDeploy, :destination do |t, args|
   Rake::Task[:build].invoke
-  Rake::Task[:deploy].invoke(args.try(:destination))
+  Rake::Task[:deploy].invoke(args[:destination])
 end
 
 desc "Run a test development server on localhost:#{LOCAL_PORT}"

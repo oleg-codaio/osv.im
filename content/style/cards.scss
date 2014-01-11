@@ -8,7 +8,7 @@ $card-back-color: #ccc;
     position: relative;
     cursor: pointer;
     font-size: .8em;
-
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     @include perspective(600px);
 
     .front, .back {
