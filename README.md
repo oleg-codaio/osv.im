@@ -1,7 +1,7 @@
 olegvaskevich.com
 =================
 
-This website contains the source of olegvaskevich.com. The live (production) version of the site is on the `production` branch; `master` may reflect the state of the staging endpoint.
+This website contains the source of olegvaskevich.com.
 
 Building
 --------
