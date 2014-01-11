@@ -1,0 +1,228 @@
+$main-text-color: #333;
+$primary-color: #008fb2;
+$primary-color-hover: #33d6ff;
+$selection-color: #eee;
+$selection-background-color: #4c4c4c;
+
+@import "compass/css3/transition";
+@import "compass/css3/transform";
+@import "compass/css3/opacity";
+@import "compass/css3/text-shadow";
+@import "compass/css3/box-shadow";
+@import "compass/css3/box-sizing";
+@import "compass/css3/border-radius";
+@import "compass/css3/images";
+@import "animation";
+@import "mixins";
+@import "animations";
+@import "cards";
+@import "jscrollpane";
+
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+html, body {
+    background: url("/images/bg.jpg") black;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    padding-top: 5px;
+    @include box-sizing(border-box);
+}
+
+.align-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+@include selection($selection-color, $selection-background-color);
+
+a {
+    text-decoration: none;
+    @include transition-property(all);
+    @include transition-duration(0.5s);
+    @include transition-timing-function(ease);
+
+    &:link, &:visited {
+        color: $primary-color;
+    }
+
+    &:hover {
+        color: $primary-color-hover;
+    }
+}
+
+#wrapper {
+    min-height: 95%;
+    width: 750px;
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    background: white;
+    border: solid white 2px;
+    border-radius: 10px 10px 10px 10px;
+    overflow: hidden;
+}
+
+#footer {
+    width: 100%;
+    height: 5em;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    @include background-gradient((
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 1) 100%
+    ));
+}
+
+#footer-content {
+    width: 100%;
+    color: $main-text-color;
+    text-align: center;
+    font-size: 12px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+#main {
+    position: absolute;
+    top: 0px;
+    bottom: 10px;
+    left: 190px;
+    padding: 10px;
+    padding-bottom: 1em;
+    margin-right: 30px;
+    height: 100%;
+    outline: none;
+    overflow-y: auto;
+
+    h1 {
+        font-size: 40px;
+        font-weight: normal;
+        line-height: 40px;
+        letter-spacing: -1px;
+        margin-bottom: 1.5em;
+    }
+
+    h2 {
+        margin-bottom: -0.8em;
+    }
+
+    p {
+        margin: 20px 0;
+        font-size: 15px;
+        line-height: 20px;
+    }
+}
+
+.hashtag {
+    margin-top: -1em;
+    color: orange;
+}
+
+#name {
+    font-size: 20px;
+    color: #222;
+    @include text-shadow(0px 2px 3px #555);
+    margin-bottom: 1em;
+    cursor: default;
+}
+
+#picture {
+    margin-right: 5px;
+    @include single-box-shadow;
+    @include border-radius(20px);
+}
+
+/* BEGIN SIDEBAR */
+
+#sidebar {
+    position: relative;
+    top: 5px;
+    left: 0px;
+    width: 150px;
+    padding: 20px 20px 0 0;
+    border-right: 1px solid #ccc;
+    text-align: right;
+
+    a.nav, span.active {
+        display: block;
+        text-transform: lowercase;
+        font-size: 18px;
+        color: $main-text-color;
+        letter-spacing: 1px;
+        line-height: 20px;
+        visibility: hidden;
+    }
+
+    a.nav:hover {
+        color: $primary-color-hover;
+    }
+
+    span.active {
+        color: $primary-color;
+    }
+}
+
+
+#social {
+    a {
+        display: inline-block;
+        text-transform: lowercase;
+        letter-spacing: 1px;
+        line-height: 20px;
+        position: relative;
+        @include transition-property(all);
+        @include transition-duration(0.5s);
+        @include transition-timing-function(ease);
+        visibility: hidden;
+
+        &:hover {
+            @include transform(rotate(360deg));
+        }
+    }
+}
+
+/* like a bubble. see animations.css too for email-container-active class */
+#email-container {
+    left: 0;
+    position: absolute;
+    display: inline-block;
+    width: 180px;
+    height: 180px;
+    font-size: 18px;
+    text-align: center;
+    z-index: 1500;
+    line-height: 180px;
+    margin: 0 auto;
+    border: 1px solid rgba(51, 204, 255, 0.75);
+    @include border-radius(90px);
+    @include background-image(linear-gradient(top, rgba(48,186,255,0.74) 0%, rgba(229,246,249,0.48) 100%));
+
+    &::after {
+        padding-top: 100%;
+        display: block;
+        content: '';
+    }
+
+    span {
+        font-size: 13px;
+    }
+}
+
+#email-link {
+    display: none;
+    cursor: pointer;
+    overflow: hidden;
+    @include opacity(1.0);
+    @include transition-property(all);
+    @include transition-duration(0.5s);
+    @include transition-timing-function(ease);
+
+}
+

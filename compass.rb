@@ -1,0 +1,11 @@
+http_path = "/"
+project_path = File.expand_path(File.join(File.dirname(__FILE__), '..'))
+css_dir = "output"
+sass_dir = "content/style"
+images_dir = "content/images"
+javascripts_dir = "content/script"
+fonts_dir = "content/fonts"
+http_javascripts_dir = "script"
+http_stylesheets_dir = "style"
+http_images_dir = "images"
+http_fonts_dir = "fonts"
