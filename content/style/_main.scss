@@ -56,13 +56,13 @@ a {
 }
 
 #wrapper {
+    height: 95%;
     min-height: 95%;
     width: 750px;
     position: relative;
     display: block;
     margin: 0 auto;
     background: white;
-    border: solid white 2px;
     border-radius: 10px 10px 10px 10px;
     overflow: hidden;
 }
@@ -146,8 +146,11 @@ a {
     top: 5px;
     left: 0px;
     width: 150px;
-    padding: 20px 20px 0 0;
-    border-right: 1px solid #ccc;
+    padding: 30px 20px 0 0;
+    margin-top: -10px;
+    height: 100%;
+    border-right: 1px solid #444;
+    @include box-shadow(5px -5px 16px 0px #444);
     text-align: right;
 
     a.nav, span.active {
