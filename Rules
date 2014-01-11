@@ -2,6 +2,7 @@
 
 # if true, extra (but slower) optimization steps will be run prior to deploying
 PRODUCTION = true
+USE_GZIP = true
 
 require 'net/http'
 require 'nanoc-gzip-filter'
@@ -39,12 +40,12 @@ end
 compile '/_styles/' do
   filter :sass, sass_options.merge(:syntax => :scss)
   filter :yui_compressor, :type => 'css' if PRODUCTION
-  filter :gzip_in_memory
+  filter :gzip_in_memory if USE_GZIP
 end
 
 compile '/_scripts/' do
   filter :compress_js_closure if PRODUCTION
-  filter :gzip_in_memory
+  filter :gzip_in_memory if USE_GZIP
 end
 
 compile '/images/gravatar*' do
@@ -75,7 +76,7 @@ compile '*' do
     filter :haml, :format => :html4
     layout 'default'
     filter :minify_html, :externs => all_scripts_with_closure_externs.map {|s| File.absolute_path(s.raw_filename)} if PRODUCTION
-    filter :gzip
+    filter :gzip if USE_GZIP
   end
 end
 

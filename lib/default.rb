@@ -7,17 +7,21 @@ GRAVATAR_PICTURE_SIZE = 120
 # when they're changed
 def digest_for(items)
   digest = Digest::MD5.new
-  items.each {|x| digest << x.raw_content}
+  items.each{|x| digest << x.raw_content}
   digest.hexdigest
 end
 
 def all_scripts_with_closure_externs
-  @items.select{|i| i.identifier.start_with?("/script/")}
+  @items.select{|i| i.identifier.start_with?("/script/")}.reject{|i| i.identifier.start_with?("/script/partials/")}
 end
 
 # returns all the scripts that need to be compiled into production, except the ones in the closure_externs folder
 def all_scripts
   all_scripts_with_closure_externs.reject{|i| i.identifier.start_with?("/script/closure-externs/")}
+end
+
+def js_partial_by_name(name)
+  @items.find{|i| i.identifier == "/script/partials/#{name}/"}.raw_content
 end
 
 def closure_externs

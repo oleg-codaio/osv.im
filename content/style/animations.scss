@@ -1,6 +1,3 @@
-@import "compass";
-@import "animation";
-
 /* there are built-in Animate.css animations in compass-animate,
    but to reduce the size of our css file we just define them here
    instead */
@@ -91,5 +88,4 @@
     @include animation-duration(6s);
     @include animation-timing-function(ease-in-out);
     @include animation-fill-mode(both);
-    z-index: 1001;
 }

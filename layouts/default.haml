@@ -3,6 +3,7 @@
   %head
     %meta{:name => "generator", :content => "nanoc #{Nanoc::VERSION}"}
     %meta{:name => "viewport", :content => "width=device-width, initial-scale=0.7"}
+    %meta{:charset => "utf-8"}
     %link{:rel => "dns-prefetch", :href => "//ajax.googleapis.com"}
     %link{:rel => "dns-prefetch", :href => "//fonts.googleapis.com"}
     %link{:rel => "icon", :type => "image/png", :href => "/favicon.ico"}
@@ -45,7 +46,7 @@
             %img{:src => "/images/linkedin.png", :width => "22px", :height => "22px"}
           %a{:href => "https://github.com/ovaskevich", :target => "_blank"}
             %img{:src => "/images/github.png", :width => "22px", :height => "22px"}
-          %a#email{:href => "javascript:return false;", :target => "_blank"}
+          %a#email{:href => "#"}
             %img{:src => "/images/email.png", :width => "22px", :height => "22px"}
         -# if the browser doesn't support scripts or animations, we show #email-link-compat
         %div#email-link-compat email: me@[this domain]
@@ -77,7 +78,7 @@
               item.css("visibility", "visible");
               item.bind("animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd",
                 function() {
-                  item.removeClass();
+                  item.removeClass("animated bounceInLeft");
               });
             }, index * SHOW_OFFSET);
           })
@@ -107,15 +108,16 @@
         }
       );
 
+      var bubble = $("#email-container");
+      var bubbleParent = $("#email-link");
       $("#email").click(
         function() {
           if (Modernizr.cssanimations) {
-            var bubble = $("#email-container");
             var bubbleLink = $("#email-link");
             bubbleLink.attr("href", "mailto:me@olegvaskevich.com?subject=Hi%20Oleg");
             bubble.html("me@<span>olegvaskevich.com</span>");
             bubble.addClass("bubbleUp");
-            bubble.css("visibility", "visible");
+            bubbleParent.css("display", "inline-block");
           } else {
             // compatibility: just show our diff
             $("#email-link-compat").fadeIn();
@@ -124,7 +126,8 @@
       );
       $("#email-container").bind("animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd",
         function() {
-          var bubble = $("#email-container");
-          bubble.css("visibility", "hidden");
-          bubble.removeClass();
+          bubbleParent.css("display", "none");
+          bubble.removeClass("bubbleUp");
         });
+
+      #{(@item[:js_partials] || '').split(',').map(&:strip).map{|j| js_partial_by_name(j)}.join('\n')}

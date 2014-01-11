@@ -30,7 +30,7 @@ task :deploy, :destination do |t, args|
     raise "Please configure AWS access tokens in Rakefile."
   end
 
-  destination = args.try(:destination)
+  destination = args[:destination]
 
   if destination == 'staging' || destination.nil?
     bucket = AWS_BUCKET_STAGING
