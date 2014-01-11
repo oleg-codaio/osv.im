@@ -2,7 +2,7 @@
 
 # if true, extra (but slower) optimization steps will be run prior to deploying
 PRODUCTION = true
-USE_GZIP = true
+USE_GZIP = true # make sure to turn this on for production, or S3 will drop the connection!
 
 require 'net/http'
 require 'nanoc-gzip-filter'
