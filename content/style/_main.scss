@@ -3,6 +3,8 @@ $primary-color: #008fb2;
 $primary-color-hover: #33d6ff;
 $selection-color: #eee;
 $selection-background-color: #4c4c4c;
+$main-content-width: 750px;
+$sidebar-width: 150px;
 
 @import "compass/css3/transition";
 @import "compass/css3/transform";
@@ -12,6 +14,7 @@ $selection-background-color: #4c4c4c;
 @import "compass/css3/box-sizing";
 @import "compass/css3/border-radius";
 @import "compass/css3/images";
+@import "compass/css3/background-size";
 @import "animation";
 @import "mixins";
 @import "animations";
@@ -24,6 +27,7 @@ $selection-background-color: #4c4c4c;
 
 html, body {
     background: url("/images/bg.jpg") black;
+    @include background-size(cover);
     margin: 0;
     height: 100%;
     width: 100%;
@@ -58,7 +62,7 @@ a {
 #wrapper {
     height: 95%;
     min-height: 95%;
-    width: 750px;
+    width: $main-content-width;
     position: relative;
     display: block;
     margin: 0 auto;
@@ -68,11 +72,12 @@ a {
 }
 
 #footer {
-    width: 100%;
-    height: 5em;
+    height: 3em;
     position: absolute;
     bottom: 0;
-    left: 0;
+    left: $sidebar-width + 40;
+    width: $main-content-width - $sidebar-width - 80;
+    z-index: 200;
     @include background-gradient((
             rgba(255, 255, 255, 0) 0%,
             rgba(255, 255, 255, 1) 100%
@@ -82,11 +87,12 @@ a {
 #footer-content {
     width: 100%;
     color: $main-text-color;
-    text-align: center;
-    font-size: 12px;
+    margin-bottom: -1em;
     position: absolute;
     bottom: 0;
     left: 0;
+    text-align: center;
+    font-size: 12px;    
 }
 
 #main {
@@ -95,9 +101,11 @@ a {
     bottom: 10px;
     left: 190px;
     padding: 10px;
+    padding-right: 20px;
     padding-bottom: 1em;
     margin-right: 30px;
     height: 100%;
+    width: $main-content-width - $sidebar-width - 70;
     outline: none;
     overflow-y: auto;
 
@@ -118,6 +126,13 @@ a {
         font-size: 15px;
         line-height: 20px;
     }
+}
+
+#main-extender {
+    float: left;
+    position: relative;
+    height: 2.5em;
+    width: 100%;
 }
 
 .hashtag {
@@ -145,7 +160,8 @@ a {
     position: relative;
     top: 5px;
     left: 0px;
-    width: 150px;
+    width: $sidebar-width;
+    background: #f0f8ff;
     padding: 30px 20px 0 0;
     margin-top: -10px;
     height: 100%;
@@ -172,7 +188,6 @@ a {
     }
 }
 
-
 #social {
     a {
         display: inline-block;
@@ -189,6 +204,14 @@ a {
             @include transform(rotate(360deg));
         }
     }
+}
+
+#sidebar-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin-bottom: 2em;
+    margin-left: 1em;
 }
 
 /* like a bubble. see animations.css too for email-container-active class */
@@ -229,3 +252,17 @@ a {
 
 }
 
+#noscript-warning {
+    font-family: sans-serif;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    z-index: 2000;
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    color: white;
+    background-color: red;
+    padding: 5px 0px;
+}

@@ -1443,6 +1443,6 @@
     initialDelay                : 300,        // Delay before starting repeating
     speed           : 30,   // Default speed when others falsey
     scrollPagePercent     : .8    // Percent of visible area scrolled when pageUp/Down or track area pressed
-  };
+  }
 
 })(jQuery,this);

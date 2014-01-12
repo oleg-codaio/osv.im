@@ -23,18 +23,26 @@
       }
     %noscript
       :css
-        .sidebar-item, span.active, #social a {
-          display: inline-block;
+        .nav, span.active, #social a {
+          visibility: visible !important;
         }
         #email {
-          display: none;
+          display: none !important;
+        }
+        #email-link-compat {
+          display: block;
         }
   %body
+    %noscript#noscript-warning Please enable JavaScript to better view this website.
     #wrapper
       #sidebar
         #profile
           %img#picture{:src => "#{profile_image_url}", :width => "#{profile_image_size}", :height => "#{profile_image_size}"}
           #name Oleg Vaskevich
+        -# set the visibility of these elements in the beginning to avoid flashes
+        :javascript
+          if (document.cookie.indexOf("hasFaded") >= 0)
+            document.writeln("<style>.nav, span.active, #social a {visibility: visible !important;}</style>");
         -# show the other items, sorted by their index attributes
         - @items.reject{|i| i[:index].nil? || i.binary? || item[:extension] != "haml"}.sort_by{|i| i[:index]}.each do |item|
           = link_to_unless_current(item[:title], item.identifier, {:class => "nav"})
@@ -49,86 +57,19 @@
           %a#email{:href => "#"}
             %img{:src => "/images/email.png", :width => "22px", :height => "22px"}
         -# if the browser doesn't support scripts or animations, we show #email-link-compat
-        %div#email-link-compat email: me@[this domain]
+        #email-link-compat email: me@
         %a#email-link
           %span#email-container
+        #sidebar-footer
+          %a{:href => "http://www.tracemyip.org", :target => "_blank"}
+            %img{:src => "http://www.tracemyip.org/tracker/1320/4684NR-IPIB/324472731/18/njsUrl/", :alt => "Visitor Counter", :border => "0"}
       #main
         = yield
+        #main-extender
       #footer
-        #footer-content
-          Last updated
-          = @item.mtime.strftime("%A %B %d, %Y at %I:%M:%S %P, %Z")
+        #footer-content <br />Last updated #{@item.mtime.strftime("%A %B %d, %Y at %I:%M:%S %P, %Z")}<br /><br />
     %script{:src => "http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js", :type => "text/javascript"}
     %script{:src => "#{all_scripts_combined_filename}", :type => "text/javascript"}
-    :javascript
-      var SHOW_OFFSET = 200;
-
-      $(document).ready(function() {
-        $('#main').jScrollPane();
-
-        // only show these animations the first time
-        if (Modernizr.cssanimations && !$.cookie("hasFaded")) {
-          $.cookie("hasFaded", true, {path: '/'});
-          var lastIndex = 0;
-          $("a.nav, span.active").each(function(index) {
-            lastIndex = index;
-            var item = $(this);
-            setTimeout(function() {
-              item.addClass("animated bounceInLeft");
-              item.css("visibility", "visible");
-              item.bind("animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd",
-                function() {
-                  item.removeClass("animated bounceInLeft");
-              });
-            }, index * SHOW_OFFSET);
-          })
-          $("#social a").each(function(index) {
-            var item = $(this);
-            setTimeout(function() {
-              item.addClass("animated rollIn");
-              item.css("visibility", "visible");
-              item.bind("animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd",
-                function() {
-                  item.removeClass();
-                });
-            }, (lastIndex + index) * SHOW_OFFSET)
-          });
-        } else {
-          $(".nav, span.active, #social a").css("visibility", "visible");
-        }
-      });
-
-      $("#profile").hover(
-        function() {
-          $("#name").addClass("animated tada");
-          $("#picture").addClass("animated pulse");
-        },
-        function() {
-          $("#name").removeClass("animated tada");
-          $("#picture").removeClass("animated pulse");
-        }
-      );
-
-      var bubble = $("#email-container");
-      var bubbleParent = $("#email-link");
-      $("#email").click(
-        function() {
-          if (Modernizr.cssanimations) {
-            var bubbleLink = $("#email-link");
-            bubbleLink.attr("href", "mailto:me@olegvaskevich.com?subject=Hi%20Oleg");
-            bubble.html("me@<span>olegvaskevich.com</span>");
-            bubble.addClass("bubbleUp");
-            bubbleParent.css("display", "inline-block");
-          } else {
-            // compatibility: just show our diff
-            $("#email-link-compat").fadeIn();
-          }
-        }
-      );
-      $("#email-container").bind("animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd",
-        function() {
-          bubbleParent.css("display", "none");
-          bubble.removeClass("bubbleUp");
-        });
-
-      #{(@item[:js_partials] || '').split(',').map(&:strip).map{|j| js_partial_by_name(j)}.join('\n')}
+    - if @item[:js_partials]
+      :javascript
+        #{(@item[:js_partials]).split(',').map(&:strip).map{|j| js_partial_by_name(j)}.join('\n')}
