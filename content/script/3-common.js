@@ -9,7 +9,6 @@ $(function() {
   });
   var api = $("#main").data('jsp');
   var throttleTimeout;
-  $(window).bind('resize', reinitializeScrollPane);
   reinitializeScrollPane = function() {
       // IE fires multiple resize events while you are dragging the browser window which
       // causes it to crash if you try to update the scrollpane on every one. So we need
@@ -22,6 +21,7 @@ $(function() {
         );
       }
     };
+  $(window).bind('resize', reinitializeScrollPane);
   reinitializeScrollPane();
 
   // only show these animations the first time
