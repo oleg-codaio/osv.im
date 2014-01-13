@@ -9,7 +9,8 @@ $(function() {
   });
   var api = $("#main").data('jsp');
   var throttleTimeout;
-  $(window).bind('resize', function() {
+  $(window).bind('resize', reinitializeScrollPane);
+  reinitializeScrollPane = function() {
       // IE fires multiple resize events while you are dragging the browser window which
       // causes it to crash if you try to update the scrollpane on every one. So we need
       // to throttle it to fire a maximum of once every 50 milliseconds...
@@ -20,8 +21,8 @@ $(function() {
           }, 50
         );
       }
-    }
-  );
+    };
+  reinitializeScrollPane();
 
   // only show these animations the first time
   if (Modernizr.cssanimations && !$.cookie("hasFaded")) {
