@@ -92,3 +92,19 @@
     @include animation-timing-function(ease-in-out);
     @include animation-fill-mode(both);
 }
+
+/* spontaneous border animation, why not? */
+@include keyframes(borderAnimation) {
+    0% { border: 2px solid black; }
+    88% { border: 2px solid black; }
+    91% { border: 2px solid #FD8700; }
+    97% { border: 2px solid #FD5400; }
+    0% { border: 2px solid black; }
+}
+
+@include keyframes(sidebarAnimation) {
+    0% { @include background(#004963); }
+    33% { @include background(#2F4C57); }
+    66% { @include background(#001E29); }
+    100% { @include background(#004963); }
+}

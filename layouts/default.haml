@@ -15,7 +15,7 @@
         \- Oleg Vaskevich
     -# for maintainability, don't inline these scripts or stylesheets, especially since they're used on every page and thus cached
     -# even if Google PageSpeed is suggesting to do so
-    %link{:href => "http://fonts.googleapis.com/css?family=Roboto:400,700", :rel => "stylesheet", :type => "text/css"}
+    %link{:href => "http://fonts.googleapis.com/css?family=Ubuntu:400,700", :rel => "stylesheet", :type => "text/css"}
     %link{:href => "#{all_styles_combined_filename}", :rel => "stylesheet", :type => "text/css"}
     :css
       #email-link-compat {
@@ -36,7 +36,7 @@
     %noscript#noscript-warning Please enable JavaScript to better view this website.
     #wrapper
       #sidebar
-        #profile
+        #profile{:onclick => "window.location.href = '';"}
           %img#picture{:src => "#{profile_image_url}", :width => "#{profile_image_size}", :height => "#{profile_image_size}"}
           #name Oleg Vaskevich
         -# set the visibility of these elements in the beginning to avoid flashes
@@ -66,6 +66,11 @@
           %a{:href => "http://www.tracemyip.org", :target => "_blank"}
             %img{:src => "http://www.tracemyip.org/tracker/1320/4684NR-IPIB/324472731/18/njsUrl/", :alt => "Visitor Counter", :border => "0"}
       #main
+        -if @item[:index] == 0
+          %h1.font-effect-fire-animation Welcome!
+        -else
+          %h1.line.font-effect-shadow-multiple
+            =@item[:title]
         = yield
         #main-extender
       #footer

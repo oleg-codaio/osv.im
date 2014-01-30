@@ -17,12 +17,13 @@ $sidebar-width: 150px;
 @import "compass/css3/background-size";
 @import "animation";
 @import "mixins";
+@import 'font-effects';
 @import "animations";
 @import "cards";
 @import "jscrollpane";
 
 * {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Ubuntu', sans-serif;
 }
 
 html, body {
@@ -31,13 +32,12 @@ html, body {
     margin: 0;
     height: 100%;
     width: 100%;
-    padding-top: 5px;
     @include box-sizing(border-box);
 }
 
 .align-bottom {
     position: absolute;
-    bottom: 0;
+    bottom: 3px;
     left: 0;
     width: 100%;
 }
@@ -71,8 +71,14 @@ code {
     display: block;
     margin: 0 auto;
     background: white;
-    border-radius: 10px 10px 10px 10px;
+    border: 2px solid black;
+    @include border-radius(0 0 20px 20px);
     overflow: hidden;
+    @include animation-name(borderAnimation);
+    @include animation-duration(18s);
+    @include animation-iteration-count(infinite);
+    @include animation-timing-function(linear);
+    @include animation-fill-mode(both);
 }
 
 #footer {
@@ -116,9 +122,41 @@ code {
     h1 {
         font-size: 40px;
         font-weight: normal;
+        font-variant: small-caps;
+        font-style: oblique;
         line-height: 40px;
         letter-spacing: -1px;
-        margin-bottom: 1.5em;
+        margin-bottom: 0.5em;
+        margin-top: 8px;
+        margin-left: 10px;
+
+        &.line {
+            overflow: hidden;
+            text-align: left;
+            margin-left: -20px;
+            margin-top: 0;
+            padding-left: 15px;
+
+            &:before,
+            &:after {
+                background-color: #000;
+                content: "";
+                display: inline-block;
+                height: 1px;
+                position: relative;
+                vertical-align: middle;
+            }
+            &:before {
+                right: -0.15em;
+                width: 50%;
+                margin-left: -50%;
+            }
+            &:after {
+                left: 0.1em;
+                width: 70%;
+                margin-right: -70%;
+            }
+        }
     }
 
     h2 {
@@ -129,6 +167,18 @@ code {
         margin: 20px 0;
         font-size: 15px;
         line-height: 20px;
+    }
+
+    sup {
+        vertical-align: top;
+    }
+
+    .position {
+        margin-bottom: 0.7em;
+    }
+
+    .when {
+        font-style: italic;
     }
 }
 
@@ -146,14 +196,14 @@ code {
 
 #name {
     font-size: 20px;
-    color: #222;
+    color: #ddd;
     @include text-shadow(0px 2px 3px #555);
     margin-bottom: 1em;
     cursor: default;
 }
 
 #picture {
-    margin-right: 5px;
+    margin-right: 10px;
     @include single-box-shadow;
     @include border-radius(20px);
 }
@@ -165,8 +215,12 @@ code {
     top: 5px;
     left: 0px;
     width: $sidebar-width;
-    background: #f0f8ff;
-    padding: 30px 20px 0 0;
+    @include animation-name(sidebarAnimation);
+    @include animation-duration(20s);
+    @include animation-iteration-count(infinite);
+    @include animation-timing-function(linear);
+    @include animation-fill-mode(both);
+    padding: 30px 10px 0 0;
     margin-top: -10px;
     height: 100%;
     border-right: 1px solid #444;
@@ -177,7 +231,7 @@ code {
         display: block;
         text-transform: lowercase;
         font-size: 18px;
-        color: $main-text-color;
+        color: white;
         letter-spacing: 1px;
         line-height: 20px;
         visibility: hidden;
@@ -189,6 +243,11 @@ code {
 
     span.active {
         color: $primary-color;
+        font-weight: bolder;
+    }
+
+    #email-link-compat {
+        color: white;
     }
 }
 
