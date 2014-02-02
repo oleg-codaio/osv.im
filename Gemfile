@@ -12,7 +12,7 @@ gem "animation", "~> 0.1.alpha.0"
 gem "maruku"
 gem "yuicompressor", "~> 1.2.1"
 gem 'nanoc-gzip-filter'
-gem "ovaskevich-s3sync", "~> 1.3.8", github: 'ovaskevich/s3sync'
+gem "ovaskevich-s3sync", "~> 1.3.11", github: 'ovaskevich/s3sync'
 gem "htmlcompressor", "~> 0.0.7", github: 'ovaskevich/htmlcompressor'
 gem "win32-open3-19", :platforms => :mingw
 gem "closure-compiler"

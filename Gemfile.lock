@@ -7,9 +7,9 @@ GIT
 
 GIT
   remote: git://github.com/ovaskevich/s3sync.git
-  revision: 7543b048423e664517a603905a6aa1eb39c637cd
+  revision: 1e2df17943a91c3426d277e40e55ec906d68c4a4
   specs:
-    ovaskevich-s3sync (1.3.8)
+    ovaskevich-s3sync (1.3.11)
 
 GEM
   remote: https://rubygems.org/
@@ -88,7 +88,7 @@ DEPENDENCIES
   mechanize
   nanoc
   nanoc-gzip-filter
-  ovaskevich-s3sync (~> 1.3.8)!
+  ovaskevich-s3sync (~> 1.3.11)!
   sass
   systemu
   win32-open3-19

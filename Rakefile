@@ -45,8 +45,8 @@ task :deploy, :destination do |t, args|
   # first upload the favicon and all the files except the scripts, styles and images
   # then upload all files but add an expires header - this way, it will only apply to the files we haven't uploaded
   # for HTML files, set a cache-control of 4 hours
-  sh "bundle exec 's3sync --recursive --verbose --gzip=\"html,htm,txt\" --cache-control=\"max-age=14400\" --exclude \".?(styles-\\w+\\.css|scripts-\\w+\\.js|favicon.ico|images/.*)\" output/ #{bucket}:'"
-  sh "bundle exec 's3sync --recursive --verbose --gzip=\"css,js\" --cache-control=\"max-age=31536000\" --delete output/ #{bucket}:'"
+  sh "bundle exec 's3sync --recursive --verbose --no-directory-files --gzip=\"html,htm,txt\" --cache-control=\"max-age=14400\" --exclude \".?(styles-\\w+\\.css|scripts-\\w+\\.js|favicon.ico|images/.*)\" output/ #{bucket}:'"
+  sh "bundle exec 's3sync --recursive --verbose --no-directory-files --gzip=\"css,js\" --cache-control=\"max-age=31536000\" --delete output/ #{bucket}:'"
 end
 
 desc "Build and deploy to S3"

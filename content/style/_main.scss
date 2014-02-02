@@ -59,6 +59,25 @@ a {
     }
 }
 
+table.project {
+    border: none;
+
+    td {
+        vertical-align: top;
+        margin-right: 0.2em;
+        margin-bottom: 0.4em;
+    }
+
+    h2 {
+        margin-top: 0;
+    }
+
+    img {
+        margin-right: 0.3em;
+    }
+}
+
+
 code {
     font-family: "Courier New", Courier, monospace;
 }
@@ -75,7 +94,7 @@ code {
     @include border-radius(0 0 20px 20px);
     overflow: hidden;
     @include animation-name(borderAnimation);
-    @include animation-duration(18s);
+    @include animation-duration(15s);
     @include animation-iteration-count(infinite);
     @include animation-timing-function(linear);
     @include animation-fill-mode(both);
@@ -216,7 +235,7 @@ code {
     left: 0px;
     width: $sidebar-width;
     @include animation-name(sidebarAnimation);
-    @include animation-duration(20s);
+    @include animation-duration(12s);
     @include animation-iteration-count(infinite);
     @include animation-timing-function(linear);
     @include animation-fill-mode(both);

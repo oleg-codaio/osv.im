@@ -3,67 +3,113 @@ title: Projects
 index: 3
 ---
 
-%h2
-  olegvaskevich.com
-  %span#social
-    %a{:href => "https://github.com/ovaskevich/olegvaskevich.com", :target => "_blank"}
-      %img{:src => "/images/github.png", :width => "22px", :height => "22px"}
-:maruku
-  Static personal site.
-.hashtag #www #nanoc #haml #ruby #html #sass #javascript #aws #s3 #cloudfront
+%table.project
+  %tr
+    %td
+      %img{:src => "/images/projects/website.png", :height => "75px", :width => "75px"}
+    %td
+      %h2
+        olegvaskevich.com
+        %span#social
+          %a{:href => "https://github.com/ovaskevich/olegvaskevich.com", :target => "_blank"}
+            %img{:src => "/images/github.png", :width => "22px", :height => "22px"}
+      :maruku
+        CDN-hosted personal website.
+      .hashtag #www #nanoc #haml #ruby #html #sass #javascript #aws #s3 #cloudfront
 
-%h2
-  CurbView
-  %span#social
-    %a{:href => "https://twitter.com/_CurbView", :target => "_blank"}
-      %img{:src => "/images/twitter.png", :width => "22px", :height => "22px"}
-:maruku
-  Startup to revamp finding parking in Boston by using sensors and mobile technology. Won 3rd place in NU Husky Startup Challenge '13.
-.hashtag #startup #mobile #computervision #c
+%table.project
+  %tr
+    %td
+      %img{:src => "/images/projects/curbview.png", :height => "75px", :width => "75px"}
+    %td
+      %h2
+        CurbView
+        %span#social
+          %a{:href => "https://twitter.com/_CurbView", :target => "_blank"}
+            %img{:src => "/images/twitter.png", :width => "22px", :height => "22px"}
+      :maruku
+        Startup to revamp finding parking in Boston by using video sensors and mobile technology. Won 3<sup>rd</sup> place in NU Husky Startup Challenge '13.
+      .hashtag #startup #mobile #computervision #c
 
-%h2
-  Everstudent
-  %span#social
-    %a{:href => "https://play.google.com/store/apps/details?id=com.olegvaskevich.everstudent&hl=en", :target => "_blank"}
-      %img{:src => "/images/googleplay.png", :width => "22px", :height => "22px"}
-    %a{:href => "http://www.webmultimeter.com/Everstudent/", :target => "_blank"}
-      %img{:src => "/images/www.png", :width => "22px", :height => "22px"}
-:maruku
-  Simple student planner app that also exports classes and assignments to Evernote.
-.hashtag #android
+%table.project
+  %tr
+    %td
+      %img{:src => "/images/projects/default.png", :height => "75px", :width => "75px"}
+    %td
+      %h2
+        %code png2c
+        %span#social
+          %a{:href => "https://github.com/ovaskevich/png2c", :target => "_blank"}
+            %img{:src => "/images/github.png", :width => "22px", :height => "22px"}
+      :maruku
+         Utility to convert sprites and other PNG images into an embeddable bitmap C header/source file.
+      .hashtag #c #libpng
 
-%h2
-  Web Multimeter
-  %span#social
-    %a{:href => "http://www.webmultimeter.com/WebMul/", :target => "_blank"}
-      %img{:src => "/images/www.png", :width => "22px", :height => "22px"}
-:maruku
-  USB-connected device for displaying realtime information such as website analytics. Cross-platform software can be extended using libraries to provide extended functionality.
-.hashtag #arduino #teensy #c #c++ #qt4 #www
+%table.project
+  %tr
+    %td
+      %img{:src => "/images/projects/crashlyticspebble.png", :height => "75px", :width => "75px"}
+    %td
+      %h2
+        Crashlytics for Pebble
+      :maruku
+        Pebble app for displaying basic Crashlytics statistics, created during a Twitter Hack Week in 2013.
+      .hashtag #c #pebble #android #hackweek
 
-%h2
-  Print Without Ads
-  %span#social
-    %a{:href => "https://addons.mozilla.org/en-US/firefox/addon/print-without-ads/", :target => "_blank"}
-      %img{:src => "/images/firefox.png", :width => "22px", :height => "22px"}
-:maruku
-  Firefox add-on for removing ads prior to printing in order to conserve ink and paper.
-.hashtag #firefox #javascript #xml
+%table.project
+  %tr
+    %td
+      %img{:src => "/images/projects/everstudent.png", :height => "75px", :width => "75px"}
+    %td
+      %h2
+        Everstudent
+        %span#social
+          %a{:href => "https://play.google.com/store/apps/details?id=com.olegvaskevich.everstudent&hl=en", :target => "_blank"}
+            %img{:src => "/images/googleplay.png", :width => "22px", :height => "22px"}
+          %a{:href => "http://www.webmultimeter.com/Everstudent/", :target => "_blank"}
+            %img{:src => "/images/www.png", :width => "22px", :height => "22px"}
+      :maruku
+        Simple student planner app that also exports classes and assignments to Evernote, with in-app billing & advertising. 50,000+ downloads.
+      .hashtag #android
 
-%h2
-  H1N1918 Analysis Tool
-  %span#social
-    %a{:href => "http://www.thelandmark.com/news/2011-05-19/Schools/WRHSs_Vaskevich_garners_national_honor.html", :target => "_blank"}
-      %img{:src => "/images/newspaper.png", :width => "22px", :height => "22px"}
-:maruku
-   Pandemic macro-visualization software, demonstrated in a nationwide competition along with a comparative analysis of the H1N1 influenzas of 1918 and 2009.
-.hashtag #c++ #qt4
+%table.project
+  %tr
+    %td
+      %img{:src => "/images/projects/wm.png", :height => "75px", :width => "75px"}
+    %td
+      %h2
+        Web Multimeter
+        %span#social
+          %a{:href => "http://www.webmultimeter.com/WebMul/", :target => "_blank"}
+            %img{:src => "/images/www.png", :width => "22px", :height => "22px"}
+      :maruku
+        USB-connected device for displaying realtime information such as website analytics. Cross-platform software can be extended using plug-ins to provide extended functionality. Also added audible, email, SMS, and Facebook notifications.
+      .hashtag #arduino #teensy #c #c++ #qt4 #www
 
-%h2
-  %code png2c
-  %span#social
-    %a{:href => "https://github.com/ovaskevich/png2c", :target => "_blank"}
-      %img{:src => "/images/github.png", :width => "22px", :height => "22px"}
-:maruku
-   Utility to convert sprites and other PNG images into an embeddable bitmap C header/source file.
-.hashtag #c #libpng
+%table.project
+  %tr
+    %td
+      %img{:src => "/images/projects/pwa.png", :height => "75px", :width => "75px"}
+    %td
+      %h2
+        Print Without Ads
+        %span#social
+          %a{:href => "https://addons.mozilla.org/en-US/firefox/addon/print-without-ads/", :target => "_blank"}
+            %img{:src => "/images/firefox.png", :width => "22px", :height => "22px"}
+      :maruku
+        Firefox add-on for removing ads prior to printing in order to conserve ink and paper. Created for a high school community service project.
+      .hashtag #firefox #javascript #xml
+
+%table.project
+  %tr
+    %td
+      %img{:src => "/images/projects/yes.png", :height => "75px", :width => "75px"}
+    %td
+      %h2
+        H1N1918 Analysis Tool
+        %span#social
+          %a{:href => "http://www.thelandmark.com/news/2011-05-19/Schools/WRHSs_Vaskevich_garners_national_honor.html", :target => "_blank"}
+            %img{:src => "/images/newspaper.png", :width => "22px", :height => "22px"}
+      :maruku
+        Desktop software for visualization of pandemics on a macro scale, in particular the H1N1 influenzas of 1918 and 2009. Advaned to and demonstrated in the nationwide 2011 *Young Epidemiology Scholars* competition in Washington, D.C., as the sole Massachusetts representative.
+      .hashtag #c++ #qt4 #epidemiology
