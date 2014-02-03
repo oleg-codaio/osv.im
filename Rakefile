@@ -1,5 +1,6 @@
 require 'digest/md5'
 require 'mechanize'
+require 'fileutils'
 
 LOCAL_PORT = 3800
 
@@ -19,6 +20,9 @@ task :build do
   if !File.file?("content/images/gravatar.jpg") || !File.file?("content/images/gravatar_retina.jpg")
     Rake::Task[:updateGravatarPictures].invoke
   end
+
+  Rake::Task[:createSprites].invoke
+
   puts "## Building..."
   system("nanoc prune --yes && nanoc compile") or raise "FAILED"
   puts "OK"
@@ -74,4 +78,14 @@ task :updateGravatarPictures do
   agent.get(link_retina).save!("content/images/gravatar_retina.jpg") or raise "Error downloading"
 
   puts "OK"
+end
+
+task :createSprites do
+  puts "Creating sprites..."
+
+  # make sure to rename SCSS -> CSS -> (run) -> SCSS
+  Dir.glob('content/style/sprites/*.scss').each{|f| FileUtils.mv f, "#{File.dirname(f)}/#{File.basename(f,'.*')}.css"}
+  status = system("glue content/images/raw_sprites --project --crop --cachebuster --retina --img=content/images/sprites --css=content/style/sprites")
+  Dir.glob('content/style/sprites/*.css').each{|f| FileUtils.mv f, "#{File.dirname(f)}/#{File.basename(f,'.*')}.scss"}
+  puts status ? "OK" : "FAILED";
 end

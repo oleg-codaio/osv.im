@@ -16,8 +16,9 @@ $sidebar-width: 150px;
 @import "compass/css3/images";
 @import "compass/css3/background-size";
 @import "animation";
+@import "sprites/common";
 @import "mixins";
-@import 'font-effects';
+@import "font-effects";
 @import "animations";
 @import "cards";
 @import "jscrollpane";
@@ -72,8 +73,9 @@ table.project {
         margin-top: 0;
     }
 
-    img {
-        margin-right: 0.3em;
+    .image {
+        margin-top: 0.6em;
+        margin-right: 0.4em;
     }
 }
 

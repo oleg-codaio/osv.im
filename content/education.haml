@@ -2,10 +2,11 @@
 title: Education
 index: 1
 js_partials: cards-flip
+css_partials: sprites/education
 ---
 
 .card.circle
-  .front{:style => "background-image: url(/images/education/northeastern.png); background-size: 100%;"}
+  .front.sprite-education-northeastern
     .align-bottom{:style => "color: #a80200;"} Northeastern University, <b>'16</b>
   .back{:style => "background: #a80200; color: white;"}>
     %h3 Northeastern University, <b>'16</b>
@@ -14,7 +15,7 @@ js_partials: cards-flip
     Minor in Music Performance
 
 .card.circle
-  .front{:style => "background: url(/images/education/wachusett.png); background-size: 100%;"}
+  .front.sprite-education-wachusett
     .align-bottom{:style => "color: #2d5c33;"} Wachusett Reg. High School, <b>'11</b>
   .back{:style => "background: #2d5c33; color: white;"}>
     %h3 Wachusett Reg. High School, <b>'11</b>

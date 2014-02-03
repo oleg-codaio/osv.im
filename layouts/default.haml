@@ -32,6 +32,10 @@
         #email-link-compat {
           display: block;
         }
+    - if @item[:css_partials]
+      :css
+        #{(@item[:css_partials]).split(',').map(&:strip).map{|c| css_partial_by_name(c)}.join('\n')}
+
   %body
     %noscript#noscript-warning Please enable JavaScript to better view this website.
     #wrapper
@@ -48,16 +52,11 @@
           = link_to_unless_current(item[:title], item.identifier, {:class => "nav"})
         %br
         #social
-          %a{:href => "https://twitter.com/ohleg", :target => "_blank"}
-            %img{:src => "/images/twitter.png", :width => "22px", :height => "22px"}
-          %a{:href => "http://www.linkedin.com/profile/view?id=98400121", :target => "_blank"}
-            %img{:src => "/images/linkedin.png", :width => "22px", :height => "22px"}
-          %a{:href => "http://stackoverflow.com/users/832776/oleg-vaskevich", :target => "_blank"}
-            %img{:src => "/images/stackoverflow.png", :width => "22px", :height => "22px"}
-          %a{:href => "https://github.com/ovaskevich", :target => "_blank"}
-            %img{:src => "/images/github.png", :width => "22px", :height => "22px"}
-          %a#email{:href => "#"}
-            %img{:src => "/images/email.png", :width => "22px", :height => "22px"}
+          %a.sprite-common-twitter{:href => "https://twitter.com/ohleg", :target => "_blank"}
+          %a.sprite-common-linkedin{:href => "http://www.linkedin.com/profile/view?id=98400121", :target => "_blank"}
+          %a.sprite-common-stackoverflow{:href => "http://stackoverflow.com/users/832776/oleg-vaskevich", :target => "_blank"}
+          %a.sprite-common-github{:href => "https://github.com/ovaskevich", :target => "_blank"}
+          %a.sprite-common-email#email{:href => "#"}
         -# if the browser doesn't support scripts or animations, we show #email-link-compat
         #email-link-compat email: me@
         %a#email-link

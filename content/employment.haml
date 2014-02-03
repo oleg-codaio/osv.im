@@ -2,18 +2,23 @@
 title: Employment
 index: 2
 js_partials: cards-flip
+css_partials: sprites/employment, sprites/education
 ---
 
 .card.circle
-  .front{:style => "background-image: url(/images/employment/twitter.png); background-size: 100%;"}
-    .align-bottom{:style => "color: #1ab2e8;"} <img src="/images/employment/twitter-crashlytics-tiny.png" style="margin-bottom: -3px; margin-right: -3px;"> Crashlytics team, Twitter
+  .front.sprite-employment-twitter
+    .align-bottom{:style => "color: #1ab2e8;"}
+      .sprite-employment-twitter-crashlytics-tiny{:style => "display: inline-block; margin-bottom: -3px; margin-right: -3px;"}
+      Crashlytics team, Twitter
   .back{:style => "background: #1ab2e8; color: white;"}>
-    %h3 <img src="/images/employment/twitter-crashlytics-tiny.png" style="margin-bottom: -2px; margin-right: -3px;"> Crashlytics team, Twitter
+    %h3
+      .sprite-employment-twitter-crashlytics-tiny{:style => "display: inline-block;"}
+      Crashlytics team, Twitter
     .position Software Engineering Intern
     .when June 2013 - December 2013
 
 .card.circle
-  .front{:style => "background-image: url(/images/education/northeastern.png); background-size: 100%;"}
+  .front.sprite-education-northeastern
     .align-bottom{:style => "color: #a80200;"} ResNet Resource Center,<br />Northeastern University
   .back{:style => "background: #a80200; color: white;"}>
     %h3 ResNet Resource Center, Northeastern University
@@ -21,15 +26,15 @@ js_partials: cards-flip
     .when June 2011 - Present
 
 .card.circle
-  .front{:style => "background-image: url(/images/education/northeastern-bw.png); background-size: 100%;"}
-    .align-bottom{:style => "color: #999;"} Dep't of Electrical & Computer<br />Engineering, Northeastern University
+  .front.sprite-education-northeastern-bw
+    .align-bottom{:style => "color: #999;"} Dep't of Elec. & Comp.<br />Engineering, Northeastern University
   .back{:style => "background: #999; color: white;"}>
-    %h3 Dep't of Electrical & Computer Engineering, Northeastern University
+    %h3 Dep't of Elec. & Comp. Engr., Northeastern University
     .position Developer, EECE 4534 Lab Assistant
     .when December 2011 - Present
 
 .card.circle
-  .front{:style => "background-image: url(/images/employment/tracemyip.png); background-size: 100%;"}
+  .front.sprite-employment-tracemyip
     .align-bottom{:style => "color: #030504;"} TraceMyIP, LLC.
   .back{:style => "background: #030504; color: white;"}>
     %h3 TraceMyIP, LLC.

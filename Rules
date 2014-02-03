@@ -69,6 +69,11 @@ route %r{/(script|style)/*/} do
   nil
 end
 
+route '/images/raw_sprites/*' do
+  # don't output raw sprites, as those get combined
+  nil
+end
+
 compile '*' do
   if item.binary?
     # don’t filter binary items

@@ -20,6 +20,7 @@ $card-back-color: #ccc;
         height: inherit;
         border: 1px solid #ccc;
         padding: 5px;
+        @include box-sizing(border-box);
         @include transform-style(preserve-3d);
         @include backface-visibility(hidden);
         @include transition-property(all);
@@ -29,7 +30,6 @@ $card-back-color: #ccc;
 
     .front {
         z-index: 90;
-        background: #6b7077;
         text-align: center;
         @include text-shadow(0px 2px 4px #eee);
         @include box-shadow(0 1px 5px rgba(0,0,0,0.9));

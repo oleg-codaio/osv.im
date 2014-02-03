@@ -24,6 +24,10 @@ def js_partial_by_name(name)
   @items.find{|i| i.identifier == "/script/partials/#{name}/"}.raw_content
 end
 
+def css_partial_by_name(name)
+  @items.find{|i| i.identifier == "/style/#{name}/"}.raw_content
+end
+
 def closure_externs
   @items.select{|i| i.identifier.start_with?("/script/closure-externs/")}
 end
