@@ -19,3 +19,5 @@ pickle-email-*.html
 config/initializers/secret_token.rb
 output
 bin/
+content/images/sprites/
+content/style/sprites/

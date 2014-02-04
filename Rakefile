@@ -83,9 +83,9 @@ end
 task :createSprites do
   puts "Creating sprites..."
 
-  # make sure to rename SCSS -> CSS -> (run) -> SCSS
-  Dir.glob('content/style/sprites/*.scss').each{|f| FileUtils.mv f, "#{File.dirname(f)}/#{File.basename(f,'.*')}.css"}
-  status = system("glue content/images/raw_sprites --project --crop --cachebuster --retina --img=content/images/sprites --css=content/style/sprites")
-  Dir.glob('content/style/sprites/*.css').each{|f| FileUtils.mv f, "#{File.dirname(f)}/#{File.basename(f,'.*')}.scss"}
+  # make sure to delete existing CSS files and also remove the cachebusting from the css filename (since we include them in the doc)
+  Dir.glob('content/style/sprites/*.scss').each{|f| FileUtils.rm f}
+  status = system("glue content/images/raw_sprites --project --crop --cachebuster-filename --retina --img=content/images/sprites --css=content/style/sprites")
+  Dir.glob('content/style/sprites/*.css').each{|f| FileUtils.mv f, "#{File.dirname(f)}/#{File.basename(f)[0..-12]}.scss"}
   puts status ? "OK" : "FAILED";
 end
