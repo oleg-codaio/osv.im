@@ -21,7 +21,7 @@ task :build do
     Rake::Task[:updateGravatarPictures].invoke
   end
 
-  Rake::Task[:createSprites].invoke
+  #Rake::Task[:createSprites].invoke
 
   puts "## Building..."
   system("nanoc prune --yes && nanoc compile") or raise "FAILED"
@@ -85,7 +85,8 @@ task :createSprites do
 
   # make sure to delete existing CSS files and also remove the cachebusting from the css filename (since we include them in the doc)
   Dir.glob('content/style/sprites/*.scss').each{|f| FileUtils.rm f}
-  status = system("glue content/images/raw_sprites --project --crop --cachebuster-filename --retina --img=content/images/sprites --css=content/style/sprites")
+  # --optipng --optipngpath=C:\\Development\\Utilities\\optipng.exe --imagemagick --imagemagickpath=\"C:\\Program Files\\ImageMagick-6.7.9-Q16\convert.exe\" --debug 
+  status = system("glue content/images/raw_sprites --project --cachebuster-filename --retina --img=content/images/sprites --crop --margin=5 --css=content/style/sprites")
   Dir.glob('content/style/sprites/*.css').each{|f| FileUtils.mv f, "#{File.dirname(f)}/#{File.basename(f)[0..-12]}.scss"}
   puts status ? "OK" : "FAILED";
 end
