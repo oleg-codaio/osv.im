@@ -85,6 +85,7 @@ task :createSprites do
 
   # make sure to delete existing CSS files and also remove the cachebusting from the css filename (since we include them in the doc)
   Dir.glob('content/style/sprites/*.scss').each{|f| FileUtils.rm f}
+  Dir.glob('content/images/sprites/*.png').each{|f| FileUtils.rm f}
   # --optipng --optipngpath=C:\\Development\\Utilities\\optipng.exe --imagemagick --imagemagickpath=\"C:\\Program Files\\ImageMagick-6.7.9-Q16\convert.exe\" --debug 
   status = system("glue content/images/raw_sprites --project --cachebuster-filename --retina --img=content/images/sprites --crop --margin=5 --css=content/style/sprites")
   Dir.glob('content/style/sprites/*.css').each{|f| FileUtils.mv f, "#{File.dirname(f)}/#{File.basename(f)[0..-12]}.scss"}
