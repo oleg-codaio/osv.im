@@ -96,7 +96,7 @@ code {
     @include border-radius(0 0 20px 20px);
     overflow: hidden;
     @include animation-name(borderAnimation);
-    @include animation-duration(15s);
+    @include animation-duration(10s);
     @include animation-iteration-count(infinite);
     @include animation-timing-function(linear);
     @include animation-fill-mode(both);
