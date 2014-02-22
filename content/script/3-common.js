@@ -47,7 +47,7 @@ $(function() {
         item.css("visibility", "visible");
         item.bind("animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd",
           function() {
-            item.removeClass();
+            item.removeClass("animated rollIn");
           });
       }, (lastIndex + index) * SHOW_OFFSET)
     });
