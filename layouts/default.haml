@@ -3,6 +3,8 @@
   %head
     %meta{:name => "generator", :content => "nanoc #{Nanoc::VERSION}"}
     %meta{:name => "viewport", :content => "width=device-width, initial-scale=0.7"}
+    %meta{:name => "author", :content => "Oleg Vaskevich"}
+    %meta{:name => "description", :content => @item[:description]}
     %meta{:charset => "utf-8"}
     %link{:rel => "dns-prefetch", :href => "//ajax.googleapis.com"}
     %link{:rel => "dns-prefetch", :href => "//fonts.googleapis.com"}
@@ -68,7 +70,7 @@
         -if @item[:index] == 0
           %h1.font-effect-anaglyph Welcome!
         -else
-          %h1.line.font-effect-shadow-multiple
+          %h1.line.font-effect-shadow-multiple.primarycolor
             =@item[:title]
         = yield
         #main-extender

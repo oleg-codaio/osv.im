@@ -21,7 +21,8 @@ task :build do
     Rake::Task[:updateGravatarPictures].invoke
   end
 
-  #Rake::Task[:createSprites].invoke
+  Dir.mkdir("output") unless Dir.exists?("output")
+  Rake::Task[:createSprites].invoke
 
   puts "## Building..."
   system("nanoc prune --yes && nanoc compile") or raise "FAILED"

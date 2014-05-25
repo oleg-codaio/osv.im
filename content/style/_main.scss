@@ -79,6 +79,9 @@ table.project {
     }
 }
 
+.primarycolor {
+    color: $primary-color;
+}
 
 code {
     font-family: "Courier New", Courier, monospace;
@@ -194,13 +197,6 @@ code {
         vertical-align: top;
     }
 
-    .position {
-        margin-bottom: 0.7em;
-    }
-
-    .when {
-        font-style: italic;
-    }
 }
 
 #main-extender {
@@ -349,4 +345,24 @@ code {
     color: white;
     background-color: red;
     padding: 5px 0px;
+}
+
+.employment {
+    border: none;
+    margin-bottom: 1em;
+
+    .company {
+        font-size: 18pt;
+        font-weight: bold;
+    }
+
+    .position {
+        font-size: 12pt;
+    }
+
+    .when {
+        font-style: italic;
+        font-size: 12pt;
+        color: #545454;
+    }
 }
