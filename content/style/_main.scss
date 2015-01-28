@@ -3,7 +3,7 @@ $primary-color: #008fb2;
 $primary-color-hover: #33d6ff;
 $selection-color: #eee;
 $selection-background-color: #4c4c4c;
-$main-content-width: 750px;
+$main-content-width: 760px;
 $sidebar-width: 150px;
 
 @import "compass/css3/transition";
@@ -70,6 +70,7 @@ table.project {
     }
 
     h2 {
+        color: #303030;
         margin-top: 0;
     }
 
@@ -352,6 +353,7 @@ code {
     margin-bottom: 1em;
 
     .company {
+        color: #303030;
         font-size: 18pt;
         font-weight: bold;
     }

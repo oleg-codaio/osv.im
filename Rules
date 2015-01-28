@@ -5,7 +5,6 @@ PRODUCTION = true
 USE_GZIP = true # make sure to turn this on for production, or S3 will drop the connection!
 
 require 'net/http'
-require 'nanoc-gzip-filter'
 require 'compass'
 require 'animation'
 
@@ -81,7 +80,7 @@ compile '*' do
     filter :haml, :format => :html4
     layout 'default'
     filter :minify_html, :externs => all_scripts_with_closure_externs.map {|s| File.absolute_path(s.raw_filename)} if PRODUCTION
-    filter :gzip if USE_GZIP
+    filter :gzip_in_memory if USE_GZIP
   end
 end
 
