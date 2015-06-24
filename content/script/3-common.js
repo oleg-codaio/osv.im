@@ -71,8 +71,8 @@ $("#email").click(
   function() {
     if (Modernizr.cssanimations) {
       var bubbleLink = $("#email-link");
-      bubbleLink.attr("href", "mailto:oleg@osv.im?subject=Hi%20Oleg");
-      bubble.html("oleg<span>osv.im</span>");
+      bubbleLink.attr("href", "mailto:oleg" + "@" + "osv.im?subject=Hi%20Oleg");
+      bubble.html("oleg<span>" + "@" + "osv.im</span>");
       bubble.addClass("bubbleUp");
       bubbleParent.css("display", "inline-block");
     } else {
