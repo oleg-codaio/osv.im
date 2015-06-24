@@ -5,7 +5,8 @@ $(function() {
     autoReinitialise : false,
     animateScroll : true,
     showArrows : false,
-    contentWidth: '0px'
+    contentWidth: '0px',
+    mouseWheelSpeed: 50
   });
   var api = $("#main").data('jsp');
   var throttleTimeout;
