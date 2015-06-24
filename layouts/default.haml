@@ -17,7 +17,7 @@
         \- Oleg Vaskevich
     -# for maintainability, don't inline these scripts or stylesheets, especially since they're used on every page and thus cached
     -# even if Google PageSpeed is suggesting to do so
-    %link{:href => "http://fonts.googleapis.com/css?family=Ubuntu:400,700", :rel => "stylesheet", :type => "text/css"}
+    %link{:href => "//fonts.googleapis.com/css?family=Ubuntu:400,700", :rel => "stylesheet", :type => "text/css"}
     %link{:href => "#{all_styles_combined_filename}", :rel => "stylesheet", :type => "text/css"}
     :css
       #email-link-compat {
@@ -65,7 +65,7 @@
           %span#email-container
         #sidebar-footer
           %a{:href => "http://www.tracemyip.org", :target => "_blank"}
-            %img{:src => "http://www.tracemyip.org/tracker/1320/4684NR-IPIB/324472731/18/njsUrl/", :alt => "Visitor Counter", :border => "0"}
+            %img{:src => "https://www.tracemyip.org/tracker/1320/4684NR-IPIB/324472731/18/njsUrl/", :alt => "Visitor Counter", :border => "0"}
       #main
         -if @item[:index] == 0
           %h1.font-effect-anaglyph Welcome!
@@ -76,7 +76,7 @@
         #main-extender
       #footer
         #footer-content <br />Last updated #{@item.mtime.strftime("%A %B %d, %Y at %I:%M:%S %P, %Z")}<br /><br />
-    %script{:src => "http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js", :type => "text/javascript"}
+    %script{:src => "//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js", :type => "text/javascript"}
     %script{:src => "#{all_scripts_combined_filename}", :type => "text/javascript"}
     - if @item[:js_partials]
       :javascript

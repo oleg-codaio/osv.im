@@ -89,6 +89,6 @@ task :createSprites do
   Dir.glob('content/images/sprites/*.png').each{|f| FileUtils.rm f}
   # --optipng --optipngpath=C:\\Development\\Utilities\\optipng.exe --imagemagick --imagemagickpath=\"C:\\Program Files\\ImageMagick-6.7.9-Q16\convert.exe\" --debug 
   status = system("glue content/images/raw_sprites --project --cachebuster-filename --retina --img=content/images/sprites --crop --margin=5 --css=content/style/sprites")
-  Dir.glob('content/style/sprites/*.css').each{|f| FileUtils.mv f, "#{File.dirname(f)}/#{File.basename(f)[0..-12]}.scss"}
+  Dir.glob('content/style/sprites/*.css').each{|f| FileUtils.mv f, "#{File.dirname(f)}/#{File.basename(f)[0..-16]}.scss"}
   puts status ? "OK" : "FAILED";
 end
