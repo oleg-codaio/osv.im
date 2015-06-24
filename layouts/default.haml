@@ -60,12 +60,13 @@
           %a.sprite-common-github{:href => "https://github.com/ovaskevich", :target => "_blank"}
           %a.sprite-common-email#email{:href => "#"}
         -# if the browser doesn't support scripts or animations, we show #email-link-compat
-        #email-link-compat email: me@
+        #email-link-compat email: oleg@[domain]
         %a#email-link
           %span#email-container
         #sidebar-footer
           %a{:href => "http://www.tracemyip.org", :target => "_blank"}
-            %img{:src => "https://www.tracemyip.org/tracker/1320/4684NR-IPIB/324472731/18/njsUrl/", :alt => "Visitor Counter", :border => "0"}
+            %img{:src => "https://www.tracemyip.org/tracker/1320/4684NR-IPIB/324472731/18/njsUrl/",
+                :alt => "Visitor Counter", :border => "0", :width => 116, :height => 28 }
       #main
         -if @item[:index] == 0
           %h1.font-effect-anaglyph Welcome!
