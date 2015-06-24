@@ -1,7 +1,7 @@
-olegvaskevich.com
-=================
+osv.im
+======
 
-This website contains the source of olegvaskevich.com.
+This website contains the source of osv.im (formerly olegvaskevich.com).
 
 Building
 --------

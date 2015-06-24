@@ -4,15 +4,15 @@ require 'fileutils'
 
 LOCAL_PORT = 3800
 
-AWS_BUCKET = "www.olegvaskevich.com"
-AWS_BUCKET_STAGING = "staging-1.olegvaskevich.com"
+AWS_BUCKET = "osv.im"
+AWS_BUCKET_STAGING = "staging-1.osv.im"
 
 # Set AWS access credentials here
 ENV['AWS_ACCESS_KEY_ID'] = ""
 ENV['AWS_SECRET_ACCESS_KEY'] = ""
 ENV['S3SYNC_MIME_TYPES_FILE'] = "#{File.dirname(__FILE__)}/mime.types"
 
-GRAVATAR_EMAIL = "me@olegvaskevich.com"
+GRAVATAR_EMAIL = "oleg@osv.im"
 GRAVATAR_PICTURE_SIZE = 120
 
 desc "Build the website"
@@ -88,7 +88,7 @@ task :createSprites do
   Dir.glob('content/style/sprites/*.scss').each{|f| FileUtils.rm f}
   Dir.glob('content/images/sprites/*.png').each{|f| FileUtils.rm f}
   # --optipng --optipngpath=C:\\Development\\Utilities\\optipng.exe --imagemagick --imagemagickpath=\"C:\\Program Files\\ImageMagick-6.7.9-Q16\convert.exe\" --debug 
-  status = system("glue content/images/raw_sprites --project --cachebuster-filename --retina --img=content/images/sprites --crop --margin=5 --css=content/style/sprites")
+  status = system("glue content/images/raw_sprites --project --cachebuster-filename --retina --img=content/images/sprites --margin=5 --css=content/style/sprites")
   Dir.glob('content/style/sprites/*.css').each{|f| FileUtils.mv f, "#{File.dirname(f)}/#{File.basename(f)[0..-16]}.scss"}
   puts status ? "OK" : "FAILED";
 end

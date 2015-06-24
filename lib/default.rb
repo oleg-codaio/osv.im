@@ -1,6 +1,6 @@
 require 'digest/md5'
 
-GRAVATAR_EMAIL = "me@olegvaskevich.com"
+GRAVATAR_EMAIL = "oleg@osv.im"
 GRAVATAR_PICTURE_SIZE = 120
 
 # finds the MD5 digest of several items so we can keep track
