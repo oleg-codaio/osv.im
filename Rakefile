@@ -16,13 +16,15 @@ GRAVATAR_EMAIL = "oleg@osv.im"
 GRAVATAR_PICTURE_SIZE = 120
 
 desc "Build the website"
-task :build do
+task :build, :nosprites do |t, args|
   if !File.file?("content/images/gravatar.jpg") || !File.file?("content/images/gravatar_retina.jpg")
     Rake::Task[:updateGravatarPictures].invoke
   end
 
   Dir.mkdir("output") unless Dir.exists?("output")
-  Rake::Task[:createSprites].invoke
+  if not args[:nosprites]
+    Rake::Task[:createSprites].invoke
+  end
 
   puts "## Building..."
   system("nanoc prune --yes && nanoc compile") or raise "FAILED"
@@ -55,8 +57,8 @@ task :deploy, :destination do |t, args|
 end
 
 desc "Build and deploy to S3"
-task :buildAndDeploy, :destination do |t, args|
-  Rake::Task[:build].invoke
+task :buildAndDeploy, :destination, :nosprites do |t, args|
+  Rake::Task[:build].invoke(args[:nosprites])
   Rake::Task[:deploy].invoke(args[:destination])
 end
 
