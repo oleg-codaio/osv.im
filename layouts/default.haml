@@ -18,6 +18,7 @@
     -# for maintainability, don't inline these scripts or stylesheets, especially since they're used on every page and thus cached
     -# even if Google PageSpeed is suggesting to do so
     %link{:href => "//fonts.googleapis.com/css?family=Ubuntu:400,700", :rel => "stylesheet", :type => "text/css"}
+    -# images on this site are original or in the public domain (thanks clker.com!)
     %link{:href => "#{all_styles_combined_filename}", :rel => "stylesheet", :type => "text/css"}
     :css
       #email-link-compat {
@@ -65,8 +66,7 @@
           %span#email-container
         #sidebar-footer
           %a{:href => "http://www.tracemyip.org", :target => "_blank"}
-            %img{:src => "https://www.tracemyip.org/tracker/1320/4684NR-IPIB/324472731/18/njsUrl/",
-                :alt => "Visitor Counter", :border => "0", :width => 116, :height => 28 }
+            %img{:src => "https://www.tracemyip.org/tracker/1320/4684NR-IPIB/324472731/18/njsUrl/", :alt => "Visitor Counter", :border => "0", :width => 116, :height => 28}
       #main
         -if @item[:index] == 0
           %h1.font-effect-anaglyph Welcome!

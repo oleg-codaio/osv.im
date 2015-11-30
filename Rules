@@ -59,8 +59,8 @@ route '/_scripts/' do
   all_scripts_combined_filename
 end
 
-compile %r{/(images|script|style)/*/} do
-  # don’t filter or layout images, scripts, or stylesheets other than main.css (which got caught before)
+compile %r{/(images|script|style|papers)/*/} do
+  # don’t filter or layout images, scripts, papers, or stylesheets other than main.css (which got caught before)
 end
 
 route %r{/(script|style)/*/} do

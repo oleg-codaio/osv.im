@@ -31,13 +31,15 @@ GEM
     domain_name (0.5.15)
       unf (>= 0.0.5, < 1.0.0)
     fssm (0.2.10)
-    haml (4.1.0.alpha.2)
+    haml (4.0.7)
       tilt
     haml-contrib (1.0.0.1)
       haml (>= 3.2.0.alpha.13)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
-    maruku (0.7.0)
+    kramdown (1.9.0)
+    kramdown-haml (0.0.3)
+      haml
     mechanize (2.7.3)
       domain_name (~> 0.5, >= 0.5.1)
       http-cookie (~> 1.0)
@@ -63,7 +65,7 @@ GEM
     rack (1.5.2)
     sass (3.2.13)
     systemu (2.6.0)
-    tilt (2.0.0)
+    tilt (2.0.1)
     unf (0.1.3)
       unf_ext
     unf_ext (0.0.6)
@@ -84,7 +86,8 @@ DEPENDENCIES
   haml
   haml-contrib
   htmlcompressor (~> 0.0.7)!
-  maruku
+  kramdown
+  kramdown-haml
   mechanize
   nanoc
   nanoc-gzip-filter

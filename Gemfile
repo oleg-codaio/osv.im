@@ -6,10 +6,11 @@ gem "adsf"
 gem "systemu"
 gem "haml"
 gem "haml-contrib"
+gem "kramdown"
+gem "kramdown-haml"
 gem "sass"
 gem "compass"
 gem "animation", "~> 0.1.alpha.0"
-gem "maruku"
 gem "yuicompressor", "~> 1.2.1"
 gem 'nanoc-gzip-filter'
 gem "ovaskevich-s3sync", "~> 1.3.11", github: 'ovaskevich/s3sync'

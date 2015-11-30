@@ -6,6 +6,7 @@ LOCAL_PORT = 3800
 
 AWS_BUCKET = "osv.im"
 AWS_BUCKET_STAGING = "staging-1.osv.im"
+USE_GZIP = true
 
 # Set AWS access credentials here
 ENV['AWS_ACCESS_KEY_ID'] = ""
@@ -52,8 +53,8 @@ task :deploy, :destination do |t, args|
   # first upload the favicon and all the files except the scripts, styles and images
   # then upload all files but add an expires header - this way, it will only apply to the files we haven't uploaded
   # for HTML files, set a cache-control of 4 hours
-  sh "bundle exec 's3sync --recursive --verbose --no-directory-files --gzip=\"html,htm,txt\" --cache-control=\"max-age=14400\" --exclude \".?(styles-\\w+\\.css|scripts-\\w+\\.js|favicon.ico|images/.*)\" output/ #{bucket}:'"
-  sh "bundle exec 's3sync --recursive --verbose --no-directory-files --gzip=\"css,js\" --cache-control=\"max-age=31536000\" --delete output/ #{bucket}:'"
+  sh "bundle exec 's3sync --recursive --verbose --no-directory-files #{USE_GZIP ? '--gzip="html,htm,txt"' : ''} --cache-control=\"max-age=14400\" --exclude \".?(styles-\\w+\\.css|scripts-\\w+\\.js|favicon.ico|images/.*)\" output/ #{bucket}:'"
+  sh "bundle exec 's3sync --recursive --verbose --no-directory-files #{USE_GZIP ? '--gzip="css,js"' : ''} --cache-control=\"max-age=31536000\" --delete output/ #{bucket}:'"
 end
 
 desc "Build and deploy to S3"
@@ -86,11 +87,11 @@ end
 task :createSprites do
   puts "Creating sprites..."
 
-  # make sure to delete existing CSS files and also remove the cachebusting from the css filename (since we include them in the doc)
+  # make sure to delete existing CSS files and also remove the cachebusting from the css filename (since we glob them into a master stylesheet)
   Dir.glob('content/style/sprites/*.scss').each{|f| FileUtils.rm f}
   Dir.glob('content/images/sprites/*.png').each{|f| FileUtils.rm f}
   # --optipng --optipngpath=C:\\Development\\Utilities\\optipng.exe --imagemagick --imagemagickpath=\"C:\\Program Files\\ImageMagick-6.7.9-Q16\convert.exe\" --debug 
   status = system("glue content/images/raw_sprites --project --cachebuster-filename --retina --img=content/images/sprites --margin=5 --css=content/style/sprites")
-  Dir.glob('content/style/sprites/*.css').each{|f| FileUtils.mv f, "#{File.dirname(f)}/#{File.basename(f)[0..-16]}.scss"}
+  Dir.glob('content/style/sprites/*.css').each{|f| FileUtils.mv f, "#{File.dirname(f)}/#{File.basename(f)[0..-12]}.scss"}
   puts status ? "OK" : "FAILED";
 end
