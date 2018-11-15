@@ -62,7 +62,7 @@ GEM
     nokogiri (1.6.1-x86-mingw32)
       mini_portile (~> 0.5.0)
     ntlm-http (0.1.1)
-    rack (1.5.2)
+    rack (1.6.11)
     sass (3.2.13)
     systemu (2.6.0)
     tilt (2.0.1)
