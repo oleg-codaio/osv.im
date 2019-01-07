@@ -4,5 +4,8 @@ name: default
 steps:
   - name: lint-infra
     image: hashicorp/terraform
-    commands: 
-      - ls # Testing...
+    commands:
+      - terraform fmt --check infra || echo -e "\n^ The above files could use some 'terraform fmt' love" >&2 && exit 1
+    when:
+      event:
+        - push
