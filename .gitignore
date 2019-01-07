@@ -23,3 +23,7 @@ content/images/sprites/
 content/style/sprites/
 content/images/gravatar.jpg
 content/images/gravatar_retina.jpg
+*.tfstate
+*.tfstate.*
+.terraform/
+infra/terraform.tfvars
