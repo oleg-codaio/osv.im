@@ -9,7 +9,7 @@ resource "aws_route53_zone" "root" {
 // MX and SPF records for sending mail via Pobox.
 
 resource "aws_route53_record" "root_mx" {
-  name   = "osv.im."
+  name    = "osv.im."
   type    = "MX"
   zone_id = "${aws_route53_zone.root.zone_id}"
   ttl     = "300"
