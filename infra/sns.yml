@@ -1,0 +1,16 @@
+Parameters:
+  EmailAddress:
+    Type: String
+
+Resources:
+  EmailSNSTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: osv.im alerts
+      Subscription:
+        - Protocol: email
+          Endpoint: !Ref EmailAddress
+
+Outputs:
+  ARN:
+    Value: !Ref EmailSNSTopic
