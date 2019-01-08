@@ -1,3 +1,4 @@
+---
 kind: pipeline
 name: default
 
@@ -8,4 +9,28 @@ steps:
       - terraform fmt --check infra || { echo -e "\n^ The above files could use some 'terraform fmt' love" >&2; exit 1; }
     when:
       event:
-        - push
+        - pull_request
+---
+kind: pipeline
+name: deploy
+
+steps:
+  # TODO: consider deploying to a staging environment, and await promotion to deploy to prod.
+  - name: publish-legal
+    image: plugins/s3-sync:1
+    settings:
+      bucket: osv-im-us-west-2-legal-assets
+      access_key:
+        from_secret: aws_access_key_id
+      secret_key:
+        from_secret: aws_secret_access_key
+      region: us-west-2
+      source: legal
+      delete: true
+      cloudfront_distribution: E1GIXA14V6CST6
+    
+trigger:
+  branch:
+    - master
+  event:
+    - push
