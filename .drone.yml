@@ -37,7 +37,7 @@ steps:
       secret_key:
         from_secret: aws_secret_access_key
       region: us-west-2
-      source: legal
+      source: globetheater
       delete: true
       cloudfront_distribution: E125YIYAMJVUWR
     when:
