@@ -10,7 +10,6 @@ steps:
       event:
         - pull_request
 
-  # TODO: consider deploying to a staging environment, and await promotion to deploy to prod.
   - name: publish-legal
     image: plugins/s3-sync:1
     settings:
@@ -25,6 +24,6 @@ steps:
       cloudfront_distribution: E1GIXA14V6CST6
     when:
       event:
-        - pull_request
+        - push
       branch:
         - master
