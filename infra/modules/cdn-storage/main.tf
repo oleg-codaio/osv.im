@@ -144,17 +144,19 @@ resource "aws_route53_health_check" "root" {
 
 // NOTE: S3 CloudWatch metrics are only supported in us-east-1.
 resource "aws_cloudwatch_metric_alarm" "health" {
-  provider            = "aws.us-east-1"
-  alarm_name          = "${var.name}-alarm-health-check"
-  comparison_operator = "LessThanThreshold"
-  evaluation_periods  = "1"
-  metric_name         = "HealthCheckStatus"
-  namespace           = "AWS/Route53"
-  period              = "60"
-  statistic           = "Minimum"
-  threshold           = "1"
-  alarm_actions       = ["${var.alert_sns_topic_arn}"]
-  alarm_description   = "Send an alert if ${var.name} is down"
+  provider                  = "aws.us-east-1"
+  alarm_name                = "${var.name}-alarm-health-check"
+  comparison_operator       = "LessThanThreshold"
+  evaluation_periods        = "1"
+  metric_name               = "HealthCheckStatus"
+  namespace                 = "AWS/Route53"
+  period                    = "60"
+  statistic                 = "Minimum"
+  threshold                 = "1"
+  alarm_actions             = ["${var.alert_sns_topic_arn}"]
+  ok_actions                = ["${var.alert_sns_topic_arn}"]
+  insufficient_data_actions = ["${var.alert_sns_topic_arn}"]
+  alarm_description         = "Send an alert if ${var.name} is down"
 
   dimensions {
     HealthCheckId = "${aws_route53_health_check.root.id}"
