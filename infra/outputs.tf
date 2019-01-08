@@ -19,3 +19,7 @@ output "ci_user_access_key_encrypted_secret_curr" {
 output "legal_cloudfront_distribution_id" {
   value = "${module.legal_cdn_storage.cloudfront_id}"
 }
+
+output "globetheater_cloudfront_distribution_id" {
+  value = "${module.globetheater_cdn_storage.cloudfront_id}"
+}

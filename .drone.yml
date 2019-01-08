@@ -27,3 +27,21 @@ steps:
         - push
       branch:
         - master
+
+  - name: publish-globetheater
+    image: plugins/s3-sync:1
+    settings:
+      bucket: osv-im-us-west-2-globetheater-assets
+      access_key:
+        from_secret: aws_access_key_id
+      secret_key:
+        from_secret: aws_secret_access_key
+      region: us-west-2
+      source: legal
+      delete: true
+      cloudfront_distribution: E125YIYAMJVUWR
+    when:
+      event:
+        - push
+      branch:
+        - master
