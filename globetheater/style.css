@@ -1,0 +1,52 @@
+body {
+
+	BACKGROUND-IMAGE: url('images/bg.gif');
+
+}
+
+p,pre {
+
+	FONT-SIZE: 12pt; COLOR: #ffffff;
+
+}
+
+.center {
+
+	TEXT-ALIGN: center;
+
+}
+
+.title {
+
+	FONT: 40px serif; text-align: center;
+
+}
+
+.blue {
+
+	FONT-SIZE: 12pt; COLOR: #3DA1FF;
+
+}
+
+a:link {
+
+	COLOR: #3DA1FF; FONT-SIZE: 12pt; TEXT-DECORATION: none;
+
+}
+
+a:visited {
+
+	COLOR: #3DA1FF; FONT-SIZE: 12pt; TEXT-DECORATION: none;
+
+}
+
+a:hover {
+
+	COLOR: #3AD4FF; FONT-SIZE: 12pt; TEXT-DECORATION: underline;
+
+}
+
+a:active {
+
+	COLOR: #3AD4FF; FONT-SIZE: 12pt; TEXT-DECORATION: underline;
+}
