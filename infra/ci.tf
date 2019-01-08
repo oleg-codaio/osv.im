@@ -12,12 +12,6 @@ locals {
     "${module.legal_cdn_storage.bucket_arn}",
     "${module.globetheater_cdn_storage.bucket_arn}",
   ]
-
-  ci_write_cdns = [
-    "${module.root_cdn_storage.cloudfront_arn}",
-    "${module.legal_cdn_storage.cloudfront_arn}",
-    "${module.globetheater_cdn_storage.cloudfront_arn}",
-  ]
 }
 
 resource "aws_iam_policy" "ci_bucket_write_policy" {
@@ -49,7 +43,7 @@ data "aws_iam_policy_document" "ci_s3_policy" {
 
     actions = ["cloudfront:CreateInvalidation"]
 
-    resources = ["${local.ci_write_cdns}"]
+    resources = ["*"]
   }
 }
 
