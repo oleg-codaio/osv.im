@@ -13,3 +13,7 @@ variable "aws_terraform_role_arn" {
 variable "sns_alert_email" {
   description = "The email address that will receive health alerts"
 }
+
+variable "pgp_key" {
+  description = "The PGP key to use to encrypt secrets, either `keybase:<user> or the base64 PGP body`"
+}
