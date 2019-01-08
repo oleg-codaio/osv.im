@@ -22,6 +22,8 @@ steps:
       source: legal
       delete: true
       cloudfront_distribution: E1GIXA14V6CST6
+    environment:
+      DEBUG: true
     when:
       event:
         - push

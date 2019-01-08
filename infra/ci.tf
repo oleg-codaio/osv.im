@@ -33,17 +33,18 @@ data "aws_iam_policy_document" "ci_s3_policy" {
     sid = "AllowWrite"
 
     actions = [
-      "s3:PutObject",
-      "s3:PutObjectAcl",
       "s3:GetObject",
+      "s3:GetObjectAcl",
       "s3:DeleteObject",
       "s3:ListBucket",
+      "s3:PutObject",
+      "s3:PutObjectAcl",
     ]
 
     resources = ["${concat(local.ci_write_buckets, formatlist("%s/*", local.ci_write_buckets))}"]
   }
 
-  statement = {
+  statement {
     sid = "AllowInvalidateCdn"
 
     actions = ["cloudfront:CreateInvalidation"]
