@@ -1,4 +1,3 @@
----
 kind: pipeline
 name: default
 
@@ -10,11 +9,7 @@ steps:
     when:
       event:
         - pull_request
----
-kind: pipeline
-name: deploy
 
-steps:
   # TODO: consider deploying to a staging environment, and await promotion to deploy to prod.
   - name: publish-legal
     image: plugins/s3-sync:1
@@ -28,9 +23,8 @@ steps:
       source: legal
       delete: true
       cloudfront_distribution: E1GIXA14V6CST6
-    
-trigger:
-  branch:
-    - master
-  event:
-    - push
+    when:
+      event:
+        - pull_request
+      branch:
+        - master
