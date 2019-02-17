@@ -52,7 +52,7 @@ export default {
   },
   modules: ['@nuxtjs/axios', '~/modules/.generated/data'],
   axios: {},
-  plugins: [{src: '~/plugins/vendor'}, {src: '~/plugins/vendor', mode: 'client'}],
+  plugins: [{src: '~/plugins/vendor'}, {src: '~/plugins/vh-fix', mode: 'client'}],
   generate: {
     fallback: true,
     subFolders: false,
