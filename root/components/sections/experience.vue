@@ -189,6 +189,7 @@ export default class extends Vue {
     this._numShown = Math.floor(visible * Experiences.length + 5 / 11);
 
     if (!this._animationFrameRequested) {
+      this._animationFrameRequested = true;
       requestAnimationFrame(this._paint);
     }
   }
