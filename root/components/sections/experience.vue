@@ -321,7 +321,6 @@ $pathWidth: 4px;
   padding-bottom: 5vw;
   max-width: 100vw - $leafPadding * 2;
   transition: opacity 0.3s, transform 0.3s;
-  will-change: opacity, transform;
   opacity: 0;
 
   &:nth-child(odd) {
