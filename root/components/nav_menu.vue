@@ -93,7 +93,6 @@ export default class NavMenu extends Vue {}
     position: absolute;
     right: 0;
     top: -100%;
-    will-change: transform;
   }
 
   @media only screen and (max-width: 768px) {
