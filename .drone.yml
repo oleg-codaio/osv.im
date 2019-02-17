@@ -45,6 +45,17 @@ steps:
         - push
       branch:
         - master
+  
+  - name: generate-root
+    image: node
+    commands:
+      - npm install -g yarn
+      - cd root && yarn && make generate
+    when:
+      event:
+        - push
+      branch:
+        - master
 
   - name: publish-root
     image: plugins/s3-sync:1
