@@ -27,3 +27,4 @@ content/images/gravatar_retina.jpg
 *.tfstate.*
 .terraform/
 infra/terraform.tfvars
+*.code-workspace
