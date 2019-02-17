@@ -68,7 +68,7 @@ steps:
       region: us-west-2
       source: root/dist
       delete: true
-      cloudfront_distribution: E125YIYAMJVUWR
+      cloudfront_distribution: E1ZAUILNHKOJ6B
     when:
       event:
         - push
