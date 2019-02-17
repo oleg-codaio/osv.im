@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans');
+
+$color1: hsl(261, 54%, 10%);
+$color2: hsl(195, 37%, 70%);
+$color3: hsl(0, 06%, 90%);
+$color4: hsl(0, 0%, 100%);
+$color5: hsl(195, 37%, 45%);
+
+$main-text-color: $color1;
+$primary-color: $color2;
+$primary-color-hover: $color5;
+$primary-invert-color: $color4;
+$primary-invert-color-hover: $color3;
+
+$selection-color: $color2;
+$selection-background-color: $color3;
+
+$nav-bg-color: $color4;
+$nav-accent-color: $color3;
+$nav-item-idle: $color1;
+$nav-item-hover: $color2;
+$nav-item-selected: $color5;
+
+$header-size: 75px;
+$bg-accent-color: $color1;
+
+$experience-background-color: hsl(120, 58%, 98%);
+$experience-background-accent-color: hsl(120, 4%, 80%);
+$experience-line-start-color: purple;
+$experience-line-end-color: red;
+
+$contact-background-color: hsl(120, 4%, 95%);
+
+html {
+  height: 100vh;
+  margin: 0;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+::selection {
+  color: $selection-color;
+  background: $selection-background-color;
+}
+
+a {
+  color: $primary-color;
+  text-decoration: none;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: $primary-color-hover;
+  }
+}
+
+a.invert {
+  color: $primary-invert-color;
+
+  &:hover {
+    color: $primary-invert-color-hover;
+  }
+}
