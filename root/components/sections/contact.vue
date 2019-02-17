@@ -10,7 +10,6 @@
           :target="item.target || '_blank'"
           :onclick="item.onclick"
           rel="noopener"
-          data-aos="fade-up"
         >
           <div
             :class="$style.icon"

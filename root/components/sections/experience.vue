@@ -483,11 +483,11 @@ $endColor: $experience-line-end-color;
 
 .pattern,
 .pattern line {
-  // animation-name: pathAnimation;
-  // animation-direction: alternate;
-  // animation-duration: 1s;
-  // animation-timing-function: ease-in-out;
-  // animation-iteration-count: infinite;
+  animation-name: pathAnimation;
+  animation-direction: alternate;
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
 }
 
 .pathMarker {

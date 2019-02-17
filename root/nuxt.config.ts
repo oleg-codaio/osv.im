@@ -46,7 +46,7 @@ export default {
   /*
    ** Build configuration
    */
-  css: ['~/assets/css/main.scss', '~/node_modules/aos/dist/aos.css'],
+  css: ['~/assets/css/main.scss'],
   build: {
     typescript: true,
   },

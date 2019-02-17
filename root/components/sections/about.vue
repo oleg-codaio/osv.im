@@ -35,6 +35,10 @@ export default class extends Vue {}
 
   &.root {
     min-height: calc(85vh);
+
+    @media only screen and (max-width: 768px) {
+      min-height: calc(80vh);
+    }
   }
 
   article {
