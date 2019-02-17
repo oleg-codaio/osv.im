@@ -54,7 +54,7 @@
   flex-wrap: nowrap;
   overflow-x: auto;
   position: relative;
-  --webkit-overflow-scrolling: touch;
+  -webkit-overflow-scrolling: touch;
 }
 
 .postContainer {

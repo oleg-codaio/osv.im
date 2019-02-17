@@ -3,10 +3,10 @@
     <navmenu/>
 
     <main :class="$style.body">
-      <about id="about" :class="$style.section"/>
-      <experience id="experience" :class="$style.section"/>
-      <blog id="blog" :class="$style.section"/>
-      <contact id="contact" :class="$style.section"/>
+      <about id="about" :class="[$style.section, 'vh-fix']"/>
+      <experience id="experience" :class="[$style.section, 'vh-fix']"/>
+      <blog id="blog" :class="[$style.section, 'vh-fix']"/>
+      <contact id="contact" :class="[$style.section, 'vh-fix']"/>
     </main>
   </div>
 </template>
