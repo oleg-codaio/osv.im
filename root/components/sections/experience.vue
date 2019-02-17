@@ -273,7 +273,6 @@ const Experiences = [
 @import '~/assets/css/main.scss';
 
 $pathWidth: 4px;
-$detailsHeight: 65px;
 
 .root {
   background-color: $experience-background-color;
@@ -421,8 +420,13 @@ $detailsHeight: 65px;
 .infoDetails {
   color: #444;
   font-style: italic;
-  min-height: $detailsHeight;
-  max-height: $detailsHeight;
+  min-height: 40px;
+  max-height: 40px;
+
+  @media only screen and (max-width: 768px) {
+    min-height: 65px;
+    max-height: 65px;
+  }
 }
 
 .infoHeader {
