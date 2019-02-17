@@ -1,5 +1,5 @@
 <template>
-  <section :class="[$style.root, 'vh-fix']">
+  <section :class="$style.root">
     <article>
       <h1 :class="$style.name">Oleg Vaskevich</h1>
 
