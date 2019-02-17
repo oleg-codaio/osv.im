@@ -105,6 +105,7 @@ export default class NavMenu extends Vue {}
     mask-position: 100% 100%;
     mask-size: 800% 800%;
     padding-top: $header-size;
+    padding-bottom: 150px;
     padding-right: 0;
     position: fixed;
     width: 100vw;
