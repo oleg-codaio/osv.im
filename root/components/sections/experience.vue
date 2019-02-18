@@ -322,6 +322,7 @@ $pathWidth: 4px;
   max-width: 100vw - $leafPadding * 2;
   transition: opacity 0.3s, transform 0.3s;
   opacity: 0;
+  will-change: opacity, transform;
 
   &:nth-child(odd) {
     flex-direction: row-reverse;
@@ -495,5 +496,6 @@ $endColor: $experience-line-end-color;
   animation-duration: 1s;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
+  will-change: stroke-dashoffset;
 }
 </style>
