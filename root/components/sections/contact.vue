@@ -14,7 +14,7 @@
           <div
             :class="$style.icon"
             :style="{
-              backgroundImage: `url('${require(`~/static/contact/${item.icon}`)}')`,
+              backgroundImage: `url('${require(`~/assets/contact/${item.icon}`)}')`,
             }"
           />
           <div :class="$style.label" :style="item.labelStyle">{{item.value}}</div>

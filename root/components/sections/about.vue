@@ -29,7 +29,7 @@ export default class extends Vue {}
 
 .root {
   transition: background 1.5s linear;
-  background: black url('../../static/bg.jpg') top right / cover no-repeat;
+  background: black url('../../assets/bg.jpg') top right / cover no-repeat;
   color: white;
   cursor: default;
 
