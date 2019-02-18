@@ -77,14 +77,14 @@ resource "aws_cloudfront_distribution" "root" {
     error_code            = "403"
     error_caching_min_ttl = "300"
     response_code         = "404"
-    response_page_path    = "/index.html"
+    response_page_path    = "${var.inaccessible_page_path}"
   }
 
   custom_error_response {
     error_code            = "404"
     error_caching_min_ttl = "300"
     response_code         = "404"
-    response_page_path    = "/index.html"
+    response_page_path    = "${var.inaccessible_page_path}"
   }
 }
 

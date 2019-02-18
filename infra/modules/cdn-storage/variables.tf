@@ -18,3 +18,8 @@ variable "bucket_prefix" {
   description = "The prefix to assign to the created regional S3"
   default     = "osv-im-us-west-2"
 }
+
+variable "inaccessible_page_path" {
+  description = "The path to the page to use for 404/403s"
+  default     = "/404.html"
+}
