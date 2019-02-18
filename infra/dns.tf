@@ -38,6 +38,7 @@ resource "aws_route53_record" "root_txt" {
   records = [
     "v=spf1 include:pobox.com ?all",
     "keybase-site-verification=WpdG73nB_cS7PvZ5RkYYcaPerhAQ53w-gI5wZECg_Ek",
+    "google-site-verification=HXLLD-2vE_1Gl4VpXR_GZjrwHXM6jBDasMmBIqxK-H0",
   ]
 }
 
