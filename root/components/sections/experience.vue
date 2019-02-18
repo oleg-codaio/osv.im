@@ -43,7 +43,7 @@
             <div
               :class="$style.node"
               :style="{
-                backgroundImage: `url('${require(`~/static/experience/${exp.icon}`)}')`,
+                backgroundImage: `url('${require(`~/assets/experience/${exp.icon}`)}')`,
               }"
             />
             <div :class="$style.info">

@@ -122,7 +122,7 @@
 
 <script lang="ts">
 import {Component, Vue} from 'nuxt-property-decorator';
-import {posts, user} from '../../static/data/medium.json';
+import {posts, user} from '~/assets/data/medium.json';
 
 @Component({
   data: () => ({
