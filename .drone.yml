@@ -69,6 +69,10 @@ steps:
       source: root/dist
       delete: true
       cloudfront_distribution: E1ZAUILNHKOJ6B
+      cache_control:
+        ".png": "public, max-age: 31536000"
+        ".jpg": "public, max-age: 31536000"
+        ".js": "public, max-age: 31536000"
     when:
       event:
         - push
