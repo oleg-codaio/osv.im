@@ -51,15 +51,6 @@ export default class NavMenu extends Vue {}
 @import '../node_modules/sass-svg-uri/_svg-uri';
 @import '~/assets/css/main.scss';
 
-@keyframes navMenuBackgroundAnimation {
-  0% {
-    transform: translateY(48px);
-  }
-  100% {
-    transform: translateY(0);
-  }
-}
-
 .root {
   align-items: center;
   box-sizing: border-box;
@@ -77,16 +68,8 @@ export default class NavMenu extends Vue {}
   border-bottom: solid 1px gray;
 
   &:before {
-    animation-direction: repeat;
-    animation-duration: 3s;
-    animation-iteration-count: infinite;
-    animation-name: navMenuBackgroundAnimation;
     background-repeat: round;
-    animation-timing-function: linear;
     background-color: $nav-bg-color;
-    background-image: svg-uri(
-      "<svg width='84' height='48' viewBox='0 0 84 48' xmlns='http://www.w3.org/2000/svg'><path d='M0 0h12v6H0V0zm28 8h12v6H28V8zm14-8h12v6H42V0zm14 0h12v6H56V0zm0 8h12v6H56V8zM42 8h12v6H42V8zm0 16h12v6H42v-6zm14-8h12v6H56v-6zm14 0h12v6H70v-6zm0-16h12v6H70V0zM28 32h12v6H28v-6zM14 16h12v6H14v-6zM0 24h12v6H0v-6zm0 8h12v6H0v-6zm14 0h12v6H14v-6zm14 8h12v6H28v-6zm-14 0h12v6H14v-6zm28 0h12v6H42v-6zm14-8h12v6H56v-6zm0-8h12v6H56v-6zm14 8h12v6H70v-6zm0 8h12v6H70v-6zM14 24h12v6H14v-6zm14-8h12v6H28v-6zM14 8h12v6H14V8zM0 8h12v6H0V8z' fill='#{$nav-accent-color}' fill-opacity='0.3' fill-rule='evenodd'/></svg>"
-    );
     bottom: 0;
     content: '';
     left: 0;
@@ -133,11 +116,10 @@ export default class NavMenu extends Vue {}
   background: white;
   border-bottom-left-radius: 15px;
   display: none;
-  font-size: 50px;
-  height: $header-size;
+  height: 50px;
   overflow: hidden;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 15px;
+  padding-right: 15px;
   position: fixed;
   right: 5px;
   text-align: right;
@@ -156,15 +138,15 @@ export default class NavMenu extends Vue {}
   background: gray;
   content: ' ';
   display: block;
-  height: 8px;
-  margin-top: 12px;
+  height: 5px;
+  margin-top: 8px;
   transition: transform 0.3s ease, opacity 0.3s ease;
-  width: 50px;
+  width: 30px;
 }
 
 .hamburgerTop::before {
   .shown & {
-    transform: rotateZ(-45deg) translate(-16px, 16px);
+    transform: rotateZ(-45deg) translate(-10px, 10px);
   }
 }
 
@@ -177,20 +159,26 @@ export default class NavMenu extends Vue {}
 
 .hamburgerBottom::before {
   .shown & {
-    transform: rotateZ(45deg) translate(-12px, -12px);
+    transform: rotateZ(45deg) translate(-8px, -9px);
   }
 }
 
 .item {
   color: $nav-item-idle;
-  transition: color 0.3s ease, opacity 0.3s ease;
-  padding-left: 20px;
-  padding-right: 20px;
+  transition: color 0.3s ease, border-color 0.3s ease;
+  border: solid 1px transparent;
+  border-radius: 20px;
+  padding: 10px 20px;
   text-decoration: none;
   z-index: 11;
 
+  @media only screen and (max-width: 768px) {
+    margin: 25px 0px;
+  }
+
   &:global(.is-active) {
     color: $nav-item-selected;
+    border-color: $nav-item-selected;
   }
 
   &:hover {
