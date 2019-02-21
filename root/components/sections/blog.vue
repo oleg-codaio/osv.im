@@ -2,7 +2,6 @@
   <section :class="$style.root">
     <article :class="$style.container">
       <div :class="$style.posts">
-        <!-- <div :class="$style.postsBg"/> -->
         <div v-for="post in posts" :class="$style.postContainer" :key="post.name">
           <div :class="$style.author">
             <div :class="$style.avatar" :style="'background-image: url(' + user.image + ')'"/>
