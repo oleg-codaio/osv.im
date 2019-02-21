@@ -1,5 +1,5 @@
 <template>
-  <section :class="[$style.root, 'vh-fix']">
+  <section :class="$style.root">
     <article>
       <h1 :class="$style.name">Oleg Vaskevich</h1>
 
@@ -34,10 +34,12 @@ export default class extends Vue {}
   cursor: default;
 
   &.root {
-    min-height: calc(85vh);
+    min-height: 85vh;
 
-    @media only screen and (max-width: 768px) {
+    @media only screen and (max-width: 768px) and (orientation: portrait) {
+      // Mobile-only workaround for iOS Chrome/Instagram/Firefox/others.
       min-height: calc(80vh);
+      min-height: calc(80 * var(--vh, 1vh));
     }
   }
 

@@ -58,6 +58,11 @@ export default class extends Vue {}
     padding: 10px 20px;
     flex: auto;
   }
+
+  @media only screen and (max-width: 768px) and (orientation: portrait) {
+    // Mobile-only workaround for iOS Chrome/Instagram/Firefox/others.
+    min-height: calc(100 * var(--vh, 1vh));
+  }
 }
 
 .section p {
