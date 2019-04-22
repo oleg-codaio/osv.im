@@ -51,3 +51,19 @@ resource "aws_route53_record" "www_cname" {
   ttl     = "600"
   records = ["osv.im"]
 }
+
+// Delegate shado.osv.im to a hosted zone in a different account.
+
+resource "aws_route53_record" "shado" {
+  name    = "shado.osv.im"
+  type    = "NS"
+  zone_id = "${aws_route53_zone.root.zone_id}"
+  ttl     = "1800"
+
+  records = [
+    "ns-1127.awsdns-12.org",
+    "ns-865.awsdns-44.net",
+    "ns-2009.awsdns-59.co.uk",
+    "ns-62.awsdns-07.com",
+  ]
+}
