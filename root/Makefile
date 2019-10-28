@@ -17,4 +17,4 @@ dev: _compile-modules
 
 .PHONY: generate
 generate: _compile-modules
-	npx ts-node -r ts-node/register node_modules/.bin/nuxt-edge generate -c nuxt.config.ts
+	npx ts-node -r ts-node/register node_modules/.bin/nuxt generate -c nuxt.config.ts

@@ -50,6 +50,7 @@ export default {
   build: {
     typescript: true,
   },
+  buildModules: ['@nuxt/typescript-build'],
   modules: ['@nuxtjs/axios', '~/modules/.generated/data'],
   axios: {},
   plugins: [{src: '~/plugins/vendor'}, {src: '~/plugins/vh-fix', mode: 'client'}],
