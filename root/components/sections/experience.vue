@@ -178,7 +178,7 @@ export default class extends Vue {
     }
   }
 
-  private handleScroll(_e?: UIEvent) {
+  private handleScroll(_e?: Event) {
     const offsetPx = window.innerHeight / 2.5;
     const {rect, len} = this._getPathAndLength();
 
