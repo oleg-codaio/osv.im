@@ -14,22 +14,22 @@
   },
   "scripts": {},
   "devDependencies": {
-    "@nuxt/typescript-build": "^0.3.2",
-    "@nuxt/typescript-runtime": "^0.2.2",
+    "@nuxt/typescript-build": "^0.3.4",
+    "@nuxt/typescript-runtime": "^0.2.4",
     "@nuxt/vue-app": "^2.10.2",
     "@types/fs-extra": "^8.0.1",
     "@types/minimist": "^1.2.0",
-    "@types/node": "^12.11.7",
-    "@types/webpack-node-externals": "^1.6.3",
+    "@types/node": "^12.12.11",
+    "@types/webpack-node-externals": "^1.7.0",
     "fs-extra": "^8.1.0",
     "medium-sdk": "^0.0.4",
     "node-sass": "^4.13.0",
-    "prettier": "^1.18.2",
+    "prettier": "^1.19.1",
     "sass-loader": "^8.0.0",
     "style-loader": "^1.0.0",
     "ts-loader": "^6.2.1",
-    "ts-node": "^8.4.1",
-    "tslint": "^5.20.0",
-    "typescript": "^3.6.4"
+    "ts-node": "^8.5.2",
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.2"
   }
 }
