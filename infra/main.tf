@@ -40,6 +40,11 @@ module "root_cdn_storage" {
   name             = "root"
   zone_id          = aws_route53_zone.root.zone_id
   acm_ssl_cert_arn = aws_acm_certificate.root.arn
+
+  shortcuts = {
+    coda = "https://coda.io/?r=-6jrY-ASS4-NWgFmz-I36A"
+    jsx  = "https://www.jsx.com/create-profile/78ZC23"
+  }
 }
 
 module "legal_cdn_storage" {

@@ -8,6 +8,8 @@ locals {
 }
 
 // Create an S3 bucket to hold these assets.
+// Have it be public so that the CDN can access the website endpoint to enable
+// S3 static hosting features like redirects to work.
 
 resource "aws_s3_bucket" "root" {
   bucket = "${var.bucket_prefix}-${var.name}-assets"
@@ -31,11 +33,14 @@ resource "aws_s3_bucket" "root" {
 
 resource "aws_cloudfront_distribution" "root" {
   origin {
-    domain_name = aws_s3_bucket.root.bucket_regional_domain_name
+    domain_name = aws_s3_bucket.root.website_endpoint
     origin_id   = local.s3_origin_id
 
-    s3_origin_config {
-      origin_access_identity = aws_cloudfront_origin_access_identity.root.cloudfront_access_identity_path
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "http-only"
+      origin_ssl_protocols   = ["TLSv1.2"]
     }
   }
 
@@ -89,10 +94,9 @@ resource "aws_cloudfront_distribution" "root" {
   }
 }
 
-resource "aws_cloudfront_origin_access_identity" "root" {
-}
-
-// Set up a policy to grant bucket access to CloudFront.
+// Set up a policy to grant public access to bucket objects, including to CF.
+// Consider making the underlying bucket private and using something like this:
+// https://abridge2devnull.com/posts/2018/01/restricting-access-to-a-cloudfront-s3-website-origin/
 
 resource "aws_s3_bucket_policy" "root" {
   bucket = aws_s3_bucket.root.id
@@ -109,7 +113,7 @@ data "aws_iam_policy_document" "root" {
 
     principals {
       type        = "AWS"
-      identifiers = [aws_cloudfront_origin_access_identity.root.iam_arn]
+      identifiers = ["*"]
     }
   }
 }
@@ -144,3 +148,9 @@ resource "aws_route53_health_check" "root" {
   }
 }
 
+resource "aws_s3_bucket_object" "shortcut" {
+  for_each         = var.shortcuts
+  bucket           = aws_s3_bucket.root.id
+  key              = each.key
+  website_redirect = each.value
+}
