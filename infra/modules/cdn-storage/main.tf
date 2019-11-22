@@ -39,7 +39,7 @@ resource "aws_cloudfront_distribution" "root" {
     }
   }
 
-  comment = var.name
+  comment             = var.name
   aliases             = [local.domain_name]
   enabled             = true
   is_ipv6_enabled     = true
