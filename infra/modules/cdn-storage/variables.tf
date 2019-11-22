@@ -23,3 +23,4 @@ variable "inaccessible_page_path" {
   description = "The path to the page to use for 404/403s"
   default     = "/404.html"
 }
+

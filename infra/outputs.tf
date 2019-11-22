@@ -9,17 +9,18 @@ output "ci_user_access_key_encrypted_secret_prev" {
 }
 
 output "ci_user_access_key_id_curr" {
-  value = "${aws_iam_access_key.ci-user-access-key-v1.id}"
+  value = aws_iam_access_key.ci-user-access-key-v1.id
 }
 
 output "ci_user_access_key_encrypted_secret_curr" {
-  value = "${aws_iam_access_key.ci-user-access-key-v1.encrypted_secret}"
+  value = aws_iam_access_key.ci-user-access-key-v1.encrypted_secret
 }
 
 output "legal_cloudfront_distribution_id" {
-  value = "${module.legal_cdn_storage.cloudfront_id}"
+  value = module.legal_cdn_storage.cloudfront_id
 }
 
 output "globetheater_cloudfront_distribution_id" {
-  value = "${module.globetheater_cdn_storage.cloudfront_id}"
+  value = module.globetheater_cdn_storage.cloudfront_id
 }
+

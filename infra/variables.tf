@@ -17,3 +17,4 @@ variable "sns_alert_email" {
 variable "pgp_key" {
   description = "The PGP key to use to encrypt secrets, either `keybase:<user> or the base64 PGP body`"
 }
+
