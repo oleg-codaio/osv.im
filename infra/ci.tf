@@ -8,16 +8,16 @@ resource "aws_iam_user" "drone_ci" {
 
 locals {
   ci_write_buckets = [
-    "${module.root_cdn_storage.bucket_arn}",
-    "${module.legal_cdn_storage.bucket_arn}",
-    "${module.globetheater_cdn_storage.bucket_arn}",
+    module.root_cdn_storage.bucket_arn,
+    module.legal_cdn_storage.bucket_arn,
+    module.globetheater_cdn_storage.bucket_arn,
   ]
 }
 
 resource "aws_iam_policy" "ci_bucket_write_policy" {
   name        = "GrantCIPublishAccess"
   description = "Grant CI access to publish to S3 buckets"
-  policy      = "${data.aws_iam_policy_document.ci_s3_policy.json}"
+  policy      = data.aws_iam_policy_document.ci_s3_policy.json
 }
 
 data "aws_iam_policy_document" "ci_s3_policy" {
@@ -35,7 +35,7 @@ data "aws_iam_policy_document" "ci_s3_policy" {
       "s3:PutObjectAcl",
     ]
 
-    resources = ["${concat(local.ci_write_buckets, formatlist("%s/*", local.ci_write_buckets))}"]
+    resources = concat(local.ci_write_buckets, formatlist("%s/*", local.ci_write_buckets))
   }
 
   statement {
@@ -48,11 +48,12 @@ data "aws_iam_policy_document" "ci_s3_policy" {
 }
 
 resource "aws_iam_user_policy_attachment" "ci_bucket_write_policy_attachment" {
-  user       = "${aws_iam_user.drone_ci.name}"
-  policy_arn = "${aws_iam_policy.ci_bucket_write_policy.arn}"
+  user       = aws_iam_user.drone_ci.name
+  policy_arn = aws_iam_policy.ci_bucket_write_policy.arn
 }
 
 resource "aws_iam_access_key" "ci-user-access-key-v1" {
-  user    = "${aws_iam_user.drone_ci.name}"
-  pgp_key = "${var.pgp_key}"
+  user    = aws_iam_user.drone_ci.name
+  pgp_key = var.pgp_key
 }
+
