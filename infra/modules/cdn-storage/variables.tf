@@ -10,10 +10,6 @@ variable "acm_ssl_cert_arn" {
   description = "The ARN of the SSL certificate to be used by CloudFront"
 }
 
-variable "alert_sns_topic_arn" {
-  description = "The ARN of the SNS topic to use for delivering health check alarms"
-}
-
 variable "bucket_prefix" {
   description = "The prefix to assign to the created regional S3"
   default     = "osv-im-us-west-2"

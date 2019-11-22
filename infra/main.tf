@@ -36,11 +36,10 @@ resource "aws_acm_certificate" "root" {
 // Set up S3-backed CloudFront CDN distributions.
 
 module "root_cdn_storage" {
-  source              = "./modules/cdn-storage"
-  name                = "root"
-  zone_id             = aws_route53_zone.root.zone_id
-  acm_ssl_cert_arn    = aws_acm_certificate.root.arn
-  alert_sns_topic_arn = aws_cloudformation_stack.alerts_sns_topic.outputs["ARN"]
+  source           = "./modules/cdn-storage"
+  name             = "root"
+  zone_id          = aws_route53_zone.root.zone_id
+  acm_ssl_cert_arn = aws_acm_certificate.root.arn
 }
 
 module "legal_cdn_storage" {
@@ -48,16 +47,14 @@ module "legal_cdn_storage" {
   name                   = "legal"
   zone_id                = aws_route53_zone.root.zone_id
   acm_ssl_cert_arn       = aws_acm_certificate.root.arn
-  alert_sns_topic_arn    = aws_cloudformation_stack.alerts_sns_topic.outputs["ARN"]
   inaccessible_page_path = "/index.html"
 }
 
 module "globetheater_cdn_storage" {
-  source              = "./modules/cdn-storage"
-  name                = "globetheater"
-  zone_id             = aws_route53_zone.root.zone_id
-  acm_ssl_cert_arn    = aws_acm_certificate.root.arn
-  alert_sns_topic_arn = aws_cloudformation_stack.alerts_sns_topic.outputs["ARN"]
+  source           = "./modules/cdn-storage"
+  name             = "globetheater"
+  zone_id          = aws_route53_zone.root.zone_id
+  acm_ssl_cert_arn = aws_acm_certificate.root.arn
 }
 
 // Set up an SNS topic for health check alerts.
