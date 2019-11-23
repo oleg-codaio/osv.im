@@ -73,6 +73,9 @@ steps:
         "*.png": "public, max-age=31536000"
         "*.jpg": "public, max-age=31536000"
         "*.js": "public, max-age=31536000"
+      redirects:
+        coda: https://coda.io/?r=-6jrY-ASS4-NWgFmz-I36A
+        jsx: https://www.jsx.com/create-profile/78ZC23
     when:
       event:
         - push
