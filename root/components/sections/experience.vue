@@ -140,12 +140,10 @@ export default class extends Vue {
     console.log('generated path', this.pathHeight, this.pathWidth, this.strokeWidth, ratio);
 
     this.$nextTick(function() {
-      const stroke = 2;
       const {path, len} = this._getPathAndLength();
       path.style.strokeDasharray = `${len}`;
 
-      leaves.style.marginTop = `${((initialSegmentSize + curveSize + stroke) / this.pathHeight) *
-        leaves.offsetHeight}px`;
+      leaves.style.marginTop = `${((initialSegmentSize + curveSize) / this.pathHeight) * leaves.offsetHeight}px`;
       leaves.style.marginBottom = `${(endingSegmentSize / this.pathHeight) * leaves.offsetHeight}px`;
 
       this.handleScroll();
@@ -412,8 +410,8 @@ $pathWidth: 4px;
   background-position-x: center;
   background-position-y: center;
   flex: none;
-  min-height: 100px;
-  max-height: 100px;
+  min-height: 110px;
+  max-height: 110px;
   width: 150px;
   position: relative;
 }
@@ -423,7 +421,10 @@ $pathWidth: 4px;
   padding-left: 20px;
   padding-right: 20px;
   display: inline-block;
-  height: 95px;
+  height: 105px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .intoTitle {
@@ -433,13 +434,6 @@ $pathWidth: 4px;
 .infoDetails {
   color: #444;
   font-style: italic;
-  min-height: 40px;
-  max-height: 40px;
-
-  @media only screen and (max-width: 768px) {
-    min-height: 65px;
-    max-height: 65px;
-  }
 }
 
 .infoHeader {
