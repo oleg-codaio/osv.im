@@ -20,3 +20,7 @@ variable "inaccessible_page_path" {
   default     = "/404.html"
 }
 
+variable "shortcuts" {
+  description = "A map of short URLs with redirect URLs"
+  default     = {}
+}
