@@ -1,7 +1,7 @@
 <template>
   <section :class="$style.root">
     <article :class="$style.contents">
-      <div :class="$style.timeline">
+      <div :class="$style.timeline" :style="{maxWidth: maxSvgWidthPx + 'px'}">
         <svg
           :class="$style.svg"
           preserveAspectRatio="none"
@@ -11,7 +11,7 @@
         >
           <defs>
             <marker id="head" orient="auto" markerWidth="2" markerHeight="4" refX="0.1" refY="2">
-              <path d="M0,0 V4 L2,2 Z" fill="red" :class="$style.pathMarker"></path>
+              <path d="M0,0 V4 L2,2 Z" fill="red" :class="$style.pathMarker" />
             </marker>
             <pattern
               id="pattern"
@@ -21,7 +21,7 @@
               :class="$style.pattern"
               :x="2"
             >
-              <line stroke="red" :stroke-width="5" :x1="2" :x2="2" y2="3"></line>
+              <line stroke="red" :stroke-width="5" :x1="2" :x2="2" y2="3" />
             </pattern>
           </defs>
           <path
@@ -36,7 +36,7 @@
             marker-start="url(#head)"
             marker-end="url(#head)"
             :d="pathData"
-          ></path>
+          />
         </svg>
         <div :class="$style.leaves" ref="leaves">
           <div :class="$style.leaf" v-for="exp in experiences" :key="exp.name + exp.when">
@@ -52,7 +52,7 @@
                 <span :class="$style.infoTime">{{exp.when}}</span>
               </div>
               <div :class="$style.infoTitle">{{exp.title}}</div>
-              <div :class="$style.infoDetails" v-html="exp.details"/>
+              <div :class="$style.infoDetails" v-html="exp.details" />
             </div>
           </div>
         </div>
@@ -91,15 +91,13 @@ function generateTimelinePath(
         ${right ? width - curveSize : curveSize} ${height + curveSize}
       L ${right ? width - curveSize : curveSize} ${height + grooveHeight}
       Q ${right ? width - curveSize : curveSize} ${height + grooveHeight + curveSize},
-        ${right ? width - curveSize * 2 : curveSize * 2} ${height + grooveHeight + curveSize}
-    `;
+        ${right ? width - curveSize * 2 : curveSize * 2} ${height + grooveHeight + curveSize}`;
     height += grooveHeight + curveSize;
   }
 
   path += `
     L ${right ? width / 2 + curveSize : width / 2 - curveSize} ${height}
-    Q ${width / 2} ${height}, ${width / 2} ${height + curveSize}
-  `;
+    Q ${width / 2} ${height}, ${width / 2} ${height + curveSize}`;
 
   height += endingSegmentSize;
   return {pathData: path, height, width};
@@ -112,6 +110,7 @@ export default class extends Vue {
   protected pathWidth = 0;
   protected strokeWidth = 1;
   protected experiences = Experiences;
+  protected maxSvgWidthPx = 800;
 
   // Rendered during animation frame.
   private _animationFrameRequested = false;
@@ -137,17 +136,17 @@ export default class extends Vue {
     this.pathData = generatedPath.pathData;
     this.pathHeight = generatedPath.height;
     this.pathWidth = generatedPath.width;
-    this.strokeWidth = 1000 / window.innerWidth;
+    this.strokeWidth = 1000 / Math.min(window.innerWidth, this.maxSvgWidthPx);
+    console.log('generated path', this.pathHeight, this.pathWidth, this.strokeWidth, ratio);
 
     this.$nextTick(function() {
       const stroke = 2;
-      const {path, rect, len} = this._getPathAndLength();
+      const {path, len} = this._getPathAndLength();
       path.style.strokeDasharray = `${len}`;
 
-      const firstLeaf = (this.$refs.leaves as HTMLDivElement).firstElementChild as HTMLElement;
-      firstLeaf.style.marginTop = `${((initialSegmentSize + curveSize + stroke) / this.pathHeight) * rect.height}px`;
-      const lastLeaf = (this.$refs.leaves as HTMLDivElement).lastElementChild as HTMLElement;
-      lastLeaf.style.marginBottom = `${(endingSegmentSize / this.pathHeight) * rect.height}px`;
+      leaves.style.marginTop = `${((initialSegmentSize + curveSize + stroke) / this.pathHeight) *
+        leaves.offsetHeight}px`;
+      leaves.style.marginBottom = `${(endingSegmentSize / this.pathHeight) * leaves.offsetHeight}px`;
 
       this.handleScroll();
     });
@@ -284,6 +283,9 @@ $pathWidth: 4px;
 
 .timeline {
   min-height: 100vh;
+  max-width: var(--max-svg-width);
+  margin-left: auto;
+  margin-right: auto;
   display: flex;
   flex-direction: column;
   overflow: visible;
@@ -322,6 +324,15 @@ $pathWidth: 4px;
   transition: opacity 0.3s, transform 0.3s;
   opacity: 0;
   will-change: opacity, transform;
+
+  @media only screen and (min-width: 800px) {
+    // Until the following, we can't use variables here
+    // https://github.com/w3c/csswg-drafts/issues/2627
+    $leafPadding: 80px;
+    max-width: 800px - $leafPadding * 2;
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
 
   &:nth-child(odd) {
     flex-direction: row-reverse;
@@ -401,7 +412,8 @@ $pathWidth: 4px;
   background-position-x: center;
   background-position-y: center;
   flex: none;
-  height: 100px;
+  min-height: 100px;
+  max-height: 100px;
   width: 150px;
   position: relative;
 }
@@ -411,6 +423,7 @@ $pathWidth: 4px;
   padding-left: 20px;
   padding-right: 20px;
   display: inline-block;
+  height: 95px;
 }
 
 .intoTitle {
