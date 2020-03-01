@@ -11,6 +11,7 @@ function ensure<T>(value: T | undefined | null, id?: string): T {
 }
 
 const StaticDataDir = path.join(__dirname, '..', '..', 'assets', 'data');
+const RawDataFile = path.join(__dirname, 'data-src', 'medium.txt');
 export const MediumDataFile = path.join(StaticDataDir, 'medium.json');
 
 interface MediumPost {
@@ -50,7 +51,9 @@ export default function fetchData(this: any) {
   }
 
   async function getMediumPosts() {
-    const res = await axios.get('https://medium.com/@osv/latest?format=json', {responseType: 'text'});
+    // TODO(oleg): uncomment if Medium ever lets us access this directly.
+    // const res = await axios.get('https://medium.com/@osv/latest?format=json', {responseType: 'text'});
+    const res = {data: fs.readFileSync(RawDataFile).toString()};
     const body: MediumData = JSON.parse(res.data.replace('])}while(1);</x>', ''));
     const posts = Object.values(body.payload.references.Post).map(post => {
       const title = ensure(post.title, 'title');
