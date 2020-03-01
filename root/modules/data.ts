@@ -10,8 +10,10 @@ function ensure<T>(value: T | undefined | null, id?: string): T {
   return value;
 }
 
+const StaticDataSrcDir = path.join(__dirname, '..', '..', 'assets', 'data-src');
+const RawDataFile = path.join(StaticDataSrcDir, 'medium.txt');
+
 const StaticDataDir = path.join(__dirname, '..', '..', 'assets', 'data');
-const RawDataFile = path.join(__dirname, 'data-src', 'medium.txt');
 export const MediumDataFile = path.join(StaticDataDir, 'medium.json');
 
 interface MediumPost {
