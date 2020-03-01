@@ -51,8 +51,7 @@ export default {
     typescript: true,
   },
   buildModules: ['@nuxt/typescript-build'],
-  // TODO(oleg): uncomment once we can hit the Medium API on CI.
-  modules: ['@nuxtjs/axios' /*, '~/modules/.generated/data'*/],
+  modules: ['@nuxtjs/axios', '~/modules/.generated/data'],
   axios: {},
   plugins: [{src: '~/plugins/vendor'}, {src: '~/plugins/vh-fix', mode: 'client'}],
   generate: {
