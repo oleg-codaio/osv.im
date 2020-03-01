@@ -49,7 +49,6 @@ steps:
   - name: generate-root
     image: node
     commands:
-      - npm install -g yarn
       - cd root && yarn && make generate
     when:
       event:
