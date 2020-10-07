@@ -172,6 +172,10 @@ export default class NavMenu extends Vue {}
   text-decoration: none;
   z-index: 11;
 
+  &:not(:first-child) {
+    margin-left: 10px;
+  }
+
   @media only screen and (max-width: 768px) {
     margin: 25px 0px;
   }

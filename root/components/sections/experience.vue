@@ -439,6 +439,7 @@ $pathWidth: 4px;
 .infoHeader {
   display: inline-flex;
   align-content: center;
+  flex: none;
 }
 
 .infoName {
