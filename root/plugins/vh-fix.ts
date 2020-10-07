@@ -1,4 +1,4 @@
-if (process.browser) {
+if (typeof window !== 'undefined') {
   const AddressBarRatio = 1.2; // Extra space occupied by the address bar.
 
   function updateVh(): void {
