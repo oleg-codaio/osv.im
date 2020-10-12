@@ -1,42 +1,22 @@
 <template>
   <div>
     <div :class="[$style.hamburger, shown && $style.shown]" v-on:click="shown = !shown">
-      <div :class="$style.hamburgerTop"/>
-      <div :class="$style.hamburgerMiddle"/>
-      <div :class="$style.hamburgerBottom"/>
+      <div :class="$style.hamburgerTop" />
+      <div :class="$style.hamburgerMiddle" />
+      <div :class="$style.hamburgerBottom" />
     </div>
 
     <scrollactive :offset="isMobile ? 0 : 75" :class="[$style.root, shown && $style.shown]">
-      <a
-        href="#about"
-        class="scrollactive-item"
-        :class="$style.item"
-        v-on:click="shown = !shown"
-      >About</a>
-      <a
-        href="#experience"
-        class="scrollactive-item"
-        :class="$style.item"
-        v-on:click="shown = !shown"
-      >Experience</a>
-      <a
-        href="#blog"
-        class="scrollactive-item"
-        :class="$style.item"
-        v-on:click="shown = !shown"
-      >Blog</a>
-      <a
-        href="#contact"
-        class="scrollactive-item"
-        :class="$style.item"
-        v-on:click="shown = !shown"
-      >Contact</a>
+      <a href="#about" class="scrollactive-item" :class="$style.item" v-on:click="shown = !shown">About</a>
+      <a href="#experience" class="scrollactive-item" :class="$style.item" v-on:click="shown = !shown">Experience</a>
+      <a href="#blog" class="scrollactive-item" :class="$style.item" v-on:click="shown = !shown">Blog</a>
+      <a href="#contact" class="scrollactive-item" :class="$style.item" v-on:click="shown = !shown">Contact</a>
     </scrollactive>
   </div>
 </template>
 
 <script lang="ts">
-import {Component, Vue} from 'nuxt-property-decorator';
+import {Component, Vue} from 'vue-property-decorator';
 
 @Component({
   data: () => ({

@@ -1,18 +1,18 @@
 <template>
   <div :class="$style.root">
-    <navmenu/>
+    <navmenu />
 
     <main :class="$style.body">
-      <about id="about" :class="$style.section"/>
-      <experience id="experience" :class="$style.section"/>
-      <blog id="blog" :class="$style.section"/>
-      <contact id="contact" :class="$style.section"/>
+      <about id="about" :class="$style.section" />
+      <experience id="experience" :class="$style.section" />
+      <blog id="blog" :class="$style.section" />
+      <contact id="contact" :class="$style.section" />
     </main>
   </div>
 </template>
 
 <script lang="ts">
-import {Component, Vue} from 'nuxt-property-decorator';
+import {Component, Vue} from 'vue-property-decorator';
 import NavMenu from '~/components/nav_menu.vue';
 import About from '~/components/sections/about.vue';
 import Experience from '~/components/sections/experience.vue';

@@ -13,14 +13,7 @@
             <marker id="head" orient="auto" markerWidth="2" markerHeight="4" refX="0.1" refY="2">
               <path d="M0,0 V4 L2,2 Z" fill="red" :class="$style.pathMarker" />
             </marker>
-            <pattern
-              id="pattern"
-              :width="5"
-              :height="3"
-              patternUnits="userSpaceOnUse"
-              :class="$style.pattern"
-              :x="2"
-            >
+            <pattern id="pattern" :width="5" :height="3" patternUnits="userSpaceOnUse" :class="$style.pattern" :x="2">
               <line stroke="red" :stroke-width="5" :x1="2" :x2="2" y2="3" />
             </pattern>
           </defs>
@@ -48,10 +41,10 @@
             />
             <div :class="$style.info">
               <div :class="$style.infoHeader">
-                <span :class="$style.infoName">{{exp.name}}</span>
-                <span :class="$style.infoTime">{{exp.when}}</span>
+                <span :class="$style.infoName">{{ exp.name }}</span>
+                <span :class="$style.infoTime">{{ exp.when }}</span>
               </div>
-              <div :class="$style.infoTitle">{{exp.title}}</div>
+              <div :class="$style.infoTitle">{{ exp.title }}</div>
               <div :class="$style.infoDetails" v-html="exp.details" />
             </div>
           </div>
@@ -62,7 +55,7 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from 'nuxt-property-decorator';
+import {Component, Vue} from 'vue-property-decorator';
 
 const initialSegmentSize = 10;
 const endingSegmentSize = 5;
@@ -139,7 +132,7 @@ export default class extends Vue {
     this.strokeWidth = 1000 / Math.min(window.innerWidth, this.maxSvgWidthPx);
     console.log('generated path', this.pathHeight, this.pathWidth, this.strokeWidth, ratio);
 
-    this.$nextTick(function() {
+    this.$nextTick(function () {
       const {path, len} = this._getPathAndLength();
       path.style.strokeDasharray = `${len}`;
 

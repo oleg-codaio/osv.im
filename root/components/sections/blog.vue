@@ -4,30 +4,25 @@
       <div :class="$style.posts">
         <div v-for="post in posts" :class="$style.postContainer" :key="post.name">
           <div :class="$style.author">
-            <div :class="$style.avatar" :style="'background-image: url(' + user.image + ')'"/>
+            <div :class="$style.avatar" :style="'background-image: url(' + user.image + ')'" />
             <div :class="$style.metadata">
-              <div :class="$style.name">{{user.name}}</div>
+              <div :class="$style.name">{{ user.name }}</div>
               <div :class="$style.postInfo">
-                {{new Date(post.date).toLocaleDateString('en-US', {month: 'short', day: 'numeric', year: 'numeric'})}}
+                {{ new Date(post.date).toLocaleDateString('en-US', {month: 'short', day: 'numeric', year: 'numeric'}) }}
                 &middot;
-                {{post.readingTime}} mins
+                {{ post.readingTime }} mins
               </div>
             </div>
           </div>
           <a :href="post.url" rel="noreferrer noopener" target="_blank" :class="$style.post">
-            <div :class="$style.image" :style="'background-image: url(' + post.image + ')'"/>
-            <h2 :class="$style.title">{{post.title}}</h2>
-            <p :class="$style.subtitle">{{post.subtitle}}</p>
+            <div :class="$style.image" :style="'background-image: url(' + post.image + ')'" />
+            <h2 :class="$style.title">{{ post.title }}</h2>
+            <p :class="$style.subtitle">{{ post.subtitle }}</p>
           </a>
         </div>
       </div>
       <div :class="$style.moreLink">
-        <a
-          class="invert"
-          href="https://medium.com/@osv"
-          target="_blank"
-          rel="noopener"
-        >⇨ medium.com/@osv</a>
+        <a class="invert" href="https://medium.com/@osv" target="_blank" rel="noopener">⇨ medium.com/@osv</a>
       </div>
     </article>
   </section>
@@ -120,7 +115,7 @@
 </style>
 
 <script lang="ts">
-import {Component, Vue} from 'nuxt-property-decorator';
+import {Component, Vue} from 'vue-property-decorator';
 import {posts, user} from '~/assets/data/medium.json';
 
 @Component({

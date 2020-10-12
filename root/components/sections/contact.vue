@@ -17,7 +17,7 @@
               backgroundImage: `url('${require(`~/assets/contact/${item.icon}`)}')`,
             }"
           />
-          <div :class="$style.label" :style="item.labelStyle">{{item.value}}</div>
+          <div :class="$style.label" :style="item.labelStyle">{{ item.value }}</div>
         </a>
       </div>
     </article>
@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from 'nuxt-property-decorator';
+import {Component, Vue} from 'vue-property-decorator';
 
 @Component
 export default class extends Vue {

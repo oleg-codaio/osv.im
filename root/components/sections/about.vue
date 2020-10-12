@@ -5,11 +5,9 @@
 
       <p>
         I'm an experienced full-stack software engineer, currently working at
-        <a
-          href="https://coda.io/?utm_campaign=osv&utm_medium=email&utm_source=coda"
-          target="_blank"
-          rel="noopener"
-        >Coda</a>.
+        <a href="https://coda.io/?utm_campaign=osv&utm_medium=email&utm_source=coda" target="_blank" rel="noopener"
+          >Coda</a
+        >.
       </p>
 
       <p>My interests lie in scalable and distributed systems, mobile and IoT, security, and all things web.</p>
@@ -18,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from 'nuxt-property-decorator';
+import {Component, Vue} from 'vue-property-decorator';
 
 @Component({})
 export default class extends Vue {}

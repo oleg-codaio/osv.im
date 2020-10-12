@@ -1,4 +1,5 @@
 import minimist from 'minimist';
+import {NuxtConfig} from '@nuxt/types';
 
 const argv = minimist(process.argv.slice(2), {
   alias: {
@@ -12,7 +13,7 @@ const argv = minimist(process.argv.slice(2), {
 const port = argv.port || process.env.PORT || process.env.npm_package_config_nuxt_port || '3000';
 const host = argv.hostname || process.env.HOST || process.env.npm_package_config_nuxt_host || 'localhost';
 
-export default {
+const config: NuxtConfig = {
   env: {
     baseUrl: process.env.BASE_URL || `http://${host}:${port}`,
   },
@@ -47,11 +48,8 @@ export default {
    ** Build configuration
    */
   css: ['~/assets/css/main.scss'],
-  build: {
-    typescript: true,
-  },
   buildModules: ['@nuxt/typescript-build'],
-  modules: ['@nuxtjs/axios', '~/modules/.generated/data'],
+  modules: ['@nuxtjs/axios', '~/modules/data'],
   axios: {},
   plugins: [{src: '~/plugins/vendor'}, {src: '~/plugins/vh-fix', mode: 'client'}],
   generate: {
@@ -62,3 +60,5 @@ export default {
     host: '0.0.0.0',
   },
 };
+
+export default config;
