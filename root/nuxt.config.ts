@@ -49,12 +49,16 @@ const config: NuxtConfig = {
    */
   css: ['~/assets/css/main.scss'],
   buildModules: ['@nuxt/typescript-build'],
-  modules: ['@nuxtjs/axios', '~/modules/data'],
+  modules: ['@nuxt/content'],
   axios: {},
   plugins: [{src: '~/plugins/vendor'}, {src: '~/plugins/vh-fix', mode: 'client'}],
   generate: {
     fallback: true,
     subFolders: false,
+  },
+  content: {
+    // https://content.nuxtjs.org/writing#vue-components
+    liveEdit: false,
   },
   server: {
     host: '0.0.0.0',

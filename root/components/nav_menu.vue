@@ -21,7 +21,7 @@ import {Component, Vue} from 'vue-property-decorator';
 @Component({
   data: () => ({
     shown: false,
-    isMobile: (process as any).browser && window.innerWidth < 768,
+    isMobile: typeof window !== 'undefined' && window.innerWidth < 768,
   }),
 })
 export default class NavMenu extends Vue {}
