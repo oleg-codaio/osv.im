@@ -1,7 +1,7 @@
 <template>
   <article :class="$style.root">
     <div :class="$style.masthead">
-      <NuxtLink :to="{name: 'blog'}"><arrow-left-icon /> All posts</NuxtLink>
+      <NuxtLink :class="$style.backLink" :to="{name: 'blog'}"><arrow-left-icon /> All posts</NuxtLink>
     </div>
     <div :class="$style.heading">
       <h1 :class="$style.title">{{ post.title }}</h1>
@@ -19,23 +19,39 @@
 @import url('https://github.githubassets.com/assets/gist-embed-4ac6018bcc05457cde2f66d2e7299d11.css');
 
 .root {
-  margin: 10px;
+}
+
+.masthead {
+  background: black;
+  display: flex;
+  border-bottom: solid 1px $primary-color;
+  padding: 10px;
+}
+
+.backLink {
+  display: flex;
+  align-items: center;
 }
 
 .heading {
   display: flex;
   flex-direction: column;
-  align-items: center;
+}
+
+.title,
+.date,
+.content {
+  max-width: 50rem;
+  margin: 0 auto;
 }
 
 .title {
-  font-size: 35px;
+  font-size: 45px;
   margin-bottom: 5px;
 }
 
 .date {
   display: flex;
-  align-items: center;
 }
 
 .dateIcon {
@@ -44,8 +60,9 @@
 }
 
 .content {
-  max-width: 50rem;
-  margin: 0 auto;
+  padding-top: 20px;
+  border-top: solid 2px $primary-color;
+  margin: 20px auto 0;
 }
 </style>
 

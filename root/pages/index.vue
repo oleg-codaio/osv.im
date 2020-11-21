@@ -5,7 +5,7 @@
     <main :class="$style.body">
       <about id="about" :class="$style.section" />
       <experience id="experience" :class="$style.section" />
-      <blog id="blog" :class="$style.section" />
+      <blog id="blog" :posts="posts" :class="$style.section" />
       <contact id="contact" :class="$style.section" />
     </main>
   </div>
@@ -26,6 +26,10 @@ import Contact from '~/components/sections/contact.vue';
     blog: Blog,
     experience: Experience,
     contact: Contact,
+  },
+  async asyncData({$content, params}) {
+    const posts = await $content('blog', params.slug).sortBy('createdAt', 'asc').fetch();
+    return {posts};
   },
 })
 export default class extends Vue {}
