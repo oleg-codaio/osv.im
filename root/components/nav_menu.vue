@@ -144,6 +144,12 @@ watch(
   }
 );
 
+if (process.client) {
+  watch(activeSection, (newVal, oldVal) => {
+    console.log(`[activeSection] changed from "${oldVal}" to "${newVal}". scrollY = ${window.scrollY}, isProgrammaticScrolling = ${isProgrammaticScrolling.value}`);
+  });
+}
+
 // Dynamic Active States
 const isAboutActive = computed(() => {
   return route.path === '/' && activeSection.value === 'about';
