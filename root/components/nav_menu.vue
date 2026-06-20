@@ -191,6 +191,9 @@ const scrollToSection = (id: string, event: Event) => {
       activeSection.value = id;
       
       const targetTop = el.getBoundingClientRect().top + window.scrollY - 99;
+      const distance = Math.abs(window.scrollY - targetTop);
+      const delay = distance < 50 ? 100 : 800;
+
       window.scrollTo({
         top: targetTop,
         behavior: 'smooth',
@@ -199,7 +202,7 @@ const scrollToSection = (id: string, event: Event) => {
       history.pushState(null, '', `#${id}`);
 
       if (id === 'contact') {
-        window.dispatchEvent(new CustomEvent('contact-targeted'));
+        window.dispatchEvent(new CustomEvent('contact-targeted', { detail: { delay } }));
       }
 
       if (scrollTimeout) clearTimeout(scrollTimeout);

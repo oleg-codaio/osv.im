@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import emailIcon from '~/assets/contact/email.png';
 import linkedinIcon from '~/assets/contact/linkedin.png';
 import twitterIcon from '~/assets/contact/twitter.png';
@@ -36,13 +36,21 @@ import githubIcon from '~/assets/contact/github.png';
 
 const email = 'mi.vso@gelo';
 const isTarget = ref(false);
+let pulseTimeout: any = null;
+let resetTimeout: any = null;
 
 const handleTargetEvent = (delay = 0) => {
-  setTimeout(() => {
-    isTarget.value = true;
-    setTimeout(() => {
-      isTarget.value = false;
-    }, 2000);
+  if (pulseTimeout) clearTimeout(pulseTimeout);
+  
+  pulseTimeout = setTimeout(() => {
+    isTarget.value = false;
+    nextTick(() => {
+      isTarget.value = true;
+      if (resetTimeout) clearTimeout(resetTimeout);
+      resetTimeout = setTimeout(() => {
+        isTarget.value = false;
+      }, 2000);
+    });
   }, delay);
 };
 
@@ -61,6 +69,8 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
+  if (pulseTimeout) clearTimeout(pulseTimeout);
+  if (resetTimeout) clearTimeout(resetTimeout);
   if (targetListener) {
     window.removeEventListener('contact-targeted', targetListener);
   }
