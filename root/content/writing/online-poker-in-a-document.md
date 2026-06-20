@@ -10,7 +10,7 @@ Over the winter holidays, I found some time to work on improving my poker game, 
 
 Without further ado, here's the doc: [coda.io/@osv/poker](https://coda.io/@osv/poker) (open on a desktop for the best experience). Get a game going, and it will look something like this:
 
-![Multiplayer poker gameplay inside Coda](/images/writing/online-poker-in-a-document/gameplay.gif)
+![Multiplayer poker gameplay inside Coda](/images/writing/online-poker-in-a-document/gameplay.webp)
 
 No team of engineers behind it. No long release cycle or lots of code to maintain. And while there are also no pleasant poker table graphics or pretty animations when someone bets, at the end of the day, this whole game is really just a super-document put together by a single hobbyist with some free time over a few days.
 
