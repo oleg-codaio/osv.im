@@ -147,9 +147,10 @@ const scrollToSection = (id: string, event: Event) => {
 onMounted(() => {
   // Block scroll updates on mount if arriving with a hash or at top
   if (route.path === '/') {
-    if (route.hash) {
+    const currentHash = route.hash || (window.location.hash || '');
+    if (currentHash) {
       isProgrammaticScrolling.value = true;
-      activeSection.value = route.hash.slice(1);
+      activeSection.value = currentHash.replace('#', '');
       scrollTimeout = setTimeout(() => {
         isProgrammaticScrolling.value = false;
       }, 1000);
