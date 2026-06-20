@@ -1,9 +1,9 @@
 /**
- * Continuous integration configuration for osv.im. Uses CircleCI.
+ * Continuous integration configuration for osv.im. Uses GitHub Actions.
  */
 
-resource "aws_iam_user" "drone_ci" {
-  name = "DroneCI"
+resource "aws_iam_user" "github_ci" {
+  name = "GitHubCI"
 }
 
 locals {
@@ -48,12 +48,11 @@ data "aws_iam_policy_document" "ci_s3_policy" {
 }
 
 resource "aws_iam_user_policy_attachment" "ci_bucket_write_policy_attachment" {
-  user       = aws_iam_user.drone_ci.name
+  user       = aws_iam_user.github_ci.name
   policy_arn = aws_iam_policy.ci_bucket_write_policy.arn
 }
 
-resource "aws_iam_access_key" "ci-user-access-key-v1" {
-  user    = aws_iam_user.drone_ci.name
+resource "aws_iam_access_key" "github_ci_key" {
+  user    = aws_iam_user.github_ci.name
   pgp_key = var.pgp_key
 }
-
