@@ -35,6 +35,7 @@ html {
   height: 100vh;
   margin: 0;
   scrollbar-gutter: stable;
+  scroll-padding-top: calc($header-size + 24px);
 }
 
 body {

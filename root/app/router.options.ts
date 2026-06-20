@@ -5,13 +5,16 @@ export default <RouterConfig>{
   scrollBehavior(to, from, savedPosition) {
     if (to.hash) {
       return new Promise((resolve) => {
-        // Wait up to 2 seconds for the element to appear in the DOM
         const checkEl = (repeats = 0) => {
           const el = document.querySelector(to.hash);
           if (el) {
+            // Cancel the browser's native instant anchor jump by immediately
+            // scrolling back to where we already are, then let the smooth
+            // scroll below take over as the single source of truth.
+            el.scrollIntoView({ block: 'nearest', inline: 'nearest' });
             resolve({
               el: to.hash,
-              top: 75, // Subtract 75px to clear our sticky header
+              top: 99, // header (75px) + breathing room (24px) — matches scroll-padding-top
               behavior: 'smooth',
             });
           } else if (repeats < 20) {
@@ -20,8 +23,7 @@ export default <RouterConfig>{
             resolve({ top: 0 });
           }
         };
-        // Give Nuxt/Vue page transition a small initial delay to render
-        setTimeout(() => checkEl(), 100);
+        checkEl();
       });
     }
 

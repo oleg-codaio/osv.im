@@ -319,21 +319,35 @@ onMounted(() => {
   margin: 0 15px;
   text-decoration: none;
   z-index: 11;
-  border-bottom: 2px solid transparent;
   font-weight: 500;
   opacity: 0.8;
+  position: relative;
 
   @media only screen and (max-width: 768px) {
     margin: 20px 0px;
-    border-bottom: none;
     font-size: 24px;
   }
 
   &.isActive {
     color: #FAFAFA;
-    border-bottom-color: #3b82f6;
     opacity: 1;
-    text-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+    text-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: #38bdf8;
+      border-radius: 2px;
+      box-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
+
+      @media only screen and (max-width: 768px) {
+        display: none;
+      }
+    }
   }
 
   &:hover {

@@ -142,20 +142,48 @@ function formatDate(dateStr: string) {
     margin-top: 40px;
     margin-bottom: 16px;
     font-weight: 700;
+    position: relative; // Needed for the absolute-positioned hash anchor
   }
 
   h1 { font-size: 1.8rem; }
   h2 { font-size: 1.5rem; }
   h3 { font-size: 1.3rem; }
 
-  a {
-    color: #38bdf8; // Links: primary brand color (#38bdf8)
+  // Heading anchor links — reset global link styles
+  h1, h2, h3, h4, h5, h6 {
+    a {
+      color: inherit;
+      text-decoration: none;
+      font-weight: inherit;
+
+      // Fading hash indicator on hover
+      &::before {
+        content: '#';
+        position: absolute;
+        left: -1.2em;
+        color: #8B949E;
+        opacity: 0;
+        font-weight: 400;
+        transition: opacity 0.2s ease;
+      }
+    }
+
+    &:hover a::before {
+      opacity: 1;
+    }
+  }
+
+  // Paragraph & inline links — cyan with subtle faded underline that brightens on hover
+  p a, li a, blockquote a {
+    color: #38bdf8;
     text-decoration: underline;
+    text-decoration-thickness: 1px;
     text-underline-offset: 4px;
-    transition: opacity 0.2s ease;
+    text-decoration-color: rgba(56, 189, 248, 0.4);
+    transition: text-decoration-color 0.2s ease;
 
     &:hover {
-      opacity: 0.8;
+      text-decoration-color: rgba(56, 189, 248, 1);
     }
   }
 
