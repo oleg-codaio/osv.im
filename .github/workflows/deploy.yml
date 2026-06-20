@@ -1,0 +1,86 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint-infra:
+    name: Lint Infrastructure
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Format Check
+        run: terraform fmt --check infra
+
+  deploy:
+    name: Deploy Website & Assets
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2
+
+      # 1. Publish Legal
+      - name: Sync Legal Assets
+        run: |
+          aws s3 sync legal/ s3://osv-im-us-west-2-legal-assets --delete
+          aws cloudfront create-invalidation --distribution-id E1GIXA14V6CST6 --paths "/*"
+
+      # 2. Publish Globetheater
+      - name: Sync Globetheater Assets
+        run: |
+          aws s3 sync globetheater/ s3://osv-im-us-west-2-globetheater-assets --delete
+          aws cloudfront create-invalidation --distribution-id E125YIYAMJVUWR --paths "/*"
+
+      # 3. Build Root Nuxt Website
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 10.13.1
+
+      - name: Install & Generate Nuxt 4 Site
+        run: |
+          cd root
+          pnpm install
+          pnpm generate
+
+      # 4. Publish Root
+      - name: Sync Nuxt Website to S3 (Cacheable Assets)
+        run: |
+          aws s3 sync root/.output/public/ s3://osv-im-us-west-2-root-assets --delete --exclude "*" --include "*.png" --include "*.jpg" --include "*.js" --cache-control "public, max-age=31536000"
+
+      - name: Sync Nuxt Website to S3 (HTML/JSON Assets)
+        run: |
+          aws s3 sync root/.output/public/ s3://osv-im-us-west-2-root-assets --delete --exclude "*.png" --exclude "*.jpg" --exclude "*.js"
+
+      - name: Create Redirects
+        run: |
+          aws s3api put-object --bucket osv-im-us-west-2-root-assets --key coda --website-redirect-location "https://coda.io/?r=-6jrY-ASS4-NWgFmz-I36A"
+          aws s3api put-object --bucket osv-im-us-west-2-root-assets --key jsx --website-redirect-location "https://indi.com/p/olegsv/hbvzv"
+
+      - name: Invalidate Root CloudFront Cache
+        run: |
+          aws cloudfront create-invalidation --distribution-id E1ZAUILNHKOJ6B --paths "/*"
