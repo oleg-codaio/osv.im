@@ -20,7 +20,6 @@ import { ref, onMounted, onBeforeUnmount, computed, watch, nextTick } from 'vue'
 import { useRoute } from 'vue-router';
 
 const shown = ref(false);
-const isMobile = ref(false);
 const route = useRoute();
 const activeSection = ref(route.hash ? route.hash.slice(1) : 'about');
 
@@ -132,17 +131,7 @@ const scrollToSection = (id: string, event: Event) => {
     if (el) {
       isProgrammaticScrolling.value = true;
       activeSection.value = id;
-      
-      const offset = isMobile.value ? 0 : 75;
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = el.getBoundingClientRect().top;
-      const elementPosition = elementRect - bodyRect;
-      const offsetPosition = elementPosition - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
+      el.scrollIntoView({ behavior: 'smooth' });
       history.pushState(null, '', `#${id}`);
 
       if (scrollTimeout) clearTimeout(scrollTimeout);
@@ -156,12 +145,6 @@ const scrollToSection = (id: string, event: Event) => {
 };
 
 onMounted(() => {
-  isMobile.value = window.innerWidth < 768;
-  const handleResize = () => {
-    isMobile.value = window.innerWidth < 768;
-  };
-  window.addEventListener('resize', handleResize);
-
   // Block scroll updates on mount if arriving with a hash or at top
   if (route.path === '/') {
     if (route.hash) {
@@ -222,7 +205,6 @@ onMounted(() => {
   window.addEventListener('scroll', handleScroll, { passive: true });
 
   onBeforeUnmount(() => {
-    window.removeEventListener('resize', handleResize);
     window.removeEventListener('scroll', handleScroll);
     if (observer) observer.disconnect();
     if (scrollTimeout) clearTimeout(scrollTimeout);
