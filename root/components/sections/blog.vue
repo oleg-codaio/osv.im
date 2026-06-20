@@ -2,7 +2,7 @@
   <section :class="$style.root">
     <article :class="$style.container">
       <div :class="$style.posts">
-        <div v-for="post in posts?.slice(0, 3)" :class="$style.postContainer" :key="post.path">
+        <NuxtLink v-for="post in posts?.slice(0, 3)" :to="post.path" :class="$style.postContainer" :key="post.path">
           <div :class="$style.author">
             <div :class="$style.avatar" :style="'background-image: url(' + user.image + ')'" />
             <div :class="$style.metadata">
@@ -14,12 +14,12 @@
               </div>
             </div>
           </div>
-          <NuxtLink :to="post.path" :class="$style.post">
+          <div :class="$style.post">
             <div :class="$style.image" :style="'background-image: url(' + post.image + ')'" />
             <h2 :class="$style.title">{{ post.title }}</h2>
             <p :class="$style.subtitle">{{ post.excerpt }}</p>
-          </NuxtLink>
-        </div>
+          </div>
+        </NuxtLink>
       </div>
       <div :class="$style.moreLink">
         <NuxtLink to="/blog" :class="$style.viewAll">
@@ -104,6 +104,7 @@ $mono-font: 'Fira Code', 'JetBrains Mono', monospace;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-sizing: border-box;
+  text-decoration: none;
 
   @media only screen and (max-width: 600px) {
     flex: 0 0 280px;
@@ -182,7 +183,7 @@ $mono-font: 'Fira Code', 'JetBrains Mono', monospace;
   margin: 0 0 8px 0;
   transition: color 0.3s ease;
 
-  .post:hover & {
+  .postContainer:hover & {
     color: #38bdf8;
   }
 }

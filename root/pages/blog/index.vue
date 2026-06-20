@@ -3,7 +3,7 @@
     <main :class="$style.mainContent">
       <h1 :class="$style.pageTitle">Writing</h1>
       <div :class="$style.posts">
-        <div v-for="post in posts" :class="$style.postContainer" :key="post.path">
+        <NuxtLink v-for="post in posts" :to="post.path" :class="$style.postContainer" :key="post.path">
           <div :class="$style.author">
             <div :class="$style.avatar" :style="'background-image: url(' + user.image + ')'" />
             <div :class="$style.metadata">
@@ -15,12 +15,12 @@
               </div>
             </div>
           </div>
-          <NuxtLink :to="post.path" :class="$style.post">
+          <div :class="$style.post">
             <div :class="$style.image" :style="'background-image: url(' + post.image + ')'" />
             <h2 :class="$style.postTitle">{{ post.title }}</h2>
             <p :class="$style.subtitle">{{ post.excerpt }}</p>
-          </NuxtLink>
-        </div>
+          </div>
+        </NuxtLink>
       </div>
     </main>
   </div>
@@ -100,6 +100,7 @@ $mono-font: 'Fira Code', 'JetBrains Mono', monospace;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-sizing: border-box;
+  text-decoration: none;
 
   &:hover {
     transform: translateY(-4px);
@@ -173,7 +174,7 @@ $mono-font: 'Fira Code', 'JetBrains Mono', monospace;
   margin: 0 0 8px 0;
   transition: color 0.3s ease;
 
-  .post:hover & {
+  .postContainer:hover & {
     color: #38bdf8;
   }
 }
