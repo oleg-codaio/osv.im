@@ -7,22 +7,44 @@
     </div>
 
     <div :class="[$style.root, shown && $style.shown]">
-      <NuxtLink :to="{ path: '/', hash: '#about' }" :class="[$style.item, activeSection === 'about' && $style.isActive]" @click="scrollToSection('about', $event)">About</NuxtLink>
-      <NuxtLink :to="{ path: '/', hash: '#experience' }" :class="[$style.item, activeSection === 'experience' && $style.isActive]" @click="scrollToSection('experience', $event)">Experience</NuxtLink>
-      <NuxtLink :to="{ path: '/', hash: '#blog' }" :class="[$style.item, activeSection === 'blog' && $style.isActive]" @click="scrollToSection('blog', $event)">Blog</NuxtLink>
-      <NuxtLink :to="{ path: '/', hash: '#contact' }" :class="[$style.item, activeSection === 'contact' && $style.isActive]" @click="scrollToSection('contact', $event)">Contact</NuxtLink>
+      <NuxtLink :to="{ path: '/', hash: '#about' }" :class="[$style.item, isAboutActive && $style.isActive]" @click="scrollToSection('about', $event)">About</NuxtLink>
+      <NuxtLink :to="{ path: '/', hash: '#experience' }" :class="[$style.item, isExperienceActive && $style.isActive]" @click="scrollToSection('experience', $event)">Experience</NuxtLink>
+      <NuxtLink :to="blogLinkTarget" :class="[$style.item, isBlogActive && $style.isActive]" @click="scrollToSection('blog', $event)">Blog</NuxtLink>
+      <NuxtLink :to="{ path: '/', hash: '#contact' }" :class="[$style.item, isContactActive && $style.isActive]" @click="scrollToSection('contact', $event)">Contact</NuxtLink>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue';
-import { useRoute } from '#app';
+import { ref, onMounted, onBeforeUnmount, computed } from 'vue';
+import { useRoute } from 'vue-router';
 
 const shown = ref(false);
 const isMobile = ref(false);
 const activeSection = ref('about');
 const route = useRoute();
+
+// Dynamic Active States
+const isAboutActive = computed(() => {
+  return route.path === '/' && (activeSection.value === 'about' || !route.hash || route.hash === '#about');
+});
+
+const isExperienceActive = computed(() => {
+  return route.path === '/' && activeSection.value === 'experience';
+});
+
+const isBlogActive = computed(() => {
+  return route.path.startsWith('/blog') || (route.path === '/' && activeSection.value === 'blog');
+});
+
+const isContactActive = computed(() => {
+  return route.path === '/' && activeSection.value === 'contact';
+});
+
+// Dynamic Link Targets
+const blogLinkTarget = computed(() => {
+  return route.path === '/' ? { path: '/', hash: '#blog' } : '/blog';
+});
 
 const scrollToSection = (id: string, event: Event) => {
   if (route.path === '/') {
@@ -81,6 +103,7 @@ onMounted(() => {
   });
 
   const handleScroll = () => {
+    if (route.path !== '/') return;
     const scrollPosition = window.scrollY + window.innerHeight;
     const bottomPosition = document.documentElement.scrollHeight;
     if (scrollPosition >= bottomPosition - 50) {

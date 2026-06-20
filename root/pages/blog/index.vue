@@ -1,6 +1,5 @@
 <template>
   <div :class="$style.pageWrapper">
-    <NavMenu />
     <main :class="$style.mainContent">
       <h1 :class="$style.pageTitle">Writing</h1>
       <div :class="$style.posts">

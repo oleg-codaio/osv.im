@@ -1,10 +1,9 @@
 <template>
   <div :class="$style.pageWrapper">
-    <NavMenu />
     <main :class="$style.mainContent">
       <article v-if="doc" :class="$style.article">
         <header :class="$style.header">
-          <NuxtLink to="/#blog" :class="$style.backLink">← Back to Blog</NuxtLink>
+          <NuxtLink to="/blog" :class="$style.backLink">← Back to Blog</NuxtLink>
           <h1 :class="$style.title">{{ doc.title }}</h1>
           <div :class="$style.meta">
             <span>{{ formatDate(doc.date) }}</span>
@@ -20,7 +19,7 @@
       </article>
       <div v-else :class="$style.notFound">
         <p>Post not found.</p>
-        <NuxtLink to="/#blog" :class="$style.backLink">← Back to Blog</NuxtLink>
+        <NuxtLink to="/blog" :class="$style.backLink">← Back to Blog</NuxtLink>
       </div>
     </main>
   </div>

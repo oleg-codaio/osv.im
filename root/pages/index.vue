@@ -1,7 +1,5 @@
 <template>
   <div :class="$style.root">
-    <NavMenu />
-
     <main :class="$style.body">
       <About id="about" :class="[$style.section, $style.aboutSection]" />
       <Experience id="experience" :class="$style.section" />
@@ -12,7 +10,6 @@
 </template>
 
 <script setup lang="ts">
-import NavMenu from '~/components/nav_menu.vue';
 import About from '~/components/sections/about.vue';
 import Experience from '~/components/sections/experience.vue';
 import Blog from '~/components/sections/blog.vue';

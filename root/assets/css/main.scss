@@ -34,6 +34,7 @@ $contact-background-color: #09090B;
 html {
   height: 100vh;
   margin: 0;
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -43,6 +44,7 @@ body {
   overflow-x: hidden;
   background-color: #0A0A0C;
   color: #FAFAFA;
+  scrollbar-gutter: stable;
 }
 
 ::selection {
