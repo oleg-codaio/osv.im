@@ -75,6 +75,7 @@
                   :class="$style.logo"
                   :style="{
                     backgroundImage: `url('${exp.icon}')`,
+                    backgroundColor: (exp.name === 'KP Fellows' || exp.name === 'Shape Security') ? '#FAFAFA' : undefined
                   }"
                 />
                 <div :class="$style.headerText">
