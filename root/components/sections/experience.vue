@@ -73,9 +73,9 @@
               <div :class="$style.cardHeader">
                 <div
                   :class="$style.logo"
-                  :style="{
+                  :style="isMounted ? {
                     backgroundImage: `url('${exp.icon}')`,
-                  }"
+                  } : {}"
                 />
                 <div :class="$style.headerText">
                   <div :class="$style.infoHeader">
@@ -96,16 +96,18 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, nextTick, useCssModule } from 'vue';
-const superhumanIcon = '/images/experience/superhuman.png';
-const grammarlyIcon = '/images/experience/grammarly.png';
-const codaIcon = '/images/experience/coda.png';
-const northeasternIcon = '/images/experience/northeastern.png';
-const googleNewIcon = '/images/experience/google-new.png';
-const kpfellowsIcon = '/images/experience/kpfellows.png';
-const shapeIcon = '/images/experience/shape.png';
-const googleIcon = '/images/experience/google.png';
-const twitterIcon = '/images/experience/twitter.png';
-const nullientIcon = '/images/experience/nullient.png';
+import superhumanIcon from '~/assets/experience/superhuman.png';
+import grammarlyIcon from '~/assets/experience/grammarly.png';
+import codaIcon from '~/assets/experience/coda.png';
+import northeasternIcon from '~/assets/experience/northeastern.png';
+import googleNewIcon from '~/assets/experience/google-new.png';
+import kpfellowsIcon from '~/assets/experience/kpfellows.png';
+import shapeIcon from '~/assets/experience/shape.png';
+import googleIcon from '~/assets/experience/google.png';
+import twitterIcon from '~/assets/experience/twitter.png';
+import nullientIcon from '~/assets/experience/nullient.png';
+
+const isMounted = ref(false);
 
 const pathData = ref('');
 const pathHeight = ref(0);
@@ -282,6 +284,7 @@ function handleScroll() {
 }
 
 onMounted(() => {
+  isMounted.value = true;
   handleResize();
   window.addEventListener('resize', handleResize);
   window.addEventListener('scroll', handleScroll);
