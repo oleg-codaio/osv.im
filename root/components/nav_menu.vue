@@ -144,6 +144,13 @@ watch(
   }
 );
 
+watch(activeSection, (newSection, oldSection) => {
+  if (newSection === 'contact' && oldSection !== 'contact') {
+    if (!isProgrammaticScrolling.value) {
+      window.dispatchEvent(new CustomEvent('contact-targeted', { detail: { delay: 0 } }));
+    }
+  }
+});
 
 // Dynamic Active States
 const isAboutActive = computed(() => {
