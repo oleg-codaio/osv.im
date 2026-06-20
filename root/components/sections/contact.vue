@@ -59,9 +59,9 @@ const items = [
   },
   {
     name: 'GitHub',
-    value: 'vaskevich',
+    value: 'oleg-codaio',
     icon: githubIcon,
-    link: 'https://github.com/vaskevich',
+    link: 'https://github.com/oleg-codaio',
   },
 ];
 
