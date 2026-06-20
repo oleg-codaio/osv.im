@@ -54,7 +54,7 @@ With the foundations put in place, the next step was putting together the game l
 
 I created a new single-row table called "State" to contain all the state and buttons in one place. Feel free to make a copy of the doc and explore all the formulas and buttons to see how they work!
 
-> \* Actually making this doc involved a lot of back and forth between updating the schema and the game logic, since the latter often depended on updates to the former. For instance, when someone takes their turn, we want to update "Current Player" to be the next player to take their turn. This meant adding a new column to the Players table called "Next Player", which contains a formula that determines the next, non-folded player in the round.
+<p class="footnote">* Actually making this doc involved a lot of back and forth between updating the schema and the game logic, since the latter often depended on updates to the former. For instance, when someone takes their turn, we want to update "Current Player" to be the next player to take their turn. This meant adding a new column to the Players table called "Next Player", which contains a formula that determines the next, non-folded player in the round.</p>
 
 ## Ranking Hands
 

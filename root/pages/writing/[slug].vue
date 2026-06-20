@@ -249,6 +249,14 @@ function formatDate(dateStr: string) {
     }
   }
 
+  :global(.footnote) {
+    font-size: 0.85rem;
+    color: #8B949E;
+    line-height: 1.6;
+    margin: 20px 0;
+    opacity: 0.85;
+  }
+
   figcaption {
     font-size: 0.9rem;
     color: #8B949E;
