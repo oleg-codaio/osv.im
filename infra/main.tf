@@ -4,7 +4,6 @@
 
 provider "aws" {
   region  = var.region
-  version = "~> 2.7"
   profile = var.aws_vault_profile
 
   assume_role {
@@ -15,7 +14,6 @@ provider "aws" {
 provider "aws" {
   alias   = "us-east-1"
   region  = "us-east-1"
-  version = "~> 2.7"
   profile = var.aws_vault_profile
 
   assume_role {
