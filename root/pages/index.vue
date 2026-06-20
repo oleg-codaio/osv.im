@@ -3,7 +3,7 @@
     <main :class="$style.body">
       <About id="about" :class="[$style.section, $style.aboutSection]" />
       <Experience id="experience" :class="$style.section" />
-      <Writing id="writing" :class="$style.section" />
+      <Writing id="writing" :class="[$style.section, $style.writingSection]" />
       <Contact id="contact" :class="[$style.section, $style.contactSection]" />
     </main>
   </div>
@@ -63,11 +63,23 @@ import Contact from '~/components/sections/contact.vue';
   }
 }
 
-.contactSection {
+.writingSection {
   min-height: auto;
+  padding: 120px 0 40px 0;
 
   @media only screen and (max-width: 768px) and (orientation: portrait) {
     min-height: auto;
+    padding: 80px 0 30px 0;
+  }
+}
+
+.contactSection {
+  min-height: auto;
+  margin-top: 64px;
+
+  @media only screen and (max-width: 768px) and (orientation: portrait) {
+    min-height: auto;
+    margin-top: 32px;
   }
 }
 

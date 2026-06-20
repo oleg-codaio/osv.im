@@ -66,7 +66,7 @@ $mono-font: 'Fira Code', 'JetBrains Mono', monospace;
   width: 100%;
   max-width: 1100px;
   margin: 0 auto;
-  padding: 60px 20px;
+  padding: 0 20px;
   box-sizing: border-box;
 }
 
