@@ -175,7 +175,13 @@ const scrollToSection = (id: string, event: Event) => {
     if (el) {
       isProgrammaticScrolling.value = true;
       activeSection.value = id;
-      el.scrollIntoView({ behavior: 'smooth' });
+      
+      const targetTop = el.getBoundingClientRect().top + window.scrollY - 99;
+      window.scrollTo({
+        top: targetTop,
+        behavior: 'smooth',
+      });
+
       history.pushState(null, '', `#${id}`);
 
       if (scrollTimeout) clearTimeout(scrollTimeout);
