@@ -136,6 +136,14 @@ function formatDate(dateStr: string) {
     margin-bottom: 24px;
   }
 
+  p:first-of-type {
+    font-size: 1.15em;
+    color: #FAFAFA;
+    font-style: normal;
+    font-weight: 400;
+    margin-bottom: 2em;
+  }
+
   h1, h2, h3, h4, h5, h6 {
     color: #FAFAFA; // Headings: Bright white (#FAFAFA)
     letter-spacing: -0.015em;
