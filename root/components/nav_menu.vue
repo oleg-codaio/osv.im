@@ -21,7 +21,7 @@ import { useRoute } from 'vue-router';
 
 const shown = ref(false);
 const route = useRoute();
-const activeSection = ref(route.hash ? route.hash.slice(1) : 'about');
+const activeSection = ref('about');
 
 const isProgrammaticScrolling = ref(false);
 let scrollTimeout: any = null;
@@ -144,11 +144,6 @@ watch(
   }
 );
 
-if (process.client) {
-  watch(activeSection, (newVal, oldVal) => {
-    console.log(`[activeSection] changed from "${oldVal}" to "${newVal}". scrollY = ${window.scrollY}, isProgrammaticScrolling = ${isProgrammaticScrolling.value}`);
-  });
-}
 
 // Dynamic Active States
 const isAboutActive = computed(() => {
