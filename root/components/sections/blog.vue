@@ -36,85 +36,150 @@ const { posts, user } = mediumData;
 <style lang="scss" module>
 @import '~/assets/css/main.scss';
 
+$mono-font: 'Fira Code', 'JetBrains Mono', monospace;
+
 .root {
-  background: $color2;
+  background: transparent;
 }
 
 .container {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 60px 20px;
+  box-sizing: border-box;
 }
 
 .posts {
-  margin: 0 -20px;
-  padding: 0 20px;
-  display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  position: relative;
-  -webkit-overflow-scrolling: touch;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  width: 100%;
+  margin-bottom: 30px;
+
+  @media only screen and (max-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media only screen and (max-width: 600px) {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 16px;
+    padding: 10px 20px;
+    margin: 0 -20px 20px -20px;
+    -webkit-overflow-scrolling: touch;
+    width: calc(100% + 40px);
+  }
 }
 
 .postContainer {
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-  padding: 10px;
-  display: inline-flex;
+  background: rgba(22, 27, 34, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
   flex-direction: column;
-  margin: 10px;
-  max-width: 75vw;
-  background: white;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-sizing: border-box;
+
+  @media only screen and (max-width: 600px) {
+    flex: 0 0 280px;
+    max-width: 75vw;
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 15px rgba(59, 130, 246, 0.1);
+  }
 }
 
 .author {
   display: flex;
-  padding: 8px;
+  align-items: center;
+  margin-bottom: 16px;
 }
 
 .avatar {
-  height: 50px;
-  width: 50px;
+  height: 40px;
+  width: 40px;
   overflow: hidden;
-  border-radius: 50px;
+  border-radius: 50%;
   background-size: cover;
+  background-position: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .metadata {
-  margin-left: 10px;
-  justify-content: center;
+  margin-left: 12px;
   display: flex;
   flex-direction: column;
 }
 
+.name {
+  color: #FAFAFA;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
 .postInfo {
-  color: darkgray;
+  font-family: $mono-font;
+  color: #8B949E;
+  font-size: 0.8rem;
+  margin-top: 2px;
 }
 
 .post {
   display: flex;
   flex-direction: column;
-  height: 330px;
-  min-width: 280px;
-  background-size: cover;
+  flex-grow: 1;
+  text-decoration: none;
 }
 
 .image {
-  flex: auto;
+  height: 180px;
+  border-radius: 6px;
   background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
+  filter: grayscale(80%) opacity(0.8);
+  transition: filter 0.4s ease, opacity 0.4s ease;
+  margin-bottom: 16px;
+}
+
+.postContainer:hover .image {
+  filter: grayscale(0%) opacity(1);
 }
 
 .title {
-  color: black;
+  color: #FAFAFA;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.4;
+  margin: 0 0 8px 0;
+  transition: color 0.3s ease;
+
+  .post:hover & {
+    color: #60a5fa;
+  }
 }
 
 .subtitle {
-  color: gray;
+  color: #A1A1AA;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
 }
 
 .moreLink {
   align-self: flex-end;
-  color: $primary-invert-color;
-  margin-right: 10px;
+  margin-top: 10px;
 }
 </style>
