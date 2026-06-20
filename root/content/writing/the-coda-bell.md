@@ -2,7 +2,7 @@
 title: The Coda Bell
 date: 2017-11-08
 readTime: 4
-image: /images/blog/the-coda-bell/bell_final.jpg
+image: /images/writing/the-coda-bell/bell_final.jpg
 excerpt: A fun IoT project using a Particle Photon, servo motor, and IFTTT to build a physical bell that rings on user signups.
 ---
 
@@ -22,7 +22,7 @@ There wasn’t too much hardware complexity in the remaining parts: we just used
 
 When we noticed that Particle [supported IFTTT](https://docs.particle.io/guide/tools-and-features/ifttt/) (IF This Then That), we knew there was no chance we’d bother with polling our servers or dealing with interrupts for something like this. Instead, we went on IFTTT and configured the [Webhooks service](https://ifttt.com/maker_webhooks), linked our [Particle account](https://ifttt.com/particle), and created a simple applet to publish a private _signup_ event to the Particle Cloud every time the webhook URL was hit, which we’d set up to happen when someone signed up.
 
-![IFTTT](/images/blog/the-coda-bell/ifttt.png)
+![IFTTT](/images/writing/the-coda-bell/ifttt.png)
 
 The Webhooks service supports passing in a few values, so we set the data of the Particle event to:
 
@@ -50,7 +50,7 @@ We then got the webhook URL from the Webhook service settings in IFTTT (e.g., <h
 The whole project ended up being relatively straightforward with these components.
 
 <figure>
-  <img src="/images/blog/the-coda-bell/schematic.png" alt="Schematic for bell" />
+  <img src="/images/writing/the-coda-bell/schematic.png" alt="Schematic for bell" />
   <figcaption>Coda Bell schematic. Components connected by a dotted line are in practice optional.</figcaption>
 </figure>
 
@@ -61,7 +61,7 @@ When powering the Photon via USB, pin 1 supplies 4.8 V, which is in line with th
 The servo came with a few attachments, which we jerry-rigged to create a lever that swings to knock the clapper of the bell into the metal bowl. We then used epoxy to secure the servo in place.
 
 <figure>
-  <img src="/images/blog/the-coda-bell/bell_underside.jpg" alt="Schematic for bell" />
+  <img src="/images/writing/the-coda-bell/bell_underside.jpg" alt="Schematic for bell" />
   <figcaption>Underside of the bell, showing the mechanics of the servo ringing it.</figcaption>
 </figure>
 
@@ -91,7 +91,7 @@ Since user signups can be viewed as a [Poisson process](http://www.rle.mit.edu/r
 The last part of the puzzle was getting the server to hit the webhook URL when users signed up. We decided to throttle to 5 seconds to avoid overwhelming the IFTTT API. So, after a signup, we essentially deferred POSTing for that amount of time, and then batched together signups into a count that we then passed through as _value1_ in the request body to IFTTT.
 
 <figure>
-  <img src="/images/blog/the-coda-bell/bell_final.jpg" alt="Schematic for bell" />
+  <img src="/images/writing/the-coda-bell/bell_final.jpg" alt="Schematic for bell" />
   <figcaption>Not winning any design awards with this one, but it works great tucked away in a corner!</figcaption>
 </figure>
 
