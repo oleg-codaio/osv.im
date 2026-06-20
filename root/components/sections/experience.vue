@@ -75,7 +75,6 @@
                   :class="$style.logo"
                   :style="{
                     backgroundImage: `url('${exp.icon}')`,
-                    backgroundColor: (exp.name === 'KP Fellows' || exp.name === 'Shape Security') ? '#FAFAFA' : undefined
                   }"
                 />
                 <div :class="$style.headerText">
@@ -620,7 +619,7 @@ $pathWidth: 4px;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: #161B22;
+  background-color: transparent;
   border-radius: 8px;
   flex-shrink: 0;
   margin-right: 16px;
