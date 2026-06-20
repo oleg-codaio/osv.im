@@ -344,7 +344,7 @@ onBeforeUnmount(() => {
 
 .root {
   position: relative;
-  background-color: #060709;
+  background-color: transparent;
   color: white;
   min-height: 85vh;
   display: flex;
