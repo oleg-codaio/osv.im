@@ -84,12 +84,9 @@ watch(
         isProgrammaticScrolling.value = false;
       }, 1000);
     } else if (route.path === '/' && !route.hash) {
-      isProgrammaticScrolling.value = true;
+      isProgrammaticScrolling.value = false;
       activeSection.value = 'about';
       if (scrollTimeout) clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        isProgrammaticScrolling.value = false;
-      }, 1000);
     }
 
     if (route.path === '/') {
@@ -167,19 +164,43 @@ onMounted(() => {
 
   // Block scroll updates on mount if arriving with a hash or at top
   if (route.path === '/') {
-    isProgrammaticScrolling.value = true;
     if (route.hash) {
+      isProgrammaticScrolling.value = true;
       activeSection.value = route.hash.slice(1);
+      scrollTimeout = setTimeout(() => {
+        isProgrammaticScrolling.value = false;
+      }, 1000);
     } else {
+      isProgrammaticScrolling.value = false;
       activeSection.value = 'about';
     }
-    scrollTimeout = setTimeout(() => {
-      isProgrammaticScrolling.value = false;
-    }, 1000);
   }
 
   // Setup intersection observer for scrollspy
   setupObserver();
+
+  const getCenterSection = (): string => {
+    const sections = ['about', 'experience', 'writing'];
+    const viewportCenter = window.innerHeight / 2;
+    let closestSection = 'about';
+    let minDistance = Infinity;
+    
+    for (const id of sections) {
+      const el = document.getElementById(id);
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= viewportCenter && rect.bottom >= viewportCenter) {
+          return id;
+        }
+        const distance = Math.abs((rect.top + rect.bottom) / 2 - viewportCenter);
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestSection = id;
+        }
+      }
+    }
+    return closestSection;
+  };
 
   const handleScroll = () => {
     if (route.path !== '/') return;
@@ -194,6 +215,8 @@ onMounted(() => {
     const bottomPosition = document.documentElement.scrollHeight;
     if (scrollPosition >= bottomPosition - 50) {
       activeSection.value = 'contact';
+    } else if (activeSection.value === 'contact') {
+      activeSection.value = getCenterSection();
     }
   };
   window.addEventListener('scroll', handleScroll, { passive: true });

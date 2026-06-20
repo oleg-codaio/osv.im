@@ -28,3 +28,6 @@ content/images/gravatar_retina.jpg
 .terraform/
 infra/terraform.tfvars
 *.code-workspace
+.DS_Store
+.DS_Store?
+**/._*

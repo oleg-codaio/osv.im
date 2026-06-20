@@ -4,10 +4,10 @@
     <article :class="$style.contents">
       <h1 :class="$style.name">Oleg Vaskevich</h1>
       <p :class="$style.description">
-        I'm a full-stack software engineer who builds robust, high-scale products. I love navigating complex, ambiguous problems and have spent my career mastering everything from UI and APIs to site reliability, security, and deep LLM integrations.
+        I'm a full-stack software engineer who builds robust, high-scale products. My experience is built on solving complex, ambiguous problems, spanning everything from UI and APIs to site reliability, security, and deep LLM integrations.
       </p>
       <p :class="$style.description">
-        My focus is on bridging the gap between deep technical execution and actual business value to ship enterprise-grade platforms that millions of users rely on.
+        I bridge the gap between technical execution and business strategy, shipping enterprise platforms that millions rely on.
       </p>
     </article>
   </section>
