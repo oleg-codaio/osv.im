@@ -75,14 +75,15 @@ const setupObserver = () => {
 watch(
   () => route.fullPath,
   () => {
-    if (route.path === '/' && route.hash) {
+    const currentHash = route.hash || (process.client ? window.location.hash : '');
+    if (route.path === '/' && currentHash) {
       isProgrammaticScrolling.value = true;
-      activeSection.value = route.hash.slice(1);
+      activeSection.value = currentHash.replace('#', '');
       if (scrollTimeout) clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
         isProgrammaticScrolling.value = false;
       }, 1000);
-    } else if (route.path === '/' && !route.hash) {
+    } else if (route.path === '/' && !currentHash) {
       isProgrammaticScrolling.value = false;
       activeSection.value = 'about';
       if (scrollTimeout) clearTimeout(scrollTimeout);
