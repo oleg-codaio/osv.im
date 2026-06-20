@@ -314,7 +314,7 @@ onMounted(() => {
 
 .item {
   color: #A1A1AA;
-  transition: all 0.25s ease-in-out;
+  transition: color 0.3s ease;
   padding: 6px 0;
   margin: 0 15px;
   text-decoration: none;
@@ -328,25 +328,34 @@ onMounted(() => {
     font-size: 24px;
   }
 
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #38bdf8;
+    border-radius: 2px;
+    box-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
+    opacity: 0;
+    transform: scaleX(0.5);
+    transform-origin: center;
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+
+    @media only screen and (max-width: 768px) {
+      display: none;
+    }
+  }
+
   &.isActive {
     color: #FAFAFA;
     opacity: 1;
     text-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
 
     &::after {
-      content: '';
-      position: absolute;
-      bottom: -6px;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background-color: #38bdf8;
-      border-radius: 2px;
-      box-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
-
-      @media only screen and (max-width: 768px) {
-        display: none;
-      }
+      opacity: 1;
+      transform: scaleX(1);
     }
   }
 
