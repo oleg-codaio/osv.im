@@ -131,7 +131,8 @@ onMounted(() => {
   font-size: 14pt;
   height: $header-size;
   justify-content: flex-end;
-  margin-top: -$header-size;
+  top: 0;
+  left: 0;
   padding-right: 40px;
   position: fixed;
   transition: all 0.3s ease;
