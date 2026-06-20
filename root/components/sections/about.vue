@@ -1,62 +1,332 @@
 <template>
   <section :class="$style.root">
-    <article>
+    <canvas ref="canvasRef" :class="$style.canvas" />
+    <article :class="$style.contents">
       <h1 :class="$style.name">Oleg Vaskevich</h1>
-
-      <p>
-        I'm an experienced full-stack software engineer, currently working at
-        <a href="https://superhuman.com" target="_blank" rel="noopener"
-          >Superhuman</a
-        >.
+      <p :class="$style.description">
+        I'm a full-stack software engineer who builds robust, high-scale products. I love navigating complex, ambiguous problems and have spent my career mastering everything from UI and APIs to site reliability, security, and deep LLM integrations.
       </p>
-
-      <p>My interests lie in scalable and distributed systems, mobile and IoT, security, and all things web.</p>
+      <p :class="$style.description">
+        My focus is on bridging the gap between deep technical execution and actual business value to ship enterprise-grade platforms that millions of users rely on.
+      </p>
     </article>
   </section>
 </template>
 
 <script setup lang="ts">
-// Simple static component
+import { ref, onMounted, onBeforeUnmount } from 'vue';
+
+const canvasRef = ref<HTMLCanvasElement | null>(null);
+
+interface ParticleNode {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  radius: number;
+  baseRadius: number;
+}
+
+interface DataPacket {
+  fromNode: ParticleNode;
+  toNode: ParticleNode;
+  progress: number;
+  speed: number;
+}
+
+let animationFrameId = 0;
+const nodes: ParticleNode[] = [];
+const packets: DataPacket[] = [];
+
+// Mouse tracking
+const mouse = {
+  x: null as number | null,
+  y: null as number | null,
+  radius: 180,
+};
+
+function handleMouseMove(e: MouseEvent) {
+  const canvas = canvasRef.value;
+  if (!canvas) return;
+  const rect = canvas.getBoundingClientRect();
+  mouse.x = e.clientX - rect.left;
+  mouse.y = e.clientY - rect.top;
+}
+
+function handleMouseLeave() {
+  mouse.x = null;
+  mouse.y = null;
+}
+
+function initParticles(width: number, height: number) {
+  nodes.length = 0;
+  packets.length = 0;
+
+  // Determine number of particles based on screen size
+  const density = (width * height) / 16000;
+  const count = Math.min(Math.max(Math.floor(density), 40), 90);
+
+  for (let i = 0; i < count; i++) {
+    const radius = Math.random() * 2 + 1.5;
+    nodes.push({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: (Math.random() - 0.5) * 0.4,
+      radius,
+      baseRadius: radius,
+    });
+  }
+}
+
+function animate() {
+  const canvas = canvasRef.value;
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  const width = canvas.width;
+  const height = canvas.height;
+
+  ctx.clearRect(0, 0, width, height);
+
+  // 1. Update and Draw Nodes
+  for (let i = 0; i < nodes.length; i++) {
+    const node = nodes[i];
+
+    // Mouse interaction (subtle attraction)
+    if (mouse.x !== null && mouse.y !== null) {
+      const dx = mouse.x - node.x;
+      const dy = mouse.y - node.y;
+      const distance = Math.hypot(dx, dy);
+
+      if (distance < mouse.radius) {
+        const force = (mouse.radius - distance) / mouse.radius;
+        // Gently pull towards mouse
+        node.x += (dx / distance) * force * 0.6;
+        node.y += (dy / distance) * force * 0.6;
+      }
+    }
+
+    // Physical movement
+    node.x += node.vx;
+    node.y += node.vy;
+
+    // Boundaries bounce with friction/re-align
+    if (node.x < 0) {
+      node.x = 0;
+      node.vx *= -1;
+    } else if (node.x > width) {
+      node.x = width;
+      node.vx *= -1;
+    }
+    if (node.y < 0) {
+      node.y = 0;
+      node.vy *= -1;
+    } else if (node.y > height) {
+      node.y = height;
+      node.vy *= -1;
+    }
+
+    // Draw node
+    ctx.beginPath();
+    ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(147, 197, 253, 0.4)'; // light blue accent
+    ctx.fill();
+  }
+
+  // 2. Build Connections and Draw Lines
+  const connections: [ParticleNode, ParticleNode, number][] = [];
+  const maxDistance = 150;
+
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
+      const n1 = nodes[i];
+      const n2 = nodes[j];
+      const dx = n1.x - n2.x;
+      const dy = n1.y - n2.y;
+      const dist = Math.hypot(dx, dy);
+
+      if (dist < maxDistance) {
+        const alpha = (1 - dist / maxDistance) * 0.12;
+        ctx.beginPath();
+        ctx.moveTo(n1.x, n1.y);
+        ctx.lineTo(n2.x, n2.y);
+        ctx.strokeStyle = `rgba(147, 197, 253, ${alpha})`;
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+
+        connections.push([n1, n2, dist]);
+      }
+    }
+  }
+
+  // 3. Manage & Draw Data Packets (Kafka stream representation)
+  // Occasional spawning
+  if (packets.length < 15 && connections.length > 0 && Math.random() < 0.08) {
+    // Pick a random connection to spawn a packet along
+    const conn = connections[Math.floor(Math.random() * connections.length)];
+    // Random direction
+    const [fromNode, toNode] = Math.random() > 0.5 ? [conn[0], conn[1]] : [conn[1], conn[0]];
+    
+    // Check if a packet is already traveling this direction on this node pair
+    const exists = packets.some(p => p.fromNode === fromNode && p.toNode === toNode);
+    if (!exists) {
+      packets.push({
+        fromNode,
+        toNode,
+        progress: 0,
+        speed: (Math.random() * 0.01) + 0.005, // travel speed percentage per frame
+      });
+    }
+  }
+
+  // Update and draw packets
+  for (let i = packets.length - 1; i >= 0; i--) {
+    const packet = packets[i];
+    packet.progress += packet.speed;
+
+    if (packet.progress >= 1) {
+      packets.splice(i, 1);
+      continue;
+    }
+
+    // Interpolate coordinates
+    const px = packet.fromNode.x + (packet.toNode.x - packet.fromNode.x) * packet.progress;
+    const py = packet.fromNode.y + (packet.toNode.y - packet.fromNode.y) * packet.progress;
+
+    // Draw glowing data packet
+    ctx.beginPath();
+    ctx.arc(px, py, 2.5, 0, Math.PI * 2);
+    ctx.fillStyle = '#60a5fa'; // vibrant blue
+    ctx.shadowColor = '#60a5fa';
+    ctx.shadowBlur = 4;
+    ctx.fill();
+    ctx.shadowBlur = 0; // reset shadow
+  }
+
+  animationFrameId = requestAnimationFrame(animate);
+}
+
+let resizeObserver: ResizeObserver | null = null;
+
+onMounted(() => {
+  const canvas = canvasRef.value;
+  if (!canvas) return;
+
+  const parent = canvas.parentElement;
+  if (parent) {
+    // Setup ResizeObserver to handle element size changes accurately
+    resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const { width, height } = entry.contentRect;
+        canvas.width = width;
+        canvas.height = height;
+        initParticles(width, height);
+      }
+    });
+    resizeObserver.observe(parent);
+    
+    // Fallback/Initial sizing
+    const rect = parent.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = rect.height;
+    initParticles(rect.width, rect.height);
+  }
+
+  // Mouse event listeners on parent to make interaction feel natural
+  parent?.addEventListener('mousemove', handleMouseMove);
+  parent?.addEventListener('mouseleave', handleMouseLeave);
+
+  animate();
+});
+
+onBeforeUnmount(() => {
+  cancelAnimationFrame(animationFrameId);
+  if (resizeObserver) {
+    resizeObserver.disconnect();
+  }
+  const canvas = canvasRef.value;
+  const parent = canvas?.parentElement;
+  if (parent) {
+    parent.removeEventListener('mousemove', handleMouseMove);
+    parent.removeEventListener('mouseleave', handleMouseLeave);
+  }
+});
 </script>
 
 <style lang="scss" module>
 @import '~/assets/css/main.scss';
 
 .root {
-  transition: background 1.5s linear;
-  background: black url('../../assets/bg.jpg') top right / cover no-repeat;
+  position: relative;
+  background-color: #060709;
   color: white;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
   cursor: default;
 
-  &.root {
-    min-height: 85vh;
-
-    @media only screen and (max-width: 768px) and (orientation: portrait) {
-      // Mobile-only workaround for iOS Chrome/Instagram/Firefox/others.
-      min-height: calc(80vh);
-      min-height: calc(80 * var(--vh, 1vh));
-    }
+  @media only screen and (max-width: 768px) {
+    min-height: 90vh;
   }
+}
 
-  article {
-    background: linear-gradient(to right, black 0px, rgba(black, 0.8) 30%, transparent 60%, transparent 100%);
+.canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
 
-    p {
-      max-width: calc(100vw - 400px);
-    }
+.contents {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  padding: 4rem 2rem;
+  margin-left: 5%;
 
-    @media only screen and (max-width: 768px) {
-      margin-top: 200px;
-      background: linear-gradient(to top, black 0px, rgba(black, 0.8) 30%, transparent 50%, transparent 100%);
-
-      p {
-        max-width: inherit;
-      }
-    }
+  @media only screen and (max-width: 768px) {
+    margin-left: 0;
+    padding: 3rem 1.5rem;
   }
 }
 
 .name {
-  font-size: 45pt;
+  font-size: clamp(3.5rem, 8vw, 6rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  margin: 0 0 1rem 0;
+  padding-bottom: 0.1em;
+  background: linear-gradient(135deg, #ffffff 30%, #93c5fd 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.description {
+  font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+  line-height: 1.7;
+  color: #94a3b8;
+  margin: 0 0 1.5rem 0;
+  max-width: 680px;
+
+  a {
+    color: #3b82f6;
+    font-weight: 500;
+    border-bottom: 1px dashed rgba(#3b82f6, 0.4);
+    padding-bottom: 2px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      color: #60a5fa;
+      border-bottom-color: #60a5fa;
+      text-shadow: 0 0 8px rgba(#60a5fa, 0.4);
+    }
+  }
 }
 </style>

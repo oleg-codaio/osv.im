@@ -116,7 +116,7 @@ const handleClick = (item: any, event: MouseEvent) => {
   }
 
   .item:hover & {
-    filter: brightness(1) invert(0);
+    filter: brightness(0) invert(1);
   }
 }
 

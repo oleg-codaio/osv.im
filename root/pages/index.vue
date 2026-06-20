@@ -3,7 +3,7 @@
     <NavMenu />
 
     <main :class="$style.body">
-      <About id="about" :class="$style.section" />
+      <About id="about" :class="[$style.section, $style.aboutSection]" />
       <Experience id="experience" :class="$style.section" />
       <Blog id="blog" :class="$style.section" />
       <Contact id="contact" :class="$style.section" />
@@ -50,6 +50,14 @@ import Contact from '~/components/sections/contact.vue';
   @media only screen and (max-width: 768px) and (orientation: portrait) {
     // Mobile-only workaround for iOS Chrome/Instagram/Firefox/others.
     min-height: calc(100 * var(--vh, 1vh));
+  }
+}
+
+.aboutSection {
+  min-height: 80vh;
+
+  @media only screen and (max-width: 768px) and (orientation: portrait) {
+    min-height: calc(80 * var(--vh, 1vh));
   }
 }
 

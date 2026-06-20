@@ -1,35 +1,35 @@
 @import url('https://fonts.googleapis.com/css?family=Arimo');
 
-$color1: hsl(261, 54%, 10%);
-$color2: hsl(195, 37%, 70%);
-$color3: hsl(0, 06%, 90%);
-$color4: hsl(0, 0%, 100%);
-$color5: hsl(195, 37%, 45%);
+$color1: #09090B;
+$color2: #3b82f6;
+$color3: #FAFAFA;
+$color4: #09090B;
+$color5: #60a5fa;
 
-$main-text-color: $color1;
-$primary-color: $color2;
-$primary-color-hover: $color5;
-$primary-invert-color: $color4;
-$primary-invert-color-hover: $color3;
+$main-text-color: #FAFAFA;
+$primary-color: #3b82f6;
+$primary-color-hover: #60a5fa;
+$primary-invert-color: #FAFAFA;
+$primary-invert-color-hover: #A1A1AA;
 
-$selection-color: $color2;
-$selection-background-color: $color3;
+$selection-color: #09090B;
+$selection-background-color: #3b82f6;
 
-$nav-bg-color: $color4;
-$nav-accent-color: $color3;
-$nav-item-idle: $color1;
-$nav-item-hover: $color2;
-$nav-item-selected: $color5;
+$nav-bg-color: #09090B;
+$nav-accent-color: #1e293b;
+$nav-item-idle: #A1A1AA;
+$nav-item-hover: #FAFAFA;
+$nav-item-selected: #FAFAFA;
 
 $header-size: 75px;
-$bg-accent-color: $color1;
+$bg-accent-color: #09090B;
 
-$experience-background-color: hsl(120, 58%, 98%);
-$experience-background-accent-color: hsl(120, 4%, 80%);
-$experience-line-start-color: purple;
-$experience-line-end-color: red;
+$experience-background-color: #09090B;
+$experience-background-accent-color: rgba(255, 255, 255, 0.03);
+$experience-line-start-color: #3b82f6;
+$experience-line-end-color: #60a5fa;
 
-$contact-background-color: hsl(120, 4%, 95%);
+$contact-background-color: #09090B;
 
 html {
   height: 100vh;
@@ -41,6 +41,8 @@ body {
   min-height: 100vh;
   font-family: 'Arimo', sans-serif;
   overflow-x: hidden;
+  background-color: #09090B;
+  color: #FAFAFA;
 }
 
 ::selection {

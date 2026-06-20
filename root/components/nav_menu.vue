@@ -85,37 +85,23 @@ onMounted(() => {
   align-items: center;
   box-sizing: border-box;
   display: flex;
-  font-size: 15pt;
+  font-size: 14pt;
   height: $header-size;
   justify-content: flex-end;
   margin-top: -$header-size;
-  padding-right: 25px;
+  padding-right: 40px;
   position: fixed;
-  transition: opacity 0.5s ease, mask-size 0.5s ease, mask-position 0.5s ease;
+  transition: all 0.3s ease;
   width: 100%;
   z-index: 10;
-  overflow: hidden;
-  border-bottom: solid 1px gray;
-
-  &:before {
-    background-repeat: round;
-    background-color: $nav-bg-color;
-    bottom: 0;
-    content: '';
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: -100%;
-  }
+  background: rgba(9, 9, 11, 0.7);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 
   @media only screen and (max-width: 768px) {
     pointer-events: none;
     opacity: 0;
-    mask-position: 0 0;
     flex-direction: column;
-    mask-image: radial-gradient(black, rgba(black, 0.7));
-    mask-position: 100% 100%;
-    mask-size: 800% 800%;
     padding-top: $header-size;
     padding-bottom: 150px;
     padding-right: 0;
@@ -123,37 +109,33 @@ onMounted(() => {
     width: 100vw;
     margin-top: 0;
     height: 100vh;
+    background: rgba(9, 9, 11, 0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: none;
 
     &.shown {
       opacity: 1;
       pointer-events: all;
       display: flex;
-      animation: materialFadeIn 3s forwards;
-      mask-position: 70% 50%;
-    }
-
-    .item {
-      flex: auto;
-      display: flex;
-      font-size: 40px;
-      align-items: center;
     }
   }
 }
 
 .hamburger {
   align-content: center;
-  background: white;
-  border-bottom-left-radius: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom-left-radius: 12px;
   display: none;
   height: 50px;
   overflow: hidden;
   padding-left: 15px;
   padding-right: 15px;
   position: fixed;
-  right: 5px;
+  right: 0;
   text-align: right;
-  top: 5px;
+  top: 0;
   z-index: 15;
 
   @media only screen and (max-width: 768px) {
@@ -165,18 +147,18 @@ onMounted(() => {
 .hamburgerTop::before,
 .hamburgerMiddle::before,
 .hamburgerBottom::before {
-  background: gray;
+  background: #FAFAFA;
   content: ' ';
   display: block;
-  height: 5px;
-  margin-top: 8px;
+  height: 3px;
+  margin-top: 6px;
   transition: transform 0.3s ease, opacity 0.3s ease;
-  width: 30px;
+  width: 24px;
 }
 
 .hamburgerTop::before {
   .shown & {
-    transform: rotateZ(-45deg) translate(-10px, 10px);
+    transform: rotateZ(-45deg) translate(-7px, 7px);
   }
 }
 
@@ -189,34 +171,37 @@ onMounted(() => {
 
 .hamburgerBottom::before {
   .shown & {
-    transform: rotateZ(45deg) translate(-8px, -9px);
+    transform: rotateZ(45deg) translate(-5px, -6px);
   }
 }
 
 .item {
-  color: $nav-item-idle;
-  transition: color 0.3s ease, border-color 0.3s ease;
-  border: solid 1px transparent;
-  border-radius: 20px;
-  padding: 10px 20px;
+  color: #A1A1AA;
+  transition: all 0.25s ease-in-out;
+  padding: 6px 0;
+  margin: 0 15px;
   text-decoration: none;
   z-index: 11;
-
-  &:not(:first-child) {
-    margin-left: 10px;
-  }
+  border-bottom: 2px solid transparent;
+  font-weight: 500;
+  opacity: 0.8;
 
   @media only screen and (max-width: 768px) {
-    margin: 25px 0px;
+    margin: 20px 0px;
+    border-bottom: none;
+    font-size: 24px;
   }
 
   &.isActive {
-    color: $nav-item-selected;
-    border-color: $nav-item-selected;
+    color: #FAFAFA;
+    border-bottom-color: #3b82f6;
+    opacity: 1;
+    text-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
   }
 
   &:hover {
-    color: $nav-item-hover;
+    color: #FAFAFA;
+    opacity: 1;
   }
 }
 </style>

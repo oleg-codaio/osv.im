@@ -10,41 +10,73 @@
           xmlns="http://www.w3.org/2000/svg"
         >
           <defs>
-            <marker id="head" orient="auto" markerWidth="2" markerHeight="4" refX="0.1" refY="2">
-              <path d="M0,0 V4 L2,2 Z" fill="red" :class="$style.pathMarker" />
-            </marker>
-            <pattern id="pattern" :width="5" :height="3" patternUnits="userSpaceOnUse" :class="$style.pattern" :x="2">
-              <line stroke="red" :stroke-width="5" :x1="2" :x2="2" y2="3" />
-            </pattern>
+            <linearGradient id="progressGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#1e3a8a" />
+              <stop offset="50%" stop-color="#3b82f6" />
+              <stop offset="100%" stop-color="#06b6d4" />
+            </linearGradient>
           </defs>
+          <!-- Layer 1: Static Faint Track -->
           <path
-            :class="$style.path"
-            ref="pathRef"
+            :class="$style.pathTrack"
             fill="none"
-            stroke="url(#pattern)"
+            stroke="rgba(255, 255, 255, 0.05)"
             stroke-linejoin="round"
             stroke-linecap="round"
             :stroke-width="strokeWidth"
-            shape-rendering="optimizeSpeed"
-            marker-start="url(#head)"
-            marker-end="url(#head)"
+            :d="pathData"
+          />
+          <!-- Layer 2: Scroll-Synced Progress -->
+          <path
+            :class="$style.pathProgress"
+            ref="pathRef"
+            fill="none"
+            stroke="url(#progressGradient)"
+            stroke-linejoin="round"
+            stroke-linecap="round"
+            :stroke-width="strokeWidth"
+            :d="pathData"
+          />
+          <!-- Layer 3: Animated Data Flow -->
+          <path
+            :class="$style.pathDataFlow"
+            fill="none"
+            stroke="#3b82f6"
+            stroke-linejoin="round"
+            stroke-linecap="round"
+            :stroke-width="strokeWidth"
+            stroke-dasharray="10 400"
             :d="pathData"
           />
         </svg>
         <div :class="$style.leaves" ref="leavesRef">
-          <div :class="$style.leaf" v-for="exp in experiences" :key="exp.name + exp.when">
-            <div
-              :class="$style.node"
-              :style="{
-                backgroundImage: `url('${exp.icon}')`,
-              }"
-            />
+          <div
+            :class="[$style.leaf, { [$style.shown]: numShown > index }]"
+            v-for="(exp, index) in experiences"
+            :key="exp.name + exp.when"
+          >
+            <!-- Node is now just a decorative timeline dot -->
+            <div :class="$style.node">
+              <div :class="$style.dot" />
+            </div>
+            
+            <!-- Info is the unified experience card containing both logo and details -->
             <div :class="$style.info">
-              <div :class="$style.infoHeader">
-                <span :class="$style.infoName">{{ exp.name }}</span>
-                <span :class="$style.infoTime">{{ exp.when }}</span>
+              <div :class="$style.cardHeader">
+                <div
+                  :class="$style.logo"
+                  :style="{
+                    backgroundImage: `url('${exp.icon}')`,
+                  }"
+                />
+                <div :class="$style.headerText">
+                  <div :class="$style.infoHeader">
+                    <span :class="$style.infoName">{{ exp.name }}</span>
+                    <span :class="$style.infoTime">{{ exp.when }}</span>
+                  </div>
+                  <div :class="$style.infoTitle">{{ exp.title }}</div>
+                </div>
               </div>
-              <div :class="$style.infoTitle">{{ exp.title }}</div>
               <div :class="$style.infoDetails" v-html="exp.details" />
             </div>
           </div>
@@ -55,7 +87,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
+import { ref, onMounted, onBeforeUnmount, nextTick, useCssModule } from 'vue';
+import superhumanIcon from '~/assets/experience/superhuman.png';
+import grammarlyIcon from '~/assets/experience/grammarly.png';
 import codaIcon from '~/assets/experience/coda.png';
 import northeasternIcon from '~/assets/experience/northeastern.png';
 import googleNewIcon from '~/assets/experience/google-new.png';
@@ -65,57 +99,93 @@ import googleIcon from '~/assets/experience/google.png';
 import twitterIcon from '~/assets/experience/twitter.png';
 import nullientIcon from '~/assets/experience/nullient.png';
 
-const initialSegmentSize = 10;
-const endingSegmentSize = 5;
-const curveSize = 5;
-
-function generateTimelinePath(
-  numGrooves: number,
-  heightWidthRatio: number,
-): {pathData: string; height: number; width: number} {
-  const width = 100;
-  const grooveHeight = (100 * heightWidthRatio - 65) / numGrooves;
-  let height = 15;
-  let path = `
-    M ${width / 2} 0
-    L ${width / 2} ${initialSegmentSize}
-    Q ${width / 2} ${initialSegmentSize + curveSize},
-      ${width / 2 + curveSize} ${initialSegmentSize + curveSize}`;
-
-  let right = true;
-  for (let i = 0; i < numGrooves; i++) {
-    right = i % 2 === 0;
-    path += `
-      L ${right ? width - curveSize * 2 : curveSize * 2} ${height}
-      Q ${right ? width - curveSize : curveSize} ${height},
-        ${right ? width - curveSize : curveSize} ${height + curveSize}
-      L ${right ? width - curveSize : curveSize} ${height + grooveHeight}
-      Q ${right ? width - curveSize : curveSize} ${height + grooveHeight + curveSize},
-        ${right ? width - curveSize * 2 : curveSize * 2} ${height + grooveHeight + curveSize}`;
-    height += grooveHeight + curveSize;
-  }
-
-  path += `
-    L ${right ? width / 2 + curveSize : width / 2 - curveSize} ${height}
-    Q ${width / 2} ${height}, ${width / 2} ${height + curveSize}`;
-
-  height += endingSegmentSize;
-  return {pathData: path, height, width};
-}
-
 const pathData = ref('');
 const pathHeight = ref(0);
 const pathWidth = ref(0);
 const strokeWidth = ref(1);
 const maxSvgWidthPx = 800;
 
+const svg = ref<SVGSVGElement | null>(null);
 const pathRef = ref<SVGPathElement | null>(null);
 const leavesRef = ref<HTMLDivElement | null>(null);
+
+const style = useCssModule();
 
 // Rendered during animation frame.
 let animationFrameRequested = false;
 let appliedStrokeDashOffset = 0;
-let numShown = 0;
+const numShown = ref(0);
+
+function generateDynamicPath(
+  centers: number[],
+  heights: number[],
+  totalHeight: number,
+  totalWidth: number,
+  leftLine: number,
+  rightLine: number,
+  curveSize: number
+): string {
+  if (centers.length === 0) return '';
+  
+  const midX = totalWidth / 2;
+  let path = `M ${midX} 0`;
+  
+  // Transition to the first card's line (above Card 0 top)
+  const firstCenter = centers[0];
+  const firstHeight = heights[0];
+  const topClearanceY = firstCenter - firstHeight / 2 - 30; // 30px clearance above Card 0
+  
+  path += `
+    L ${midX} ${topClearanceY - curveSize}
+    Q ${midX} ${topClearanceY}, ${midX + curveSize} ${topClearanceY}
+    L ${rightLine - curveSize} ${topClearanceY}
+    Q ${rightLine} ${topClearanceY}, ${rightLine} ${topClearanceY + curveSize}
+    L ${rightLine} ${firstCenter}
+  `;
+  
+  // Transition between cards (snaking in the gaps)
+  for (let i = 0; i < centers.length - 1; i++) {
+    const currentY = centers[i];
+    const nextY = centers[i + 1];
+    
+    const currentBottom = currentY + heights[i] / 2;
+    const nextTop = nextY - heights[i + 1] / 2;
+    const midY = (currentBottom + nextTop) / 2;
+    
+    const currentX = (i % 2 === 0) ? rightLine : leftLine;
+    const nextX = (i % 2 === 0) ? leftLine : rightLine;
+    
+    const currentDx = (i % 2 === 0) ? -curveSize : curveSize;
+    const nextDx = (i % 2 === 0) ? curveSize : -curveSize;
+    
+    path += `
+      L ${currentX} ${midY - curveSize}
+      Q ${currentX} ${midY}, ${currentX + currentDx} ${midY}
+      L ${nextX + nextDx} ${midY}
+      Q ${nextX} ${midY}, ${nextX} ${midY + curveSize}
+      L ${nextX} ${nextY}
+    `;
+  }
+  
+  // Transition from last card to bottom center (below Card N-1 bottom)
+  const lastIndex = centers.length - 1;
+  const lastY = centers[lastIndex];
+  const lastHeight = heights[lastIndex];
+  const bottomClearanceY = lastY + lastHeight / 2 + 30; // 30px clearance below Card N-1
+  
+  const lastX = (lastIndex % 2 === 0) ? rightLine : leftLine;
+  const lastDx = (lastIndex % 2 === 0) ? -curveSize : curveSize;
+  
+  path += `
+    L ${lastX} ${bottomClearanceY - curveSize}
+    Q ${lastX} ${bottomClearanceY}, ${lastX + lastDx} ${bottomClearanceY}
+    L ${midX - lastDx} ${bottomClearanceY}
+    Q ${midX} ${bottomClearanceY}, ${midX} ${bottomClearanceY + curveSize}
+    L ${midX} ${totalHeight}
+  `;
+  
+  return path;
+}
 
 function getPathAndLength() {
   const path = pathRef.value;
@@ -126,25 +196,44 @@ function getPathAndLength() {
 }
 
 function handleResize() {
-  const leaves = leavesRef.value;
-  if (!leaves) return;
-  const ratio = leaves.offsetHeight / leaves.offsetWidth;
-
-  const generatedPath = generateTimelinePath(experiences.value.length, ratio);
-  pathData.value = generatedPath.pathData;
-  pathHeight.value = generatedPath.height;
-  pathWidth.value = generatedPath.width;
-  strokeWidth.value = 1000 / Math.min(window.innerWidth, maxSvgWidthPx);
-
   nextTick(() => {
-    const { path, len } = getPathAndLength();
-    if (!path) return;
-    path.style.strokeDasharray = `${len}`;
+    const leavesContainer = leavesRef.value;
+    if (!leavesContainer) return;
 
-    leaves.style.marginTop = `${((initialSegmentSize + curveSize) / pathHeight.value) * leaves.offsetHeight}px`;
-    leaves.style.marginBottom = `${(endingSegmentSize / pathHeight.value) * leaves.offsetHeight}px`;
+    const timeline = svg.value?.parentElement;
+    if (!timeline) return;
 
-    handleScroll();
+    const timelineRect = timeline.getBoundingClientRect();
+    const leafElements = leavesContainer.querySelectorAll('.' + style.leaf);
+
+    const centers: number[] = [];
+    const heights: number[] = [];
+    leafElements.forEach((leaf) => {
+      const rect = leaf.getBoundingClientRect();
+      const center = rect.top - timelineRect.top + rect.height / 2;
+      centers.push(center);
+      heights.push(rect.height);
+    });
+
+    const totalWidth = timelineRect.width;
+    const totalHeight = timelineRect.height;
+    
+    pathHeight.value = totalHeight;
+    pathWidth.value = totalWidth;
+
+    const leftLine = totalWidth * 0.08;
+    const rightLine = totalWidth * 0.92;
+    const curveSize = 30;
+
+    pathData.value = generateDynamicPath(centers, heights, totalHeight, totalWidth, leftLine, rightLine, curveSize);
+    strokeWidth.value = 5;
+
+    nextTick(() => {
+      const { path, len } = getPathAndLength();
+      if (!path) return;
+      path.style.strokeDasharray = `${len}`;
+      handleScroll();
+    });
   });
 }
 
@@ -154,25 +243,6 @@ function paint(): void {
   if (!path) return;
 
   path.style.strokeDashoffset = `${appliedStrokeDashOffset}`;
-
-  const leaves = leavesRef.value;
-  if (!leaves) return;
-  let index = 0;
-  for (const leaf of Array.from(leaves.childNodes)) {
-    if (!(leaf instanceof HTMLElement)) {
-      continue; // Exclude text nodes.
-    }
-
-    if (numShown > index++) {
-      if (!leaf.classList.contains('shown')) {
-        leaf.classList.add('shown');
-      }
-    } else {
-      if (leaf.classList.contains('shown')) {
-        leaf.classList.remove('shown');
-      }
-    }
-  }
 }
 
 function handleScroll() {
@@ -184,7 +254,7 @@ function handleScroll() {
   const visible = Math.max(0, Math.min(1, (window.scrollY - offsetTop) / rect.height));
 
   appliedStrokeDashOffset = len * (1 - visible);
-  numShown = Math.floor(visible * experiences.value.length + 5 / 11);
+  numShown.value = Math.floor(visible * experiences.value.length + 5 / 11);
 
   if (!animationFrameRequested) {
     animationFrameRequested = true;
@@ -205,11 +275,32 @@ onBeforeUnmount(() => {
 
 const experiences = ref([
   {
+    name: 'Superhuman',
+    when: 'Feb 2026 — Present',
+    icon: superhumanIcon,
+    title: 'Engineering Manager / Technical Lead',
+    details: 'Directing cross-product platform architecture and enterprise integrations to power the unified Superhuman bundle.',
+  },
+  {
+    name: 'Grammarly',
+    when: 'Jan 2025 — Jan 2026',
+    icon: grammarlyIcon,
+    title: 'Technical Lead, Cross-Product Services',
+    details: 'Architected the backend backbone of the Superhuman bundle—unifying identity, enterprise billing, and seamless migration flows across Coda, Grammarly, Mail, and Go.',
+  },
+  {
     name: 'Coda',
-    when: 'June 2016 — Present',
+    when: 'Aug 2020 — Dec 2024',
     icon: codaIcon,
-    title: 'Full-Stack Software Engineer',
-    details: 'Currently focused on infrastructure, scalability, and security',
+    title: 'Tech Lead, Monetization, Enterprise, & AI Platform',
+    details: 'Scaled the platform from pre-revenue to millions of users, engineering the core billing engine, the enterprise product suite, and the foundational RAG infrastructure behind Coda Brain.',
+  },
+  {
+    name: 'Coda',
+    when: 'June 2016 — July 2020',
+    icon: codaIcon,
+    title: 'Software Engineer, Core Product, Foundation, & Packs',
+    details: 'Built foundational product architecture, established the sandboxed Packs plugin ecosystem, and drove early operational rigor across security, DevOps, and the 24/7 SRE rotation.',
   },
   {
     name: 'Northeastern University',
@@ -266,7 +357,10 @@ const experiences = ref([
 <style lang="scss" module>
 @import 'sass-svg-uri';
 @import '~/assets/css/main.scss';
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap');
 
+$sans-font: 'Inter', system-ui, -apple-system, sans-serif;
+$mono-font: 'Fira Code', monospace;
 $pathWidth: 4px;
 
 .root {
@@ -300,199 +394,259 @@ $pathWidth: 4px;
   bottom: 0;
 }
 
+.pathTrack {
+  transition: stroke-width 0.3s;
+}
+
+.pathProgress {
+  transition: stroke-width 0.3s;
+  filter: drop-shadow(0 0 3px rgba(37, 99, 235, 0.5)) drop-shadow(0 0 6px rgba(6, 182, 212, 0.3));
+}
+
+.pathDataFlow {
+  transition: stroke-width 0.3s;
+  opacity: 0.15;
+  animation: dataFlowAnim 60s linear infinite;
+}
+
+@keyframes dataFlowAnim {
+  to {
+    stroke-dashoffset: -1000;
+  }
+}
+
 .leaves {
   width: 100%;
-  overflow: hidden;
+  overflow: visible;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  padding-top: 60px;
+  padding-bottom: 60px;
+  box-sizing: border-box;
 }
 
 .leaf {
-  $leafPadding: 10vw;
   display: flex;
   align-items: center;
   flex-grow: 0;
   padding-top: 5vw;
   padding-bottom: 5vw;
-  max-width: 100vw - $leafPadding * 2;
-  transition: opacity 0.3s, transform 0.3s;
-  opacity: 0;
-  will-change: opacity, transform;
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
 
   @media only screen and (min-width: 800px) {
-    $leafPadding: 80px;
-    max-width: 800px - $leafPadding * 2;
     padding-top: 40px;
     padding-bottom: 40px;
   }
 
   &:nth-child(odd) {
     flex-direction: row-reverse;
-    align-self: flex-end;
-    transform: translateX(-50px);
-    padding-right: $leafPadding;
-    text-align: right;
-
+    
     .node {
-      &::after {
-        left: calc(100% + 10px);
-        background: linear-gradient(to right, red, transparent);
-      }
+      left: 92%;
     }
-
-    .infoHeader {
-      flex-direction: row-reverse;
+    
+    .info {
+      margin-left: 3%;
+      margin-right: 13%;
+      opacity: 0;
+      transform: translateX(-30px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      will-change: opacity, transform;
     }
   }
 
   &:nth-child(even) {
-    padding-left: $leafPadding;
-    transform: translateX(50px);
+    
+    .node {
+      left: 8%;
+    }
+    
+    .info {
+      margin-left: 13%;
+      margin-right: 3%;
+      opacity: 0;
+      transform: translateX(30px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      will-change: opacity, transform;
+    }
   }
 
-  &:global(.shown) {
-    opacity: 1;
-    transform: translateX(0%);
+  &.shown {
+    .info {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    
+    .dot {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+
+  &:hover {
+    .logo {
+      transform: scale(1.08);
+    }
+    
+    .info {
+      transform: translateY(-4px);
+      border-color: rgba(255, 255, 255, 0.18);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 15px rgba(59, 130, 246, 0.1);
+    }
+    
+    .dot {
+      transform: translate(-50%, -50%) scale(1.25);
+      border-color: #06b6d4;
+      box-shadow: 0 0 15px rgba(6, 182, 212, 0.8);
+    }
   }
 
   @media only screen and (max-width: 768px) {
-    $mobilePadding: 10vw;
-
-    .info {
-      padding: 0;
-    }
+    $mobilePadding: 5vw;
 
     &.leaf {
       flex-direction: column;
+      max-width: 100% !important;
+      width: 100% !important;
+      align-items: stretch !important;
+      padding-left: $mobilePadding !important;
+      padding-right: $mobilePadding !important;
 
       &:nth-child(odd) {
-        padding-right: $mobilePadding;
-        align-items: flex-end;
-
-        .node {
-          background-position-x: right;
+        text-align: left;
+        padding-right: $mobilePadding !important;
+        
+        .info {
+          margin-left: 0 !important;
+          margin-right: 0 !important;
+          transform: translateX(-30px);
         }
       }
 
       &:nth-child(even) {
-        padding-left: $mobilePadding;
-        align-items: flex-start;
-
-        .node {
-          background-position-x: left;
+        
+        .info {
+          margin-left: 0 !important;
+          margin-right: 0 !important;
+          transform: translateX(30px);
         }
       }
 
       .node {
-        margin-bottom: 10px;
-      }
-
-      .infoHeader {
-        flex-direction: column;
-      }
-
-      .infoTime {
-        padding: 0;
+        display: none;
       }
     }
   }
 }
 
 .node {
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position-x: center;
-  background-position-y: center;
-  flex: none;
-  min-height: 110px;
-  max-height: 110px;
-  width: 150px;
-  position: relative;
-}
-
-.info {
-  padding-top: 5px;
-  padding-left: 20px;
-  padding-right: 20px;
-  height: 105px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
   display: flex;
-  flex-direction: column;
+  align-items: center;
   justify-content: center;
 }
 
+.dot {
+  width: 12px;
+  height: 12px;
+  background-color: #09090B;
+  border: 3px solid #3b82f6;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0);
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.6);
+  transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.info {
+  font-family: $sans-font;
+  background: rgba(22, 27, 34, 0.4);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 20px 24px;
+  min-height: 110px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  width: 100%;
+}
+
+.logo {
+  width: 48px;
+  height: 48px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: #161B22;
+  border-radius: 8px;
+  flex-shrink: 0;
+  margin-right: 16px;
+  padding: 4px;
+  box-sizing: border-box;
+  transition: transform 0.3s ease;
+}
+
+.headerText {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
 .infoDetails {
-  color: #444;
-  font-style: italic;
+  font-family: $sans-font;
+  color: #8b949e;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-top: 6px;
 }
 
 .infoHeader {
-  display: inline-flex;
-  align-content: center;
-  flex: none;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .infoName {
-  display: inline;
-  color: $experience-line-start-color;
-  background: linear-gradient(to right, $experience-line-start-color, $experience-line-end-color);
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-size: larger;
+  font-family: $sans-font;
+  font-weight: 700;
+  color: #FAFAFA;
+  font-size: 1.2rem;
+}
+
+.infoTitle {
+  font-family: $sans-font;
+  font-weight: 500;
+  color: #c9d1d9;
+  font-size: 1.0rem;
+  margin-top: 4px;
 }
 
 .infoTime {
-  color: gray;
-  padding-left: 10px;
-  padding-right: 10px;
-  margin-top: 5px;
-  font-size: smaller;
-}
-
-$startColor: $experience-line-start-color;
-$endColor: $experience-line-end-color;
-
-@keyframes markerAnimation {
-  0% {
-    fill: $startColor;
-  }
-  50% {
-    fill: $endColor;
-  }
-  100% {
-    fill: $startColor;
-  }
-}
-
-@keyframes pathAnimation {
-  0% {
-    transform: translateX(0px);
-    stroke: $startColor;
-  }
-  50% {
-    stroke: $endColor;
-  }
-  100% {
-    transform: translateX(1px);
-    stroke: $startColor;
-  }
-}
-
-.pattern,
-.pattern line {
-  animation-name: pathAnimation;
-  animation-direction: alternate;
-  animation-duration: 1s;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-}
-
-.pathMarker {
-  animation-name: markerAnimation;
-  animation-direction: alternate;
-  animation-duration: 1s;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-  will-change: stroke-dashoffset;
+  font-family: $mono-font;
+  color: #8b949e;
+  font-size: 0.85rem;
 }
 </style>
