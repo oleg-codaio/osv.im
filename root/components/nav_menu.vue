@@ -42,7 +42,7 @@ const setupObserver = () => {
   const sections = ['about', 'experience', 'writing', 'contact'];
   const elements = sections.map(id => document.getElementById(id)).filter(Boolean);
   
-  if (route.path === '/' && elements.length === 0) {
+  if (route.path === '/' && elements.length < sections.length) {
     setupRetryTimeout = setTimeout(setupObserver, 100);
     return;
   }
