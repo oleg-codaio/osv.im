@@ -21,12 +21,15 @@ import { useRoute } from 'vue-router';
 
 const shown = ref(false);
 const isMobile = ref(false);
-const activeSection = ref('about');
 const route = useRoute();
+const activeSection = ref(route.hash ? route.hash.slice(1) : 'about');
+
+const isProgrammaticScrolling = ref(false);
+let scrollTimeout: any = null;
 
 // Dynamic Active States
 const isAboutActive = computed(() => {
-  return route.path === '/' && (activeSection.value === 'about' || !route.hash || route.hash === '#about');
+  return route.path === '/' && activeSection.value === 'about';
 });
 
 const isExperienceActive = computed(() => {
@@ -52,6 +55,9 @@ const scrollToSection = (id: string, event: Event) => {
     shown.value = false;
     const el = document.getElementById(id);
     if (el) {
+      isProgrammaticScrolling.value = true;
+      activeSection.value = id;
+      
       const offset = isMobile.value ? 0 : 75;
       const bodyRect = document.body.getBoundingClientRect().top;
       const elementRect = el.getBoundingClientRect().top;
@@ -62,8 +68,12 @@ const scrollToSection = (id: string, event: Event) => {
         top: offsetPosition,
         behavior: 'smooth'
       });
-      activeSection.value = id;
       history.pushState(null, '', `#${id}`);
+
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        isProgrammaticScrolling.value = false;
+      }, 800);
     }
   } else {
     shown.value = false;
@@ -85,6 +95,8 @@ onMounted(() => {
   };
 
   const observer = new IntersectionObserver((entries) => {
+    if (isProgrammaticScrolling.value) return;
+    
     entries.forEach((entry) => {
       const scrollPosition = window.scrollY + window.innerHeight;
       const bottomPosition = document.documentElement.scrollHeight;
@@ -104,6 +116,8 @@ onMounted(() => {
 
   const handleScroll = () => {
     if (route.path !== '/') return;
+    if (isProgrammaticScrolling.value) return;
+    
     const scrollPosition = window.scrollY + window.innerHeight;
     const bottomPosition = document.documentElement.scrollHeight;
     if (scrollPosition >= bottomPosition - 50) {
@@ -116,6 +130,7 @@ onMounted(() => {
     window.removeEventListener('resize', handleResize);
     window.removeEventListener('scroll', handleScroll);
     observer.disconnect();
+    if (scrollTimeout) clearTimeout(scrollTimeout);
   });
 });
 </script>
