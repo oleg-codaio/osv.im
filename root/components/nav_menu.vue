@@ -29,6 +29,50 @@ let scrollTimeout: any = null;
 let observer: IntersectionObserver | null = null;
 let setupRetryTimeout: any = null;
 
+const updateActiveSectionFromScroll = () => {
+  if (!process.client) return;
+  if (route.path !== '/') return;
+
+  if (window.scrollY <= 0) {
+    activeSection.value = 'about';
+    return;
+  }
+
+  const scrollPosition = window.scrollY + window.innerHeight;
+  const bottomPosition = document.documentElement.scrollHeight;
+  if (scrollPosition >= bottomPosition - 50) {
+    activeSection.value = 'contact';
+    return;
+  }
+
+  const sections = ['about', 'experience', 'writing', 'contact'];
+  const viewportCenter = window.innerHeight / 2;
+  let closestSection = activeSection.value;
+  let minDistance = Infinity;
+
+  for (const id of sections) {
+    const el = document.getElementById(id);
+    if (el) {
+      const rect = el.getBoundingClientRect();
+      if (rect.top <= viewportCenter && rect.bottom >= viewportCenter) {
+        activeSection.value = id;
+        return;
+      }
+      const distance = Math.abs((rect.top + rect.bottom) / 2 - viewportCenter);
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestSection = id;
+      }
+    }
+  }
+  activeSection.value = closestSection;
+};
+
+const clearProgrammaticScroll = () => {
+  isProgrammaticScrolling.value = false;
+  updateActiveSectionFromScroll();
+};
+
 const setupObserver = () => {
   if (!process.client) return;
   
@@ -80,9 +124,7 @@ watch(
       isProgrammaticScrolling.value = true;
       activeSection.value = currentHash.replace('#', '');
       if (scrollTimeout) clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        isProgrammaticScrolling.value = false;
-      }, 1000);
+      scrollTimeout = setTimeout(clearProgrammaticScroll, 1000);
     } else if (route.path === '/' && !currentHash) {
       isProgrammaticScrolling.value = false;
       activeSection.value = 'about';
@@ -136,9 +178,7 @@ const scrollToSection = (id: string, event: Event) => {
       history.pushState(null, '', `#${id}`);
 
       if (scrollTimeout) clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        isProgrammaticScrolling.value = false;
-      }, 800);
+      scrollTimeout = setTimeout(clearProgrammaticScroll, 800);
     }
   } else {
     shown.value = false;
@@ -152,9 +192,7 @@ onMounted(() => {
     if (currentHash) {
       isProgrammaticScrolling.value = true;
       activeSection.value = currentHash.replace('#', '');
-      scrollTimeout = setTimeout(() => {
-        isProgrammaticScrolling.value = false;
-      }, 1000);
+      scrollTimeout = setTimeout(clearProgrammaticScroll, 1000);
     } else {
       isProgrammaticScrolling.value = false;
       activeSection.value = 'about';
@@ -164,45 +202,10 @@ onMounted(() => {
   // Setup intersection observer for scrollspy
   setupObserver();
 
-  const getCenterSection = (): string => {
-    const sections = ['about', 'experience', 'writing'];
-    const viewportCenter = window.innerHeight / 2;
-    let closestSection = 'about';
-    let minDistance = Infinity;
-    
-    for (const id of sections) {
-      const el = document.getElementById(id);
-      if (el) {
-        const rect = el.getBoundingClientRect();
-        if (rect.top <= viewportCenter && rect.bottom >= viewportCenter) {
-          return id;
-        }
-        const distance = Math.abs((rect.top + rect.bottom) / 2 - viewportCenter);
-        if (distance < minDistance) {
-          minDistance = distance;
-          closestSection = id;
-        }
-      }
-    }
-    return closestSection;
-  };
-
   const handleScroll = () => {
     if (route.path !== '/') return;
     if (isProgrammaticScrolling.value) return;
-    
-    if (window.scrollY <= 0) {
-      activeSection.value = 'about';
-      return;
-    }
-    
-    const scrollPosition = window.scrollY + window.innerHeight;
-    const bottomPosition = document.documentElement.scrollHeight;
-    if (scrollPosition >= bottomPosition - 50) {
-      activeSection.value = 'contact';
-    } else if (activeSection.value === 'contact') {
-      activeSection.value = getCenterSection();
-    }
+    updateActiveSectionFromScroll();
   };
   window.addEventListener('scroll', handleScroll, { passive: true });
 
