@@ -38,6 +38,18 @@ let animationFrameId = 0;
 const nodes: ParticleNode[] = [];
 const packets: DataPacket[] = [];
 
+const timelineAnchor = ref<{ x: number; y: number } | null>(null);
+
+function handleAnchorUpdate(e: CustomEvent<{ x: number; y: number }>) {
+  const canvas = canvasRef.value;
+  if (!canvas) return;
+  const rect = canvas.getBoundingClientRect();
+  timelineAnchor.value = {
+    x: e.detail.x - rect.left,
+    y: e.detail.y - rect.top,
+  };
+}
+
 // Mouse tracking
 const mouse = {
   x: null as number | null,
@@ -77,6 +89,14 @@ function initParticles(width: number, height: number) {
       baseRadius: radius,
     });
   }
+
+  // Set default fallback anchor coordinate if not yet received or size changed
+  if (!timelineAnchor.value || timelineAnchor.value.y === height) {
+    timelineAnchor.value = {
+      x: width / 2,
+      y: height,
+    };
+  }
 }
 
 function animate() {
@@ -90,48 +110,109 @@ function animate() {
 
   ctx.clearRect(0, 0, width, height);
 
-  // 1. Update and Draw Nodes
+  // 1. Determine which nodes are pulled towards the timeline anchor
+  let pulledNodes = new Set<ParticleNode>();
+  const ax = timelineAnchor.value?.x ?? (width / 2);
+  const ay = timelineAnchor.value?.y ?? height;
+
+  if (nodes.length > 0) {
+    const sorted = [...nodes]
+      .map(node => {
+        const dx = ax - node.x;
+        const dy = ay - node.y;
+        return { node, dist: Math.hypot(dx, dy) };
+      })
+      .sort((a, b) => a.dist - b.dist);
+    
+    // Select the 3 closest nodes
+    pulledNodes = new Set(sorted.slice(0, 3).map(item => item.node));
+  }
+
+  // 2. Update and Draw Nodes
   for (let i = 0; i < nodes.length; i++) {
     const node = nodes[i];
+    let isPulled = pulledNodes.has(node);
+    let dist = 0;
 
-    // Mouse interaction (subtle attraction)
-    if (mouse.x !== null && mouse.y !== null) {
-      const dx = mouse.x - node.x;
-      const dy = mouse.y - node.y;
-      const distance = Math.hypot(dx, dy);
+    if (isPulled) {
+      const dx = ax - node.x;
+      const dy = ay - node.y;
+      dist = Math.hypot(dx, dy);
 
-      if (distance < mouse.radius) {
-        const force = (mouse.radius - distance) / mouse.radius;
-        // Gently pull towards mouse
-        node.x += (dx / distance) * force * 0.6;
-        node.y += (dy / distance) * force * 0.6;
+      if (dist < 6) {
+        // Hit the anchor! Respawn elsewhere in the upper 80% of canvas.
+        node.x = Math.random() * width;
+        node.y = Math.random() * (height * 0.8);
+        node.vx = (Math.random() - 0.5) * 0.4;
+        node.vy = (Math.random() - 0.5) * 0.4;
+        dist = 0;
+        isPulled = false;
+      } else {
+        // Steer towards anchor (Craig Reynolds steering)
+        const steerX = (dx / dist) * 0.15;
+        const steerY = (dy / dist) * 0.15;
+        node.vx += steerX;
+        node.vy += steerY;
+
+        const speed = Math.hypot(node.vx, node.vy);
+        const maxSpeed = 2.2;
+        if (speed > maxSpeed) {
+          node.vx = (node.vx / speed) * maxSpeed;
+          node.vy = (node.vy / speed) * maxSpeed;
+        }
+
+        node.x += node.vx;
+        node.y += node.vy;
       }
     }
 
-    // Physical movement
-    node.x += node.vx;
-    node.y += node.vy;
+    if (!isPulled) {
+      // Standard mouse interaction (subtle attraction)
+      if (mouse.x !== null && mouse.y !== null) {
+        const dx = mouse.x - node.x;
+        const dy = mouse.y - node.y;
+        const distance = Math.hypot(dx, dy);
 
-    // Boundaries bounce with friction/re-align
-    if (node.x < 0) {
-      node.x = 0;
-      node.vx *= -1;
-    } else if (node.x > width) {
-      node.x = width;
-      node.vx *= -1;
-    }
-    if (node.y < 0) {
-      node.y = 0;
-      node.vy *= -1;
-    } else if (node.y > height) {
-      node.y = height;
-      node.vy *= -1;
+        if (distance < mouse.radius) {
+          const force = (mouse.radius - distance) / mouse.radius;
+          node.x += (dx / distance) * force * 0.6;
+          node.y += (dy / distance) * force * 0.6;
+        }
+      }
+
+      // Physical movement
+      node.x += node.vx;
+      node.y += node.vy;
+
+      // Boundaries bounce with friction/re-align
+      if (node.x < 0) {
+        node.x = 0;
+        node.vx *= -1;
+      } else if (node.x > width) {
+        node.x = width;
+        node.vx *= -1;
+      }
+      if (node.y < 0) {
+        node.y = 0;
+        node.vy *= -1;
+      } else if (node.y > height) {
+        node.y = height;
+        node.vy *= -1;
+      }
     }
 
     // Draw node
     ctx.beginPath();
     ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(147, 197, 253, 0.4)'; // light blue accent
+    
+    if (isPulled) {
+      // Shift color towards timeline bright blue/cyan as it gets closer
+      const ratio = 1 - Math.min(dist / 200, 1);
+      ctx.fillStyle = `rgba(${147 + (56 - 147) * ratio}, ${197 + (189 - 197) * ratio}, ${253 + (248 - 253) * ratio}, ${0.4 + 0.5 * ratio})`;
+    } else {
+      ctx.fillStyle = 'rgba(147, 197, 253, 0.4)'; // light blue accent
+    }
+    
     ctx.fill();
   }
 
@@ -238,6 +319,8 @@ onMounted(() => {
   parent?.addEventListener('mousemove', handleMouseMove);
   parent?.addEventListener('mouseleave', handleMouseLeave);
 
+  window.addEventListener('timeline-anchor-updated', handleAnchorUpdate as EventListener);
+
   animate();
 });
 
@@ -252,6 +335,7 @@ onBeforeUnmount(() => {
     parent.removeEventListener('mousemove', handleMouseMove);
     parent.removeEventListener('mouseleave', handleMouseLeave);
   }
+  window.removeEventListener('timeline-anchor-updated', handleAnchorUpdate as EventListener);
 });
 </script>
 

@@ -48,6 +48,14 @@
             stroke-dasharray="10 400"
             :d="pathData"
           />
+          <!-- Receptor Node -->
+          <circle
+            :cx="pathWidth / 2"
+            cy="0"
+            r="5"
+            fill="#38bdf8"
+            :style="{ filter: 'drop-shadow(0 0 8px rgba(56, 189, 248, 0.9))' }"
+          />
         </svg>
         <div :class="$style.leaves" ref="leavesRef">
           <div
@@ -233,6 +241,17 @@ function handleResize() {
       if (!path) return;
       path.style.strokeDasharray = `${len}`;
       handleScroll();
+
+      // Dispatch anchor coordinate update
+      const svgRect = svg.value?.getBoundingClientRect();
+      if (svgRect) {
+        window.dispatchEvent(new CustomEvent('timeline-anchor-updated', {
+          detail: {
+            x: svgRect.left + svgRect.width / 2,
+            y: svgRect.top,
+          }
+        }));
+      }
     });
   });
 }
