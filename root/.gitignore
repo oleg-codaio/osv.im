@@ -4,4 +4,5 @@ dist/
 .nuxt/
 .output/
 .generated/
+.data/
 assets/data/

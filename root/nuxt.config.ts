@@ -26,9 +26,9 @@ export default defineNuxtConfig({
   },
 
   css: ['~/assets/css/main.scss'],
-
   modules: [
     '~/modules/data',
+    '@nuxt/content',
   ],
 
   compatibilityDate: '2024-04-03',

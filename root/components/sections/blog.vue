@@ -2,35 +2,49 @@
   <section :class="$style.root">
     <article :class="$style.container">
       <div :class="$style.posts">
-        <div v-for="post in posts" :class="$style.postContainer" :key="post.url">
+        <div v-for="post in posts" :class="$style.postContainer" :key="post.path">
           <div :class="$style.author">
             <div :class="$style.avatar" :style="'background-image: url(' + user.image + ')'" />
             <div :class="$style.metadata">
               <div :class="$style.name">{{ user.name }}</div>
               <div :class="$style.postInfo">
-                {{ new Date(post.date).toLocaleDateString('en-US', {month: 'short', day: 'numeric', year: 'numeric'}) }}
+                {{ formatDate(post.date) }}
                 &middot;
-                {{ post.readingTime }} mins
+                {{ post.readTime }} min read
               </div>
             </div>
           </div>
-          <a :href="post.url" rel="noreferrer noopener" target="_blank" :class="$style.post">
+          <NuxtLink :to="post.path" :class="$style.post">
             <div :class="$style.image" :style="'background-image: url(' + post.image + ')'" />
             <h2 :class="$style.title">{{ post.title }}</h2>
-            <p :class="$style.subtitle">{{ post.subtitle }}</p>
-          </a>
+            <p :class="$style.subtitle">{{ post.excerpt }}</p>
+          </NuxtLink>
         </div>
       </div>
       <div :class="$style.moreLink">
-        <a class="invert" href="https://medium.com/@osv" target="_blank" rel="noopener">⇨ medium.com/@osv</a>
+        <a class="invert" href="https://medium.com/@osv" target="_blank" rel="noopener">⇨ archive on medium</a>
       </div>
     </article>
   </section>
 </template>
 
 <script setup lang="ts">
+import { useAsyncData } from '#app';
 import mediumData from '~/assets/data/medium.json';
-const { posts, user } = mediumData;
+
+const { user } = mediumData;
+
+const { data: posts } = await useAsyncData('blog-posts', () => 
+  queryCollection('blog')
+    .order('date', 'DESC')
+    .all()
+);
+
+function formatDate(dateStr: string) {
+  if (!dateStr) return '';
+  const options: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric', year: 'numeric' };
+  return new Date(dateStr).toLocaleDateString('en-US', options);
+}
 </script>
 
 <style lang="scss" module>
