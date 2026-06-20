@@ -411,6 +411,8 @@ $pathWidth: 4px;
   height: 100%;
   top: 0;
   bottom: 0;
+  -webkit-mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
 }
 
 .pathTrack {

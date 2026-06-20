@@ -1,6 +1,9 @@
 <template>
-  <section>
-    <article :class="$style.root">
+  <footer :class="$style.footer">
+    <div :class="$style.terminalCard">
+      <div :class="$style.terminalHeader">
+        <span :class="$style.prompt">~/$</span> <span :class="$style.command">ping oleg</span>
+      </div>
       <div :class="$style.items">
         <a
           v-for="item in items"
@@ -10,6 +13,7 @@
           :target="item.target || '_blank'"
           @click="handleClick(item, $event)"
           rel="noopener"
+          :aria-label="item.name"
         >
           <div
             :class="$style.icon"
@@ -17,11 +21,10 @@
               backgroundImage: `url('${item.icon}')`,
             }"
           />
-          <div :class="$style.label" :style="item.labelStyle">{{ item.value }}</div>
         </a>
       </div>
-    </article>
-  </section>
+    </div>
+  </footer>
 </template>
 
 <script setup lang="ts">
@@ -73,65 +76,73 @@ const handleClick = (item: any, event: MouseEvent) => {
 <style lang="scss" module>
 @import '~/assets/css/main.scss';
 
-.root {
-  background: $contact-background-color;
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px 60px 20px;
+  width: 100%;
+  box-sizing: border-box;
+  background: transparent;
+}
+
+.terminalCard {
+  background: rgba(22, 27, 34, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 24px 48px;
+  max-width: max-content;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  flex: 1 0 auto;
-  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+}
+
+.terminalHeader {
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+  user-select: none;
+}
+
+.prompt {
+  font-family: monospace;
+  color: #38bdf8;
+  font-weight: bold;
+}
+
+.command {
+  font-family: monospace;
+  color: #A1A1AA;
 }
 
 .items {
   display: flex;
+  gap: 24px;
   justify-content: center;
-
-  @media only screen and (max-width: 768px) {
-    flex-direction: column;
-  }
+  align-items: center;
 }
 
 .item {
   display: flex;
-  flex-direction: column;
-  cursor: pointer;
-
-  @media only screen and (max-width: 768px) {
-    flex-direction: column;
-  }
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
 }
 
 .icon {
-  height: 72px;
-  width: 72px;
+  height: 28px;
+  width: 28px;
   background-size: contain;
   background-repeat: no-repeat;
-  filter: brightness(0) invert(0.3);
-  transition: filter 0.3s ease;
-  margin: 0 50px;
-  align-self: center;
-
-  @media only screen and (max-width: 768px) {
-    margin: 20px 0;
-    align-content: center;
-  }
+  background-position: center;
+  filter: brightness(0) invert(0.55); // slate grey similar to #8B949E
+  transition: all 0.3s ease;
 
   .item:hover & {
-    filter: brightness(0) invert(1);
-  }
-}
-
-.label {
-  padding-top: 10px;
-  text-align: center;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-
-  .item:hover & {
-    opacity: 1;
-  }
-
-  @media only screen and (max-width: 768px) {
-    padding-top: 0;
+    filter: brightness(0) invert(1); // turns to white/off-white (#FAFAFA)
+    transform: translateY(-2px);
   }
 }
 </style>
