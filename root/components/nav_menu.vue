@@ -40,7 +40,7 @@ const updateActiveSectionFromScroll = () => {
 
   const scrollPosition = window.scrollY + window.innerHeight;
   const bottomPosition = document.documentElement.scrollHeight;
-  if (scrollPosition >= bottomPosition - 50) {
+  if (scrollPosition >= bottomPosition - 150) {
     activeSection.value = 'contact';
     return;
   }
