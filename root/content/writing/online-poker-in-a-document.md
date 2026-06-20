@@ -45,11 +45,12 @@ Thanks to Coda's [conditional formats](https://help.superhuman.com/hc/en-us/arti
 
 ## Game Logic
 
-With the foundations put in place, the next step was putting together the game logic that actually allows playing the game, which is made up of two things: state and procedures. Nearly every game needs to keep track of state, and for poker that includes whose turn it is, who's the dealer, the size of the bet, etc. In addition to that, each action that a player takes results in a procedure, or set of steps, happening. An example is that starting a new game should cause the cards to get shuffled. In Coda, this can be accomplished using buttons.
+With the foundations put in place, the next step was putting together the game logic that actually allows playing the game, which is made up of two things: *state* and *procedures*. Nearly every game needs to keep track of state, and for poker that includes whose turn it is, who's the dealer, the size of the bet, etc. In addition to that, each action that a player takes results in a procedure, or set of steps, happening. An example is that starting a new game should cause the cards to get shuffled. In Coda, this can be accomplished using [buttons](https://blog.coda.io/introducing-buttons-8acda6413030).
 
-A hidden section in the Coda doc contains the internals of the "game engine". There are many more columns that aren't shown here.
-
-![State and game engine internals](/images/writing/online-poker-in-a-document/game-state.webp)
+<figure>
+  <img src="/images/writing/online-poker-in-a-document/game-state.webp" alt="State and game engine internals" />
+  <figcaption>A hidden section in the Coda doc that contains the internals of the "game engine". There are many more columns that aren't shown here.</figcaption>
+</figure>
 
 I created a new single-row table called "State" to contain all the state and buttons in one place. Feel free to make a copy of the doc and explore all the formulas and buttons to see how they work!
 
