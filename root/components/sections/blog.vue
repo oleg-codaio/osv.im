@@ -2,7 +2,7 @@
   <section :class="$style.root">
     <article :class="$style.container">
       <div :class="$style.posts">
-        <div v-for="post in posts" :class="$style.postContainer" :key="post.path">
+        <div v-for="post in posts?.slice(0, 3)" :class="$style.postContainer" :key="post.path">
           <div :class="$style.author">
             <div :class="$style.avatar" :style="'background-image: url(' + user.image + ')'" />
             <div :class="$style.metadata">
@@ -22,7 +22,9 @@
         </div>
       </div>
       <div :class="$style.moreLink">
-        <a class="invert" href="https://medium.com/@osv" target="_blank" rel="noopener">⇨ archive on medium</a>
+        <NuxtLink to="/blog" :class="$style.viewAll">
+          View all posts <span :class="$style.arrow">→</span>
+        </NuxtLink>
       </div>
     </article>
   </section>
@@ -181,7 +183,7 @@ $mono-font: 'Fira Code', 'JetBrains Mono', monospace;
   transition: color 0.3s ease;
 
   .post:hover & {
-    color: #60a5fa;
+    color: #38bdf8;
   }
 }
 
@@ -195,5 +197,30 @@ $mono-font: 'Fira Code', 'JetBrains Mono', monospace;
 .moreLink {
   align-self: flex-end;
   margin-top: 10px;
+}
+
+.viewAll {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #38bdf8;
+  text-decoration: none;
+  font-family: $mono-font;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #0ea5e9;
+
+    .arrow {
+      transform: translateX(4px);
+    }
+  }
+}
+
+.arrow {
+  display: inline-block;
+  transition: transform 0.3s ease;
 }
 </style>

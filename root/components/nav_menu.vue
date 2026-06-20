@@ -7,38 +7,44 @@
     </div>
 
     <div :class="[$style.root, shown && $style.shown]">
-      <a href="#about" :class="[$style.item, activeSection === 'about' && $style.isActive]" @click="scrollToSection('about', $event)">About</a>
-      <a href="#experience" :class="[$style.item, activeSection === 'experience' && $style.isActive]" @click="scrollToSection('experience', $event)">Experience</a>
-      <a href="#blog" :class="[$style.item, activeSection === 'blog' && $style.isActive]" @click="scrollToSection('blog', $event)">Blog</a>
-      <a href="#contact" :class="[$style.item, activeSection === 'contact' && $style.isActive]" @click="scrollToSection('contact', $event)">Contact</a>
+      <NuxtLink :to="{ path: '/', hash: '#about' }" :class="[$style.item, activeSection === 'about' && $style.isActive]" @click="scrollToSection('about', $event)">About</NuxtLink>
+      <NuxtLink :to="{ path: '/', hash: '#experience' }" :class="[$style.item, activeSection === 'experience' && $style.isActive]" @click="scrollToSection('experience', $event)">Experience</NuxtLink>
+      <NuxtLink :to="{ path: '/', hash: '#blog' }" :class="[$style.item, activeSection === 'blog' && $style.isActive]" @click="scrollToSection('blog', $event)">Blog</NuxtLink>
+      <NuxtLink :to="{ path: '/', hash: '#contact' }" :class="[$style.item, activeSection === 'contact' && $style.isActive]" @click="scrollToSection('contact', $event)">Contact</NuxtLink>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { useRoute } from '#app';
 
 const shown = ref(false);
 const isMobile = ref(false);
 const activeSection = ref('about');
+const route = useRoute();
 
 const scrollToSection = (id: string, event: Event) => {
-  event.preventDefault();
-  shown.value = false;
-  const el = document.getElementById(id);
-  if (el) {
-    const offset = isMobile.value ? 0 : 75;
-    const bodyRect = document.body.getBoundingClientRect().top;
-    const elementRect = el.getBoundingClientRect().top;
-    const elementPosition = elementRect - bodyRect;
-    const offsetPosition = elementPosition - offset;
+  if (route.path === '/') {
+    event.preventDefault();
+    shown.value = false;
+    const el = document.getElementById(id);
+    if (el) {
+      const offset = isMobile.value ? 0 : 75;
+      const bodyRect = document.body.getBoundingClientRect().top;
+      const elementRect = el.getBoundingClientRect().top;
+      const elementPosition = elementRect - bodyRect;
+      const offsetPosition = elementPosition - offset;
 
-    window.scrollTo({
-      top: offsetPosition,
-      behavior: 'smooth'
-    });
-    activeSection.value = id;
-    history.pushState(null, '', `#${id}`);
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+      activeSection.value = id;
+      history.pushState(null, '', `#${id}`);
+    }
+  } else {
+    shown.value = false;
   }
 };
 
