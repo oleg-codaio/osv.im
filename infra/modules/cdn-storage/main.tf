@@ -13,19 +13,42 @@ locals {
 
 resource "aws_s3_bucket" "root" {
   bucket = "${var.bucket_prefix}-${var.name}-assets"
-  acl    = "private"
-
-  versioning {
-    enabled = true
-  }
-
-  website {
-    index_document = "index.html"
-    error_document = "index.html"
-  }
 
   tags = {
     Name = "Static assets for ${var.name}"
+  }
+}
+
+resource "aws_s3_bucket_ownership_controls" "root" {
+  bucket = aws_s3_bucket.root.id
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
+resource "aws_s3_bucket_acl" "root" {
+  depends_on = [aws_s3_bucket_ownership_controls.root]
+
+  bucket = aws_s3_bucket.root.id
+  acl    = "private"
+}
+
+resource "aws_s3_bucket_versioning" "root" {
+  bucket = aws_s3_bucket.root.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_website_configuration" "root" {
+  bucket = aws_s3_bucket.root.id
+
+  index_document {
+    suffix = "index.html"
+  }
+
+  error_document {
+    key = "index.html"
   }
 }
 
@@ -33,7 +56,7 @@ resource "aws_s3_bucket" "root" {
 
 resource "aws_cloudfront_distribution" "root" {
   origin {
-    domain_name = aws_s3_bucket.root.website_endpoint
+    domain_name = aws_s3_bucket_website_configuration.root.website_endpoint
     origin_id   = local.s3_origin_id
 
     custom_origin_config {
@@ -148,9 +171,10 @@ resource "aws_route53_health_check" "root" {
   }
 }
 
-resource "aws_s3_bucket_object" "shortcut" {
+resource "aws_s3_object" "shortcut" {
   for_each         = var.shortcuts
   bucket           = aws_s3_bucket.root.id
   key              = each.key
   website_redirect = each.value
 }
+
