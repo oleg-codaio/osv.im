@@ -41,7 +41,7 @@ The last major set of entities in poker is the set of players in the game, which
 
 ![Players Coda table](/images/writing/online-poker-in-a-document/players-table.webp)
 
-Thanks to Coda's conditional formats, it was relatively easy to improve the readability of this table to highlight the current player or someone's turn.
+Thanks to Coda's [conditional formats](https://help.superhuman.com/hc/en-us/articles/46210184375437-Add-color-and-formatting-to-your-tables), it was relatively easy to improve the readability of this table to highlight the current player or someone's turn.
 
 ## Game Logic
 

@@ -240,6 +240,15 @@ function formatDate(dateStr: string) {
     color: inherit;
   }
 
+  figure {
+    margin: 24px 0;
+    width: 100%;
+
+    img {
+      margin: 0;
+    }
+  }
+
   figcaption {
     font-size: 0.9rem;
     color: #8B949E;
