@@ -26,6 +26,7 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted, onBeforeUnmount } from 'vue';
 import { useAsyncData, useRoute } from '#app';
 
 const route = useRoute();
@@ -39,6 +40,23 @@ function formatDate(dateStr: string) {
   const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
   return new Date(dateStr).toLocaleDateString('en-US', options);
 }
+
+let scrollHandler: any = null;
+
+onMounted(() => {
+  scrollHandler = () => {
+    if (window.scrollY === 0 && window.location.hash) {
+      history.pushState(null, '', window.location.pathname);
+    }
+  };
+  window.addEventListener('scroll', scrollHandler, { passive: true });
+});
+
+onBeforeUnmount(() => {
+  if (scrollHandler) {
+    window.removeEventListener('scroll', scrollHandler);
+  }
+});
 </script>
 
 <style lang="scss" module>
