@@ -70,7 +70,6 @@ const updateActiveSectionFromScroll = () => {
 
 const clearProgrammaticScroll = () => {
   isProgrammaticScrolling.value = false;
-  updateActiveSectionFromScroll();
 };
 
 const setupObserver = () => {
