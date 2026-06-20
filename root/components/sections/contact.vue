@@ -115,6 +115,11 @@ const handleClick = (item: any, event: MouseEvent) => {
 .command {
   font-family: monospace;
   color: #A1A1AA;
+
+  &::after {
+    content: ' _';
+    animation: blink 1s step-end infinite;
+  }
 }
 
 .items {
@@ -143,6 +148,30 @@ const handleClick = (item: any, event: MouseEvent) => {
   .item:hover & {
     filter: brightness(0) invert(1); // turns to white/off-white (#FAFAFA)
     transform: translateY(-2px);
+  }
+}
+
+:global(#contact):target {
+  .terminalCard {
+    animation: targetPulse 2s ease-out;
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes targetPulse {
+  0% {
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2), 0 0 0 0 rgba(56, 189, 248, 0);
+  }
+  20% {
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2), 0 0 20px 2px rgba(56, 189, 248, 0.4);
+  }
+  100% {
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2), 0 0 0 0 rgba(56, 189, 248, 0);
   }
 }
 </style>
