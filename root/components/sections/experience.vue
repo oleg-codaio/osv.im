@@ -11,9 +11,8 @@
         >
           <defs>
             <linearGradient id="progressGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#1e3a8a" />
-              <stop offset="50%" stop-color="#3b82f6" />
-              <stop offset="100%" stop-color="#06b6d4" />
+              <stop offset="0%" stop-color="#38bdf8" />
+              <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
             </linearGradient>
           </defs>
           <!-- Layer 1: Static Faint Track -->
@@ -41,7 +40,7 @@
           <path
             :class="$style.pathDataFlow"
             fill="none"
-            stroke="#3b82f6"
+            stroke="#38bdf8"
             stroke-linejoin="round"
             stroke-linecap="round"
             :stroke-width="strokeWidth"
@@ -517,13 +516,13 @@ $pathWidth: 4px;
     .info {
       transform: translateY(-4px);
       border-color: rgba(255, 255, 255, 0.18);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 15px rgba(59, 130, 246, 0.1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 15px rgba(56, 189, 248, 0.1);
     }
     
     .dot {
       transform: translate(-50%, -50%) scale(1.25);
-      border-color: #06b6d4;
-      box-shadow: 0 0 15px rgba(6, 182, 212, 0.8);
+      border-color: #38bdf8;
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.8);
     }
   }
 
@@ -580,14 +579,14 @@ $pathWidth: 4px;
   width: 12px;
   height: 12px;
   background-color: #09090B;
-  border: 3px solid #3b82f6;
+  border: 3px solid #38bdf8;
   border-radius: 50%;
   position: absolute;
   top: 50%;
   left: 50%;
   opacity: 0;
   transform: translate(-50%, -50%) scale(0);
-  box-shadow: 0 0 10px rgba(59, 130, 246, 0.6);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
   transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
