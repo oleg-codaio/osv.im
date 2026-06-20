@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, computed } from 'vue';
+import { ref, onMounted, onBeforeUnmount, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 const shown = ref(false);
@@ -26,6 +26,28 @@ const activeSection = ref(route.hash ? route.hash.slice(1) : 'about');
 
 const isProgrammaticScrolling = ref(false);
 let scrollTimeout: any = null;
+
+// Watch route changes to block scroll spy updates during router smooth scrolls
+watch(
+  () => route.fullPath,
+  () => {
+    if (route.path === '/' && route.hash) {
+      isProgrammaticScrolling.value = true;
+      activeSection.value = route.hash.slice(1);
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        isProgrammaticScrolling.value = false;
+      }, 1000);
+    } else if (route.path === '/' && !route.hash) {
+      isProgrammaticScrolling.value = true;
+      activeSection.value = 'about';
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        isProgrammaticScrolling.value = false;
+      }, 1000);
+    }
+  }
+);
 
 // Dynamic Active States
 const isAboutActive = computed(() => {
@@ -87,6 +109,19 @@ onMounted(() => {
   };
   window.addEventListener('resize', handleResize);
 
+  // Block scroll updates on mount if arriving with a hash or at top
+  if (route.path === '/') {
+    isProgrammaticScrolling.value = true;
+    if (route.hash) {
+      activeSection.value = route.hash.slice(1);
+    } else {
+      activeSection.value = 'about';
+    }
+    scrollTimeout = setTimeout(() => {
+      isProgrammaticScrolling.value = false;
+    }, 1000);
+  }
+
   // Setup intersection observer for scrollspy
   const observerOptions = {
     root: null,
@@ -100,7 +135,7 @@ onMounted(() => {
     entries.forEach((entry) => {
       const scrollPosition = window.scrollY + window.innerHeight;
       const bottomPosition = document.documentElement.scrollHeight;
-      const isAtBottom = scrollPosition >= bottomPosition - 50;
+      const isAtBottom = (window.scrollY > 100) && (scrollPosition >= bottomPosition - 50);
 
       if (entry.isIntersecting && !isAtBottom) {
         activeSection.value = entry.target.id;
@@ -117,6 +152,11 @@ onMounted(() => {
   const handleScroll = () => {
     if (route.path !== '/') return;
     if (isProgrammaticScrolling.value) return;
+    
+    if (window.scrollY <= 0) {
+      activeSection.value = 'about';
+      return;
+    }
     
     const scrollPosition = window.scrollY + window.innerHeight;
     const bottomPosition = document.documentElement.scrollHeight;
