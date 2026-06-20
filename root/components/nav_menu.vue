@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, computed, watch } from 'vue';
+import { ref, onMounted, onBeforeUnmount, computed, watch, nextTick } from 'vue';
 import { useRoute } from 'vue-router';
 
 const shown = ref(false);
@@ -26,6 +26,51 @@ const activeSection = ref(route.hash ? route.hash.slice(1) : 'about');
 
 const isProgrammaticScrolling = ref(false);
 let scrollTimeout: any = null;
+
+let observer: IntersectionObserver | null = null;
+let setupRetryTimeout: any = null;
+
+const setupObserver = () => {
+  if (!process.client) return;
+  
+  if (setupRetryTimeout) clearTimeout(setupRetryTimeout);
+  
+  if (observer) {
+    observer.disconnect();
+  }
+
+  const sections = ['about', 'experience', 'writing', 'contact'];
+  const elements = sections.map(id => document.getElementById(id)).filter(Boolean);
+  
+  if (route.path === '/' && elements.length === 0) {
+    setupRetryTimeout = setTimeout(setupObserver, 100);
+    return;
+  }
+
+  const observerOptions = {
+    root: null,
+    rootMargin: '-45% 0px -45% 0px',
+    threshold: 0,
+  };
+
+  observer = new IntersectionObserver((entries) => {
+    if (isProgrammaticScrolling.value) return;
+    
+    entries.forEach((entry) => {
+      const scrollPosition = window.scrollY + window.innerHeight;
+      const bottomPosition = document.documentElement.scrollHeight;
+      const isAtBottom = (window.scrollY > 100) && (scrollPosition >= bottomPosition - 50);
+
+      if (entry.isIntersecting && !isAtBottom) {
+        activeSection.value = entry.target.id;
+      }
+    });
+  }, observerOptions);
+
+  elements.forEach((el) => {
+    if (el) observer.observe(el);
+  });
+};
 
 // Watch route changes to block scroll spy updates during router smooth scrolls
 watch(
@@ -45,6 +90,17 @@ watch(
       scrollTimeout = setTimeout(() => {
         isProgrammaticScrolling.value = false;
       }, 1000);
+    }
+
+    if (route.path === '/') {
+      nextTick(() => {
+        setupObserver();
+      });
+    } else {
+      if (observer) {
+        observer.disconnect();
+      }
+      if (setupRetryTimeout) clearTimeout(setupRetryTimeout);
     }
   }
 );
@@ -123,31 +179,7 @@ onMounted(() => {
   }
 
   // Setup intersection observer for scrollspy
-  const observerOptions = {
-    root: null,
-    rootMargin: '-45% 0px -45% 0px',
-    threshold: 0,
-  };
-
-  const observer = new IntersectionObserver((entries) => {
-    if (isProgrammaticScrolling.value) return;
-    
-    entries.forEach((entry) => {
-      const scrollPosition = window.scrollY + window.innerHeight;
-      const bottomPosition = document.documentElement.scrollHeight;
-      const isAtBottom = (window.scrollY > 100) && (scrollPosition >= bottomPosition - 50);
-
-      if (entry.isIntersecting && !isAtBottom) {
-        activeSection.value = entry.target.id;
-      }
-    });
-  }, observerOptions);
-
-  const sections = ['about', 'experience', 'writing', 'contact'];
-  sections.forEach((id) => {
-    const el = document.getElementById(id);
-    if (el) observer.observe(el);
-  });
+  setupObserver();
 
   const handleScroll = () => {
     if (route.path !== '/') return;
@@ -169,8 +201,9 @@ onMounted(() => {
   onBeforeUnmount(() => {
     window.removeEventListener('resize', handleResize);
     window.removeEventListener('scroll', handleScroll);
-    observer.disconnect();
+    if (observer) observer.disconnect();
     if (scrollTimeout) clearTimeout(scrollTimeout);
+    if (setupRetryTimeout) clearTimeout(setupRetryTimeout);
   });
 });
 </script>
