@@ -58,7 +58,11 @@ onMounted(() => {
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      if (entry.isIntersecting) {
+      const scrollPosition = window.scrollY + window.innerHeight;
+      const bottomPosition = document.documentElement.scrollHeight;
+      const isAtBottom = scrollPosition >= bottomPosition - 50;
+
+      if (entry.isIntersecting && !isAtBottom) {
         activeSection.value = entry.target.id;
       }
     });
@@ -70,8 +74,18 @@ onMounted(() => {
     if (el) observer.observe(el);
   });
 
+  const handleScroll = () => {
+    const scrollPosition = window.scrollY + window.innerHeight;
+    const bottomPosition = document.documentElement.scrollHeight;
+    if (scrollPosition >= bottomPosition - 50) {
+      activeSection.value = 'contact';
+    }
+  };
+  window.addEventListener('scroll', handleScroll, { passive: true });
+
   onBeforeUnmount(() => {
     window.removeEventListener('resize', handleResize);
+    window.removeEventListener('scroll', handleScroll);
     observer.disconnect();
   });
 });

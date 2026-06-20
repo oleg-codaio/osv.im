@@ -41,6 +41,11 @@ import Contact from '~/components/sections/contact.vue';
   width: 100vw;
   display: flex;
   flex-direction: column;
+  scroll-margin-top: $header-size;
+
+  @media only screen and (max-width: 768px) {
+    scroll-margin-top: 0px;
+  }
 
   article {
     padding: 10px 20px;
