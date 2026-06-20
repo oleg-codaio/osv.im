@@ -403,4 +403,11 @@ onMounted(() => {
     opacity: 1;
   }
 }
+
+@media print {
+  .hamburger,
+  .root {
+    display: none !important;
+  }
+}
 </style>
