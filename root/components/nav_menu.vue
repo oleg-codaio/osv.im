@@ -52,7 +52,7 @@ onMounted(() => {
   // Setup intersection observer for scrollspy
   const observerOptions = {
     root: null,
-    rootMargin: '-80px 0px -80% 0px',
+    rootMargin: '-45% 0px -45% 0px',
     threshold: 0,
   };
 
