@@ -198,6 +198,10 @@ const scrollToSection = (id: string, event: Event) => {
 
       history.pushState(null, '', `#${id}`);
 
+      if (id === 'contact') {
+        window.dispatchEvent(new CustomEvent('contact-targeted'));
+      }
+
       if (scrollTimeout) clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(clearProgrammaticScroll, 800);
     }

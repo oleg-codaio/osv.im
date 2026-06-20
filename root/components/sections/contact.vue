@@ -1,6 +1,6 @@
 <template>
   <footer :class="$style.footer">
-    <div :class="$style.terminalCard">
+    <div :class="[$style.terminalCard, isTarget && $style.isTarget]">
       <div :class="$style.terminalHeader">
         <span :class="$style.prompt">~/$</span> <span :class="$style.command">ping oleg</span>
       </div>
@@ -28,12 +28,33 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import emailIcon from '~/assets/contact/email.png';
 import linkedinIcon from '~/assets/contact/linkedin.png';
 import twitterIcon from '~/assets/contact/twitter.png';
 import githubIcon from '~/assets/contact/github.png';
 
 const email = 'mi.vso@gelo';
+const isTarget = ref(false);
+
+const handleTargetEvent = () => {
+  isTarget.value = true;
+  setTimeout(() => {
+    isTarget.value = false;
+  }, 2000);
+};
+
+onMounted(() => {
+  window.addEventListener('contact-targeted', handleTargetEvent);
+  
+  if (window.location.hash === '#contact') {
+    handleTargetEvent();
+  }
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('contact-targeted', handleTargetEvent);
+});
 
 const items = [
   {
@@ -98,6 +119,10 @@ const handleClick = (item: any, event: MouseEvent) => {
   flex-direction: column;
   align-items: center;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+
+  &.isTarget {
+    animation: targetPulse 2s ease-out;
+  }
 }
 
 .terminalHeader {
