@@ -5,8 +5,8 @@
 
       <p>
         I'm an experienced full-stack software engineer, currently working at
-        <a href="https://coda.io/?utm_campaign=osv&utm_medium=email&utm_source=coda" target="_blank" rel="noopener"
-          >Coda</a
+        <a href="https://superhuman.com" target="_blank" rel="noopener"
+          >Superhuman</a
         >.
       </p>
 
