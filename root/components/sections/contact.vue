@@ -37,23 +37,33 @@ import githubIcon from '~/assets/contact/github.png';
 const email = 'mi.vso@gelo';
 const isTarget = ref(false);
 
-const handleTargetEvent = () => {
-  isTarget.value = true;
+const handleTargetEvent = (delay = 0) => {
   setTimeout(() => {
-    isTarget.value = false;
-  }, 2000);
+    isTarget.value = true;
+    setTimeout(() => {
+      isTarget.value = false;
+    }, 2000);
+  }, delay);
 };
 
+let targetListener: any = null;
+
 onMounted(() => {
-  window.addEventListener('contact-targeted', handleTargetEvent);
+  targetListener = (e: any) => {
+    const delay = e.detail?.delay || 0;
+    handleTargetEvent(delay);
+  };
+  window.addEventListener('contact-targeted', targetListener);
   
   if (window.location.hash === '#contact') {
-    handleTargetEvent();
+    handleTargetEvent(150);
   }
 });
 
 onBeforeUnmount(() => {
-  window.removeEventListener('contact-targeted', handleTargetEvent);
+  if (targetListener) {
+    window.removeEventListener('contact-targeted', targetListener);
+  }
 });
 
 const items = [
@@ -119,10 +129,10 @@ const handleClick = (item: any, event: MouseEvent) => {
   flex-direction: column;
   align-items: center;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+}
 
-  &.isTarget {
-    animation: targetPulse 2s ease-out;
-  }
+.isTarget {
+  animation: targetPulse 2s ease-out;
 }
 
 .terminalHeader {
