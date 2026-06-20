@@ -1,4 +1,5 @@
 import type { RouterConfig } from '@nuxt/schema';
+import { useNuxtApp } from '#app';
 
 export default <RouterConfig>{
   scrollBehavior(to, from, savedPosition) {
@@ -24,10 +25,17 @@ export default <RouterConfig>{
       });
     }
 
-    if (savedPosition) {
-      return savedPosition;
-    }
-
-    return { top: 0 };
+    // Delay the scroll to top/saved position until the new page has finished rendering/mounting.
+    // This prevents the current page from jumping to top before the route swap takes place.
+    return new Promise((resolve) => {
+      if (import.meta.client) {
+        const nuxtApp = useNuxtApp();
+        nuxtApp.hooks.hookOnce('page:finish', () => {
+          resolve(savedPosition || { top: 0 });
+        });
+      } else {
+        resolve(savedPosition || { top: 0 });
+      }
+    });
   },
 };
