@@ -7,7 +7,7 @@
     </div>
 
     <div :class="[$style.root, shown && $style.shown]">
-      <NuxtLink :to="{ path: '/', hash: '#about' }" :class="[$style.item, isAboutActive && $style.isActive]" @click="scrollToSection('about', $event)">About</NuxtLink>
+      <NuxtLink :to="{ path: '/' }" :class="[$style.item, isAboutActive && $style.isActive]" @click="scrollToSection('about', $event)">About</NuxtLink>
       <NuxtLink :to="{ path: '/', hash: '#experience' }" :class="[$style.item, isExperienceActive && $style.isActive]" @click="scrollToSection('experience', $event)">Experience</NuxtLink>
       <NuxtLink :to="writingLinkTarget" :class="[$style.item, isWritingActive && $style.isActive]" @click="scrollToSection('writing', $event)">Writing</NuxtLink>
       <NuxtLink :to="{ path: '/', hash: '#contact' }" :class="[$style.item, isContactActive && $style.isActive]" @click="scrollToSection('contact', $event)">Contact</NuxtLink>
@@ -171,6 +171,20 @@ const scrollToSection = (id: string, event: Event) => {
   if (route.path === '/') {
     event.preventDefault();
     shown.value = false;
+
+    if (id === 'about') {
+      isProgrammaticScrolling.value = true;
+      activeSection.value = 'about';
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+      history.pushState(null, '', '/');
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(clearProgrammaticScroll, 800);
+      return;
+    }
+
     const el = document.getElementById(id);
     if (el) {
       isProgrammaticScrolling.value = true;
