@@ -2,13 +2,15 @@
 title: Online Poker in a Document
 date: 2020-02-29
 readTime: 6
-image: https://miro.medium.com/max/1400/0*b7sqDFUi7q_mnUVI.png
+image: /images/writing/online-poker-in-a-document/cover.png
 excerpt: Over the winter holidays, I built a functional multiplayer poker game entirely within a Coda document using only formulas and buttons.
 ---
 
 Over the winter holidays, I found some time to work on improving my poker game, reading a couple great books and then applying their theories into practice. While there is no substitute for playing in a casino or at someone's house, one of the quickest ways to get into a game is to play online poker. There are hundreds of platforms out there, and after playing on a few I thought it would be a fun learning experience to create my own, but with a twist: what if you could have a doc that lets you play poker? Our goal at Coda is to precisely to facilitate that: creating docs as powerful as apps (with the help of formulas, not code), so I set out on an attempt. Read on to see the result and go behind the scenes.
 
 Without further ado, here's the doc: [coda.io/@osv/poker](https://coda.io/@osv/poker) (open on a desktop for the best experience). Get a game going, and it will look something like this:
+
+![Multiplayer poker gameplay inside Coda](/images/writing/online-poker-in-a-document/gameplay.gif)
 
 No team of engineers behind it. No long release cycle or lots of code to maintain. And while there are also no pleasant poker table graphics or pretty animations when someone bets, at the end of the day, this whole game is really just a super-document put together by a single hobbyist with some free time over a few days.
 
@@ -22,15 +24,21 @@ The first step to putting together a doc like this is to think through the schem
 
 Naturally the first thing my mind jumped to when putting together a poker game was the deck. After finding a set of public domain card images online, I added a table of 52 rows, corresponding to each of the cards. The crucial things to know here about each card are its rank and suit (for identifying different hands later on) as well as the location of each card: whether it's in the deck, dealt out on the table, or in a player's hand.
 
+![Cards Coda table](/images/writing/online-poker-in-a-document/cards-table.webp)
+
 ### Ranks and Suits
 
 Ranks in Poker can be numeric (2–10) or face cards (J, Q, K, and A), and I had a hunch that only keeping around the value as shown on the card wasn't going to be that useful, since Coda won't just magically know that a King is better than a Queen. So, I added another table for Ranks, and while I was at it, one for Suits as well. Later on this turned out useful for adding a "sort value" for each rank to enable us to sort cards by how strong they are.
 
 The "sort value" of a rank is an alternative representation of it that can be lexicographically sorted within Coda. The weakest card (two) has a sort value of 0. A ten has a sort value of 8, a jack is a 9, queen is A, king is B, and ace is C.
 
+![Ranks and Suits Coda table](/images/writing/online-poker-in-a-document/ranks-suits-table.webp)
+
 ### Players
 
 The last major set of entities in poker is the set of players in the game, which is also tied to the hand they form from their pocket cards and the community cards on the table. This Coda table started out fairly simple, but actually grew to about 60 columns, containing info such as the user playing as each player, whether it's their turn, whether they're holding a flush or a four-of-a-kind, their role as a dealer or blind in the current round, and so on.
+
+![Players Coda table](/images/writing/online-poker-in-a-document/players-table.webp)
 
 Thanks to Coda's conditional formats, it was relatively easy to improve the readability of this table to highlight the current player or someone's turn.
 
@@ -38,7 +46,11 @@ Thanks to Coda's conditional formats, it was relatively easy to improve the read
 
 With the foundations put in place, the next step was putting together the game logic that actually allows playing the game, which is made up of two things: state and procedures. Nearly every game needs to keep track of state, and for poker that includes whose turn it is, who's the dealer, the size of the bet, etc. In addition to that, each action that a player takes results in a procedure, or set of steps, happening. An example is that starting a new game should cause the cards to get shuffled. In Coda, this can be accomplished using buttons.
 
-A hidden section in the Coda doc contains the internals of the "game engine". There are many more columns that aren't shown here. I created a new single-row table called "State" to contain all the state and buttons in one place. Feel free to make a copy of the doc and explore all the formulas and buttons to see how they work!
+A hidden section in the Coda doc contains the internals of the "game engine". There are many more columns that aren't shown here.
+
+![State and game engine internals](/images/writing/online-poker-in-a-document/game-state.webp)
+
+I created a new single-row table called "State" to contain all the state and buttons in one place. Feel free to make a copy of the doc and explore all the formulas and buttons to see how they work!
 
 > \* Actually making this doc involved a lot of back and forth between updating the schema and the game logic, since the latter often depended on updates to the former. For instance, when someone takes their turn, we want to update "Current Player" to be the next player to take their turn. This meant adding a new column to the Players table called "Next Player", which contains a formula that determines the next, non-folded player in the round.
 
@@ -48,7 +60,11 @@ At the end of a poker hand, the player with the best cards takes the pot (well, 
 
 The five cards above would get represented as "7–0A". The "7" corresponds to them forming a four-of-a-kind, which is better than a "6", which would make a full house. The numbers after the hyphen are used for tie breaking, and in this case refer to the quads having a rank of 2 (the lowest rank, represented as "0") with a Q kicker (represented as an "A" since it's the 11th best card).
 
+![Five cards hand representation example](/images/writing/online-poker-in-a-document/five-cards-example.webp)
+
 If you're interested in the details of how each hand is determined, check out the "How It's Made" section in the doc. But, here's an example of a formula used to find all the pairs in a player's hand:
+
+![Coda hand ranking formula example](/images/writing/online-poker-in-a-document/formula-example.webp)
 
 That "Ranks" table we added earlier? I added a new column called "Player Counts", which contains the number of times each rank appears in each player's hand. Here we're only returning ranks that occur at least twice in a player's hand. With this representation, we can find what the best hand on the table is (by sorting all the representations and taking the last one), and subsequently the player(s) who have it.
 
