@@ -22,8 +22,8 @@
         </NuxtLink>
       </div>
       <div :class="$style.moreLink">
-        <NuxtLink to="/blog" :class="$style.viewAll">
-          View all posts <span :class="$style.arrow">→</span>
+        <NuxtLink to="/writing" :class="$style.viewAll">
+          Read archive <span :class="$style.arrow">→</span>
         </NuxtLink>
       </div>
     </article>
@@ -36,8 +36,8 @@ import mediumData from '~/assets/data/medium.json';
 
 const { user } = mediumData;
 
-const { data: posts } = await useAsyncData('blog-posts', () => 
-  queryCollection('blog')
+const { data: posts } = await useAsyncData('writing-posts', () => 
+  queryCollection('writing')
     .order('date', 'DESC')
     .all()
 );

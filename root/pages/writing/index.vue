@@ -32,8 +32,8 @@ import mediumData from '~/assets/data/medium.json';
 
 const { user } = mediumData;
 
-const { data: posts } = await useAsyncData('blog-archive', () =>
-  queryCollection('blog')
+const { data: posts } = await useAsyncData('writing-archive', () =>
+  queryCollection('writing')
     .order('date', 'DESC')
     .all()
 );

@@ -9,7 +9,7 @@
     <div :class="[$style.root, shown && $style.shown]">
       <NuxtLink :to="{ path: '/', hash: '#about' }" :class="[$style.item, isAboutActive && $style.isActive]" @click="scrollToSection('about', $event)">About</NuxtLink>
       <NuxtLink :to="{ path: '/', hash: '#experience' }" :class="[$style.item, isExperienceActive && $style.isActive]" @click="scrollToSection('experience', $event)">Experience</NuxtLink>
-      <NuxtLink :to="blogLinkTarget" :class="[$style.item, isBlogActive && $style.isActive]" @click="scrollToSection('blog', $event)">Blog</NuxtLink>
+      <NuxtLink :to="writingLinkTarget" :class="[$style.item, isWritingActive && $style.isActive]" @click="scrollToSection('writing', $event)">Writing</NuxtLink>
       <NuxtLink :to="{ path: '/', hash: '#contact' }" :class="[$style.item, isContactActive && $style.isActive]" @click="scrollToSection('contact', $event)">Contact</NuxtLink>
     </div>
   </div>
@@ -58,8 +58,8 @@ const isExperienceActive = computed(() => {
   return route.path === '/' && activeSection.value === 'experience';
 });
 
-const isBlogActive = computed(() => {
-  return route.path.startsWith('/blog') || (route.path === '/' && activeSection.value === 'blog');
+const isWritingActive = computed(() => {
+  return route.path.startsWith('/writing') || (route.path === '/' && activeSection.value === 'writing');
 });
 
 const isContactActive = computed(() => {
@@ -67,8 +67,8 @@ const isContactActive = computed(() => {
 });
 
 // Dynamic Link Targets
-const blogLinkTarget = computed(() => {
-  return route.path === '/' ? { path: '/', hash: '#blog' } : '/blog';
+const writingLinkTarget = computed(() => {
+  return route.path === '/' ? { path: '/', hash: '#writing' } : '/writing';
 });
 
 const scrollToSection = (id: string, event: Event) => {
@@ -143,7 +143,7 @@ onMounted(() => {
     });
   }, observerOptions);
 
-  const sections = ['about', 'experience', 'blog', 'contact'];
+  const sections = ['about', 'experience', 'writing', 'contact'];
   sections.forEach((id) => {
     const el = document.getElementById(id);
     if (el) observer.observe(el);

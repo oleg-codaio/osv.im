@@ -3,7 +3,7 @@
     <main :class="$style.body">
       <About id="about" :class="[$style.section, $style.aboutSection]" />
       <Experience id="experience" :class="$style.section" />
-      <Blog id="blog" :class="$style.section" />
+      <Writing id="writing" :class="$style.section" />
       <Contact id="contact" :class="[$style.section, $style.contactSection]" />
     </main>
   </div>
@@ -12,7 +12,7 @@
 <script setup lang="ts">
 import About from '~/components/sections/about.vue';
 import Experience from '~/components/sections/experience.vue';
-import Blog from '~/components/sections/blog.vue';
+import Writing from '~/components/sections/writing.vue';
 import Contact from '~/components/sections/contact.vue';
 </script>
 

@@ -3,7 +3,7 @@
     <main :class="$style.mainContent">
       <article v-if="doc" :class="$style.article">
         <header :class="$style.header">
-          <NuxtLink to="/blog" :class="$style.backLink">← Back to Blog</NuxtLink>
+          <NuxtLink to="/writing" :class="$style.backLink">← Back to Writing</NuxtLink>
           <h1 :class="$style.title">{{ doc.title }}</h1>
           <div :class="$style.meta">
             <span>{{ formatDate(doc.date) }}</span>
@@ -19,7 +19,7 @@
       </article>
       <div v-else :class="$style.notFound">
         <p>Post not found.</p>
-        <NuxtLink to="/blog" :class="$style.backLink">← Back to Blog</NuxtLink>
+        <NuxtLink to="/writing" :class="$style.backLink">← Back to Writing</NuxtLink>
       </div>
     </main>
   </div>
@@ -30,8 +30,8 @@ import { useAsyncData, useRoute } from '#app';
 
 const route = useRoute();
 
-const { data: doc } = await useAsyncData(`blog-${route.path}`, () => 
-  queryCollection('blog').path(route.path).first()
+const { data: doc } = await useAsyncData(`writing-${route.path}`, () => 
+  queryCollection('writing').path(route.path).first()
 );
 
 function formatDate(dateStr: string) {
