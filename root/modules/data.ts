@@ -1,4 +1,4 @@
-import {Module} from '@nuxt/types';
+import { defineNuxtModule } from '@nuxt/kit';
 import fs from 'fs-extra';
 import path from 'path';
 
@@ -9,12 +9,6 @@ function ensure<T>(value: T | undefined | null, id?: string): T {
 
   return value;
 }
-
-const StaticDataSrcDir = path.join(__dirname, '..', 'assets', 'data-src');
-const RawDataFile = path.join(StaticDataSrcDir, 'medium.txt');
-
-const StaticDataDir = path.join(__dirname, '..', '..', 'assets', 'data');
-export const MediumDataFile = path.join(StaticDataDir, 'medium.json');
 
 interface MediumPost {
   title: string;
@@ -35,7 +29,7 @@ interface MediumPost {
 interface MediumData {
   payload: {
     references: {
-      Post: MediumPost[];
+      Post: Record<string, MediumPost>;
     };
     user: {
       imageId: string;
@@ -45,43 +39,54 @@ interface MediumData {
   };
 }
 
-/** Fetch all external data to generate the site. */
-const dataModule: Module = function fetchData() {
-  function writeData(path: string, data: any): void {
-    fs.ensureFileSync(path);
-    fs.writeJsonSync(path, data);
-  }
+export default defineNuxtModule({
+  meta: {
+    name: 'medium-data-fetcher',
+    configKey: 'mediumDataFetcher',
+  },
+  setup(options, nuxt) {
+    const StaticDataSrcDir = path.join(nuxt.options.srcDir, 'assets', 'data-src');
+    const RawDataFile = path.join(StaticDataSrcDir, 'medium.txt');
+    const StaticDataDir = path.join(nuxt.options.srcDir, 'assets', 'data');
+    const MediumDataFile = path.join(StaticDataDir, 'medium.json');
 
-  async function getMediumPosts() {
-    // TODO(oleg): uncomment if Medium ever lets us access this directly.
-    // const res = await axios.get('https://medium.com/@osv/latest?format=json', {responseType: 'text'});
-    const res = {data: fs.readFileSync(RawDataFile).toString()};
-    const body: MediumData = JSON.parse(res.data.replace('])}while(1);</x>', ''));
-    const posts = Object.values(body.payload.references.Post).map((post) => {
-      const title = ensure(post.title, 'title');
-      const image = `https://miro.medium.com/fit/c/240/240/${ensure(post.virtuals.previewImage.imageId)}`;
-      const subtitle = ensure(post.previewContent.subtitle, 'subtitle');
-      const url =
-        `https://medium.com/@${ensure(body.payload.user.username, 'username')}` +
-        `/${ensure(post.uniqueSlug, 'uniqueSlug')}`;
-      const date = post.firstPublishedAt;
-      const claps = post.virtuals.totalClapCount;
-      const readingTime = Math.round(post.virtuals.readingTime);
-      return {title, image, subtitle, url, date, claps, readingTime};
-    });
-    const user = {
-      image: `https://miro.medium.com/fit/c/80/80/${body.payload.user.imageId}`,
-      name: body.payload.user.name,
-      username: body.payload.user.username,
-    };
+    function writeData(filePath: string, data: any): void {
+      fs.ensureFileSync(filePath);
+      fs.writeJsonSync(filePath, data);
+    }
 
-    return {user, posts};
-  }
+    function getMediumPosts() {
+      const res = {data: fs.readFileSync(RawDataFile).toString()};
+      const body: MediumData = JSON.parse(res.data.replace('])}while(1);</x>', ''));
+      const posts = Object.values(body.payload.references.Post).map((post) => {
+        const title = ensure(post.title, 'title');
+        const image = `https://miro.medium.com/fit/c/240/240/${ensure(post.virtuals.previewImage.imageId)}`;
+        const subtitle = ensure(post.previewContent.subtitle, 'subtitle');
+        const url =
+          `https://medium.com/@${ensure(body.payload.user.username, 'username')}` +
+          `/${ensure(post.uniqueSlug, 'uniqueSlug')}`;
+        const date = post.firstPublishedAt;
+        const claps = post.virtuals.totalClapCount;
+        const readingTime = Math.round(post.virtuals.readingTime);
+        return {title, image, subtitle, url, date, claps, readingTime};
+      });
+      const user = {
+        image: `https://miro.medium.com/fit/c/80/80/${body.payload.user.imageId}`,
+        name: body.payload.user.name,
+        username: body.payload.user.username,
+      };
 
-  this.nuxt.hook('build:before', async () => {
-    fs.emptyDir(StaticDataDir);
-    await Promise.all([writeData(MediumDataFile, await getMediumPosts())]);
-  });
-};
+      return {user, posts};
+    }
 
-export default dataModule;
+    // Run when module is initialized
+    try {
+      fs.emptyDirSync(StaticDataDir);
+      const data = getMediumPosts();
+      writeData(MediumDataFile, data);
+      console.log('Successfully generated medium.json');
+    } catch (e) {
+      console.error('Failed to generate medium.json:', e);
+    }
+  },
+});

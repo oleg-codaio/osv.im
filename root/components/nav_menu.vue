@@ -1,34 +1,84 @@
 <template>
   <div>
-    <div :class="[$style.hamburger, shown && $style.shown]" v-on:click="shown = !shown">
+    <div :class="[$style.hamburger, shown && $style.shown]" @click="shown = !shown">
       <div :class="$style.hamburgerTop" />
       <div :class="$style.hamburgerMiddle" />
       <div :class="$style.hamburgerBottom" />
     </div>
 
-    <scrollactive :offset="isMobile ? 0 : 75" :class="[$style.root, shown && $style.shown]">
-      <a href="#about" class="scrollactive-item" :class="$style.item" v-on:click="shown = !shown">About</a>
-      <a href="#experience" class="scrollactive-item" :class="$style.item" v-on:click="shown = !shown">Experience</a>
-      <a href="#blog" class="scrollactive-item" :class="$style.item" v-on:click="shown = !shown">Blog</a>
-      <a href="#contact" class="scrollactive-item" :class="$style.item" v-on:click="shown = !shown">Contact</a>
-    </scrollactive>
+    <div :class="[$style.root, shown && $style.shown]">
+      <a href="#about" :class="[$style.item, activeSection === 'about' && $style.isActive]" @click="scrollToSection('about', $event)">About</a>
+      <a href="#experience" :class="[$style.item, activeSection === 'experience' && $style.isActive]" @click="scrollToSection('experience', $event)">Experience</a>
+      <a href="#blog" :class="[$style.item, activeSection === 'blog' && $style.isActive]" @click="scrollToSection('blog', $event)">Blog</a>
+      <a href="#contact" :class="[$style.item, activeSection === 'contact' && $style.isActive]" @click="scrollToSection('contact', $event)">Contact</a>
+    </div>
   </div>
 </template>
 
-<script lang="ts">
-import {Component, Vue} from 'vue-property-decorator';
+<script setup lang="ts">
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 
-@Component({
-  data: () => ({
-    shown: false,
-    isMobile: (process as any).browser && window.innerWidth < 768,
-  }),
-})
-export default class NavMenu extends Vue {}
+const shown = ref(false);
+const isMobile = ref(false);
+const activeSection = ref('about');
+
+const scrollToSection = (id: string, event: Event) => {
+  event.preventDefault();
+  shown.value = false;
+  const el = document.getElementById(id);
+  if (el) {
+    const offset = isMobile.value ? 0 : 75;
+    const bodyRect = document.body.getBoundingClientRect().top;
+    const elementRect = el.getBoundingClientRect().top;
+    const elementPosition = elementRect - bodyRect;
+    const offsetPosition = elementPosition - offset;
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth'
+    });
+    activeSection.value = id;
+    history.pushState(null, '', `#${id}`);
+  }
+};
+
+onMounted(() => {
+  isMobile.value = window.innerWidth < 768;
+  const handleResize = () => {
+    isMobile.value = window.innerWidth < 768;
+  };
+  window.addEventListener('resize', handleResize);
+
+  // Setup intersection observer for scrollspy
+  const observerOptions = {
+    root: null,
+    rootMargin: '-80px 0px -40% 0px',
+    threshold: 0,
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        activeSection.value = entry.target.id;
+      }
+    });
+  }, observerOptions);
+
+  const sections = ['about', 'experience', 'blog', 'contact'];
+  sections.forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) observer.observe(el);
+  });
+
+  onBeforeUnmount(() => {
+    window.removeEventListener('resize', handleResize);
+    observer.disconnect();
+  });
+});
 </script>
 
 <style lang="scss" module>
-@import '../node_modules/sass-svg-uri/_svg-uri';
+@import 'sass-svg-uri';
 @import '~/assets/css/main.scss';
 
 .root {
@@ -160,7 +210,7 @@ export default class NavMenu extends Vue {}
     margin: 25px 0px;
   }
 
-  &:global(.is-active) {
+  &.isActive {
     color: $nav-item-selected;
     border-color: $nav-item-selected;
   }

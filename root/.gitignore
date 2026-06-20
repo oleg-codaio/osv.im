@@ -1,5 +1,7 @@
 node_modules/
+dist
 dist/
 .nuxt/
+.output/
 .generated/
 assets/data/

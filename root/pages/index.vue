@@ -1,34 +1,22 @@
 <template>
   <div :class="$style.root">
-    <navmenu />
+    <NavMenu />
 
     <main :class="$style.body">
-      <about id="about" :class="$style.section" />
-      <experience id="experience" :class="$style.section" />
-      <blog id="blog" :class="$style.section" />
-      <contact id="contact" :class="$style.section" />
+      <About id="about" :class="$style.section" />
+      <Experience id="experience" :class="$style.section" />
+      <Blog id="blog" :class="$style.section" />
+      <Contact id="contact" :class="$style.section" />
     </main>
   </div>
 </template>
 
-<script lang="ts">
-import {Component, Vue} from 'vue-property-decorator';
+<script setup lang="ts">
 import NavMenu from '~/components/nav_menu.vue';
 import About from '~/components/sections/about.vue';
 import Experience from '~/components/sections/experience.vue';
 import Blog from '~/components/sections/blog.vue';
 import Contact from '~/components/sections/contact.vue';
-
-@Component({
-  components: {
-    navmenu: NavMenu,
-    about: About,
-    blog: Blog,
-    experience: Experience,
-    contact: Contact,
-  },
-})
-export default class extends Vue {}
 </script>
 
 <style lang="scss" module>

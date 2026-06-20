@@ -15,11 +15,8 @@
   </section>
 </template>
 
-<script lang="ts">
-import {Component, Vue} from 'vue-property-decorator';
-
-@Component({})
-export default class extends Vue {}
+<script setup lang="ts">
+// Simple static component
 </script>
 
 <style lang="scss" module>

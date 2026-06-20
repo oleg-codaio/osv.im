@@ -2,7 +2,7 @@
   <section :class="$style.root">
     <article :class="$style.container">
       <div :class="$style.posts">
-        <div v-for="post in posts" :class="$style.postContainer" :key="post.name">
+        <div v-for="post in posts" :class="$style.postContainer" :key="post.url">
           <div :class="$style.author">
             <div :class="$style.avatar" :style="'background-image: url(' + user.image + ')'" />
             <div :class="$style.metadata">
@@ -27,6 +27,11 @@
     </article>
   </section>
 </template>
+
+<script setup lang="ts">
+import mediumData from '~/assets/data/medium.json';
+const { posts, user } = mediumData;
+</script>
 
 <style lang="scss" module>
 @import '~/assets/css/main.scss';
@@ -113,16 +118,3 @@
   margin-right: 10px;
 }
 </style>
-
-<script lang="ts">
-import {Component, Vue} from 'vue-property-decorator';
-import {posts, user} from '~/assets/data/medium.json';
-
-@Component({
-  data: () => ({
-    posts,
-    user,
-  }),
-})
-export default class extends Vue {}
-</script>

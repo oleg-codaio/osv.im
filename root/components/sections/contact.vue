@@ -8,13 +8,13 @@
           :key="item.name"
           :href="item.link"
           :target="item.target || '_blank'"
-          :onclick="item.onclick"
+          @click="handleClick(item, $event)"
           rel="noopener"
         >
           <div
             :class="$style.icon"
             :style="{
-              backgroundImage: `url('${require(`~/assets/contact/${item.icon}`)}')`,
+              backgroundImage: `url('${item.icon}')`,
             }"
           />
           <div :class="$style.label" :style="item.labelStyle">{{ item.value }}</div>
@@ -24,28 +24,50 @@
   </section>
 </template>
 
-<script lang="ts">
-import {Component, Vue} from 'vue-property-decorator';
-
-@Component
-export default class extends Vue {
-  items = Items;
-}
+<script setup lang="ts">
+import emailIcon from '~/assets/contact/email.png';
+import linkedinIcon from '~/assets/contact/linkedin.png';
+import twitterIcon from '~/assets/contact/twitter.png';
+import githubIcon from '~/assets/contact/github.png';
 
 const email = 'mi.vso@gelo';
-const Items = [
+
+const items = [
   {
     name: 'Email',
     value: email,
-    icon: 'email.png',
+    icon: emailIcon,
     target: '_self',
     labelStyle: 'direction: rtl; unicode-bidi: bidi-override;',
-    onclick: `window.location.href = 'mailto:' + [...'${email}'].reverse().join('')`,
+    isEmail: true,
+    link: '#',
   },
-  {name: 'LinkedIn', value: 'olegsv', icon: 'linkedin.png', link: 'https://www.linkedin.com/in/olegsv'},
-  {name: 'Twitter', value: 'ohleg', icon: 'twitter.png', link: 'https://twitter.com/ohleg'},
-  {name: 'GitHub', value: 'vaskevich', icon: 'github.png', link: 'https://github.com/vaskevich'},
+  {
+    name: 'LinkedIn',
+    value: 'olegsv',
+    icon: linkedinIcon,
+    link: 'https://www.linkedin.com/in/olegsv',
+  },
+  {
+    name: 'Twitter',
+    value: 'ohleg',
+    icon: twitterIcon,
+    link: 'https://twitter.com/ohleg',
+  },
+  {
+    name: 'GitHub',
+    value: 'vaskevich',
+    icon: githubIcon,
+    link: 'https://github.com/vaskevich',
+  },
 ];
+
+const handleClick = (item: any, event: MouseEvent) => {
+  if (item.isEmail) {
+    event.preventDefault();
+    window.location.href = 'mailto:' + [...item.value].reverse().join('');
+  }
+};
 </script>
 
 <style lang="scss" module>

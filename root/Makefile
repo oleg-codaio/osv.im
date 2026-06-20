@@ -6,8 +6,8 @@ default: dev
 
 .PHONY: dev
 dev:
-	npx nuxt-ts dev -c nuxt.config.ts
+	pnpm dev
 
 .PHONY: generate
 generate:
-	npx nuxt-ts generate -c nuxt.config.ts
+	pnpm generate
