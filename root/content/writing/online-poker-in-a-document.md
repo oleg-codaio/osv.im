@@ -6,7 +6,7 @@ image: /images/writing/online-poker-in-a-document/cover.png
 excerpt: Over the winter holidays, I built a functional multiplayer poker game entirely within a Coda document using only formulas and buttons.
 ---
 
-Over the winter holidays, I found some time to work on improving my poker game, reading a couple great books and then applying their theories into practice. While there is no substitute for playing in a casino or at someone's house, one of the quickest ways to get into a game is to play online poker. There are hundreds of platforms out there, and after playing on a few I thought it would be a fun learning experience to create my own, but with a twist: what if you could have a doc that lets you play poker? Our goal at [Coda](https://osv.im/coda) is to precisely to facilitate that: creating docs as powerful as apps (with the help of formulas, not code), so I set out on an attempt. Read on to see the result and go behind the scenes.
+Over the winter holidays, I found some time to work on improving my poker game, reading a couple [great](https://www.amazon.com/Harrington-Expert-Strategy-Limit-Tournaments-ebook/dp/B002XQ2C6O) [books](https://www.amazon.com/Theory-Poker-Professional-Player-Teaches-ebook/dp/B001QCYJQ2) and then applying their theories into practice. While there is no substitute for playing in a casino or at someone's house, one of the quickest ways to get into a game is to play online poker. There are hundreds of platforms out there, and after playing on a few I thought it would be a fun learning experience to create my own, but with a twist: what if you could have a doc that lets you play poker? Our goal at [Coda](https://osv.im/coda) is to precisely to facilitate that: creating docs as powerful as apps (with the help of formulas, not code), so I set out on an attempt. Read on to see the result and go behind the scenes.
 
 Without further ado, here's the doc: [coda.io/@osv/poker](https://coda.io/@osv/poker) (open on a desktop for the best experience). Get a game going, and it will look something like this:
 
@@ -18,11 +18,11 @@ So what did it take? If you've used Coda before, you'll likely be familiar with 
 
 ## Getting started
 
-The first step to putting together a doc like this is to think through the schema, i.e., the different kinds of data or entities that comprise a poker game, which in Coda are collected into tables.
+The first step to putting together a doc like this is to think through the *schema*, i.e., the different kinds of data or entities that comprise a poker game, which in Coda are collected into tables.
 
 ### Cards
 
-Naturally the first thing my mind jumped to when putting together a poker game was the deck. After finding a set of public domain card images online, I added a table of 52 rows, corresponding to each of the cards. The crucial things to know here about each card are its rank and suit (for identifying different hands later on) as well as the location of each card: whether it's in the deck, dealt out on the table, or in a player's hand.
+Naturally the first thing my mind jumped to when putting together a poker game was the deck. After finding a set of public domain card images [online](https://code.google.com/archive/p/vector-playing-cards), I added a table of 52 rows, corresponding to each of the cards. The crucial things to know here about each card are its rank and suit (for identifying different hands later on) as well as the location of each card: whether it's in the deck, dealt out on the table, or in a player's hand.
 
 ![Cards Coda table](/images/writing/online-poker-in-a-document/cards-table.webp)
 
@@ -30,9 +30,10 @@ Naturally the first thing my mind jumped to when putting together a poker game w
 
 Ranks in Poker can be numeric (2–10) or face cards (J, Q, K, and A), and I had a hunch that only keeping around the value as shown on the card wasn't going to be that useful, since Coda won't just magically know that a King is better than a Queen. So, I added another table for Ranks, and while I was at it, one for Suits as well. Later on this turned out useful for adding a "sort value" for each rank to enable us to sort cards by how strong they are.
 
-The "sort value" of a rank is an alternative representation of it that can be lexicographically sorted within Coda. The weakest card (two) has a sort value of 0. A ten has a sort value of 8, a jack is a 9, queen is A, king is B, and ace is C.
-
-![Ranks and Suits Coda table](/images/writing/online-poker-in-a-document/ranks-suits-table.webp)
+<figure>
+  <img src="/images/writing/online-poker-in-a-document/ranks-suits-table.webp" alt="Ranks and Suits Coda table" />
+  <figcaption>The "sort value" of a rank is an alternative representation of it that can be lexicographically sorted within Coda. The weakest card (two) has a sort value of 0. A ten has a sort value of 8, a jack is a 9, queen is A, king is B, and ace is C.</figcaption>
+</figure>
 
 ### Players
 
