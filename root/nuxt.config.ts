@@ -19,7 +19,11 @@ export default defineNuxtConfig({
         {
           rel: 'icon',
           type: 'image/png',
-          href: '/favicon.png',
+          href: '/favicon.png?v=3',
+        },
+        {
+          rel: 'shortcut icon',
+          href: '/favicon.ico?v=3',
         },
       ],
     },

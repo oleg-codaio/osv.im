@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform@v4
 
       - name: Terraform Format Check
         run: terraform fmt --check infra
@@ -57,7 +57,7 @@ jobs:
           node-version: 26
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v3
+        uses: pnpm/action-setup@v4
         with:
           version: 10.13.1
 
@@ -70,11 +70,11 @@ jobs:
       # 4. Publish Root
       - name: Sync Nuxt Website to S3 (Cacheable Assets)
         run: |
-          aws s3 sync root/.output/public/ s3://osv-im-us-west-2-root-assets --delete --exclude "*" --include "*.png" --include "*.jpg" --include "*.js" --cache-control "public, max-age=31536000"
+          aws s3 sync root/.output/public/ s3://osv-im-us-west-2-root-assets --delete --exclude "*" --include "*.png" --include "*.jpg" --include "*.js" --include "*.ico" --cache-control "public, max-age=31536000"
 
       - name: Sync Nuxt Website to S3 (HTML/JSON Assets)
         run: |
-          aws s3 sync root/.output/public/ s3://osv-im-us-west-2-root-assets --delete --exclude "*.png" --exclude "*.jpg" --exclude "*.js"
+          aws s3 sync root/.output/public/ s3://osv-im-us-west-2-root-assets --delete --exclude "*.png" --exclude "*.jpg" --exclude "*.js" --exclude "*.ico"
 
       - name: Create Redirects
         run: |
