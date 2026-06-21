@@ -197,13 +197,14 @@ const handleClick = (item: any, event: MouseEvent) => {
   backdrop-filter: blur(12px);
   border: 1px solid var(--border-color);
   border-radius: 16px;
-  padding: 24px 48px;
-  max-width: max-content;
-  width: 100%;
+  padding: 24px 40px;
+  width: 440px;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
 }
 
 .isTarget {
@@ -222,6 +223,7 @@ const handleClick = (item: any, event: MouseEvent) => {
   font-size: 0.95rem;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   width: 100%;
 }
@@ -233,7 +235,6 @@ const handleClick = (item: any, event: MouseEvent) => {
   color: var(--text-muted-light);
   font-family: monospace;
   font-size: inherit;
-  flex-grow: 1;
   caret-color: var(--primary-accent);
   width: 150px;
   cursor: text;
@@ -246,8 +247,9 @@ const handleClick = (item: any, event: MouseEvent) => {
   margin-top: -10px;
   margin-bottom: 20px;
   text-align: center;
-  word-break: break-all;
-  max-width: 300px;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  max-width: 100%;
 }
 
 .prompt {
