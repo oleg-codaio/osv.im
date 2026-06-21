@@ -222,12 +222,13 @@ const handleClick = (item: any, event: MouseEvent) => {
   background: transparent;
   border: none;
   outline: none;
-  color: inherit;
-  font-family: inherit;
+  color: var(--text-muted-light);
+  font-family: monospace;
   font-size: inherit;
   flex-grow: 1;
   caret-color: var(--primary-accent);
   width: 150px;
+  cursor: text;
 }
 
 .terminalOutput {
