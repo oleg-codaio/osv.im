@@ -1,8 +1,21 @@
 <template>
   <footer :class="$style.footer">
     <div :class="[$style.terminalCard, isTarget && $style.isTarget]">
-      <div :class="$style.terminalHeader">
+      <div v-if="!isTerminalActive" :class="$style.terminalHeader" @click="activateTerminal" style="cursor: pointer;">
         <span :class="$style.prompt">~/$</span> <span :class="$style.command">ping oleg</span>
+      </div>
+      <div v-else :class="$style.terminalHeaderActive">
+        <span :class="$style.prompt">~/$</span>
+        <input
+          ref="inputRef"
+          type="text"
+          v-model="inputValue"
+          @keydown.enter="handleCommand"
+          :class="$style.terminalInput"
+        />
+      </div>
+      <div v-if="commandOutput" :class="$style.terminalOutput">
+        {{ commandOutput }}
       </div>
       <div :class="$style.items">
         <a
@@ -38,6 +51,51 @@ const email = 'mi.vso@gelo';
 const isTarget = ref(false);
 let pulseTimeout: any = null;
 let resetTimeout: any = null;
+
+const isTerminalActive = ref(false);
+const inputValue = ref('ping oleg ');
+const commandOutput = ref('');
+const inputRef = ref<HTMLInputElement | null>(null);
+
+function activateTerminal() {
+  isTerminalActive.value = true;
+  nextTick(() => {
+    inputRef.value?.focus();
+    if (inputRef.value) {
+      const len = inputRef.value.value.length;
+      inputRef.value.setSelectionRange(len, len);
+    }
+  });
+}
+
+function handleCommand() {
+  const cmd = inputValue.value.trim().toLowerCase();
+  
+  if (cmd === 'clear') {
+    commandOutput.value = '';
+    inputValue.value = '';
+    return;
+  }
+  
+  switch (cmd) {
+    case 'help':
+      commandOutput.value = 'Available commands: whoami, sudo, clear';
+      break;
+    case 'whoami':
+      commandOutput.value = 'guest_user';
+      break;
+    case 'sudo':
+      commandOutput.value = 'nice try.';
+      break;
+    case 'ping oleg':
+      commandOutput.value = 'pong. (Reach out on the links below!)';
+      break;
+    default:
+      commandOutput.value = `Command not found: ${inputValue.value}. Type 'help' for available commands.`;
+  }
+  
+  inputValue.value = '';
+}
 
 const handleTargetEvent = (delay = 0) => {
   if (pulseTimeout) clearTimeout(pulseTimeout);
@@ -149,6 +207,38 @@ const handleClick = (item: any, event: MouseEvent) => {
   margin-bottom: 20px;
   font-size: 0.95rem;
   user-select: none;
+}
+
+.terminalHeaderActive {
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.terminalInput {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  flex-grow: 1;
+  caret-color: var(--primary-accent);
+  width: 150px;
+}
+
+.terminalOutput {
+  font-family: monospace;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-top: -10px;
+  margin-bottom: 20px;
+  text-align: center;
+  word-break: break-all;
+  max-width: 300px;
 }
 
 .prompt {
