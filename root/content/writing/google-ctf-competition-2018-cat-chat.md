@@ -2,7 +2,7 @@
 title: "Google CTF Competition 2018: Cat Chat"
 date: 2018-06-25
 readTime: 10
-image: ctf1
+image: /images/writing/google-ctf-competition-2018-cat-chat/flag-unlocked.webp
 excerpt: A writeup of the "Cat Chat" web security challenge from Google CTF 2018 qualification round, demonstrating CSS injection, logic flaws, and CSP bypass.
 ---
 
@@ -10,7 +10,7 @@ This past weekend Google held the qualification round for its third annual [Capt
 
 This challenge wasn't trivial, but in the end I was able to get the flag:
 
-![](ctf1) - no caption
+![Google CTF flag display](/images/writing/google-ctf-competition-2018-cat-chat/flag-unlocked.webp)
 
 Read on to find out how!
 
@@ -18,13 +18,18 @@ Read on to find out how!
 
 *Cat Chat* reminded me of IRC hacking challenges popular a decade ago, like the ones on [HackThisSite](https://www.hackthissite.org/). The premise is that there's a chat app run by someone bent against canines, and the goal is to steal the admin's credentials to get the flag.
 
-![](ctf2) - Sprinkle on a sidebar and some emojis, and you’ll have Slack. :)
+<figure>
+  <img src="/images/writing/google-ctf-competition-2018-cat-chat/cat-chat-ui.webp" alt="Cat Chat UI" />
+  <figcaption>Sprinkle on a sidebar and some emojis, and you’ll have Slack. :)</figcaption>
+</figure>
 
 Reading over the preface, it looks like we get access to the [Express](https://expressjs.com/) server's source code! And naturally we have access to the client's source as well. In general with these types of challenges, an effective approach is to first explore the app itself, and then do a code review and spot any weaknesses that may have been (usually intentionally) introduced. [I'll denote those with a 🚩.]
+<figure>
+  <img src="/images/writing/google-ctf-competition-2018-cat-chat/change-name-prompt.webp" alt="Change name prompt" />
+  <figcaption>The script kiddy’s favorite name, age, and location.</figcaption>
+</figure>
 
-![](ctf3) - The script kiddy’s favorite name, age, and location.
-
-![](ctf4) - no caption
+![Script injection attempt](/images/writing/google-ctf-competition-2018-cat-chat/script-injection-failed.webp)
 
 To start things off, we can change our name 🚩 to anything, so why not do the quick-n-dirty inline script test? Unfortunately, no dice — the input is escaped.
 
@@ -32,7 +37,10 @@ Moving on, the admin *really*, ***really*** hates dogs. As a test, let's see wha
 
 Before we go on, let's also look at one more thing: whether the client sets a [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP). If it does (as any modern web app should), that will significantly decrease our client-side attack vectors.
 
-![](ctf5) - Network tab in Chrome's Developer Tools
+<figure>
+  <img src="/images/writing/google-ctf-competition-2018-cat-chat/csp-headers-network.webp" alt="Network tab in Chrome's Developer Tools" />
+  <figcaption>Network tab in Chrome's Developer Tools</figcaption>
+</figure>
 
 Sure enough, the CSP here is pretty strict. Even if we find an opportunity to inject some JavaScript into the page, the CSP will prevent the browser from executing it. The only thing that's of interest is the `'unsafe-inline'` CSS policy 🚩, but how often can a stylesheet be used in an attack? 🤨
 
@@ -40,23 +48,26 @@ Sure enough, the CSP here is pretty strict. Even if we find an opportunity to in
 
 Looking at the main page's source code, we get a huge hint about two secret commands 🚩, `/secret` and `/ban`:
 
-![](ctf6)
+![Client secret commands](/images/writing/google-ctf-competition-2018-cat-chat/client-secret-commands.webp)
 
 We now know *how* the admin actually bans unwelcome 🐕 supporters, and more importantly we know *how* to become the admin. Running the `/secret` command authenticates the user; we'll later discover that using it sets a cookie named `flag` in the browser 🚩:
 
-![](ctf7) - Chrome’s Application tab in Developer Tools
+<figure>
+  <img src="/images/writing/google-ctf-competition-2018-cat-chat/chrome-application-cookies.webp" alt="Chrome’s Application tab in Developer Tools" />
+  <figcaption>Chrome’s Application tab in Developer Tools</figcaption>
+</figure>
 
 So, to get the flag **we have to steal the admin's secret cookie**. Easier said than done!
 
 Let's proceed further and look at the client, `catchat.js`. First thing that we notice is the admin is quite lazy, running a function to look for the word "dog" and ban anyone who said it.
 
-![](ctf8)
+![Client admin ban logic](/images/writing/google-ctf-competition-2018-cat-chat/client-admin-ban-logic.webp)
 
 We know that we can change our name to anything, so let's keep that in mind — the admin will repeat any name that we give it 🚩.
 
 Proceeding further, we can see how all the different types of messages are handled:
 
-![](ctf9)
+![Client message handlers](/images/writing/google-ctf-competition-2018-cat-chat/client-message-handlers.webp)
 
 Rats — the code escapes all untrusted user input with an `esc()` function, so we can't just start writing our own HTML. But there are still a few things of interest here:
 
@@ -72,7 +83,7 @@ Looking through the server's source resulted in a number of interesting observat
 
 ### Content Security Policy
 
-![](ctf10)
+![Server CSP definition](/images/writing/google-ctf-competition-2018-cat-chat/server-csp-definition.webp)
 
 As we saw earlier, the server sets a CSP to help prevent cross-site scripting and the like.
 
@@ -80,7 +91,7 @@ As we saw earlier, the server sets a CSP to help prevent cross-site scripting an
 
 This handler is the meat of the chat server; it handles all incoming messages:
 
-![](ctf11)
+![Server message router](/images/writing/google-ctf-competition-2018-cat-chat/server-message-router.webp)
 
 Already, a number of interesting things here:
 
@@ -154,11 +165,11 @@ span[data-secret^=A] {
 
 Provided that the character set of the flag is restricted (we'll assume uppercase letters, numbers, and `{` and `}` for now), let's try this out on ourselves first. We can't try too many characters at once [because URLs can only be so big](https://tools.ietf.org/html/rfc7230#section-3.1.1). Note that to make the rest of the CSS valid we can simply end with a `/*`.
 
-![](ctf12)
+![CSS injection exploit](/images/writing/google-ctf-competition-2018-cat-chat/css-injection-exploit.webp)
 
 That worked! Here's what happened:
 
-![](ctf13)
+![Secret exfiltration](/images/writing/google-ctf-competition-2018-cat-chat/secret-exfiltration.webp)
 
 We successfully injected some CSS to trick the browser into issuing a request to post a message to the chat.
 
@@ -171,15 +182,18 @@ We've now identified a number of useful deficiencies in the code to put together
 
 Now, writing this payload by hand is laborious, so let's write a snippet to do it for us:
 
-![](ctf) - embed this gist: https://gist.github.com/oleg-codaio/8547d242520567738e5ef8a0b9f9bb26.js
+<GistEmbed gist-id="8547d242520567738e5ef8a0b9f9bb26" />
 
 Let's start out by opening two chat sessions in the same room, changing the name of one of the users, issuing a `/report`, and saying some poochy profanity. Success!
 
-![](ctf14)
+![CSRF exploit delivery](/images/writing/google-ctf-competition-2018-cat-chat/csrf-exploit-delivery.png)
 
 Rinse and repeat (clearing the banned cookie and refreshing each time in the banned user's session), and we get our flag:
 
-![](ctf15) - Before I tidied up the payload generator. :)
+<figure>
+  <img src="/images/writing/google-ctf-competition-2018-cat-chat/payload-generator-draft.png" alt="Payload generator draft" />
+  <figcaption>Before I tidied up the payload generator. :)</figcaption>
+</figure>
 
 
 ## Learnings
