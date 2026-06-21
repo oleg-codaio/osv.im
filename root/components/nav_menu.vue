@@ -7,10 +7,15 @@
     </div>
 
     <div :class="[$style.root, shown && $style.shown]">
-      <NuxtLink :to="{ path: '/' }" :class="[$style.item, isAboutActive && $style.isActive]" @click="scrollToSection('about', $event)">About</NuxtLink>
-      <NuxtLink :to="{ path: '/', hash: '#experience' }" :class="[$style.item, isExperienceActive && $style.isActive]" @click="scrollToSection('experience', $event)">Experience</NuxtLink>
-      <NuxtLink :to="writingLinkTarget" :class="[$style.item, isWritingActive && $style.isActive]" @click="scrollToSection('writing', $event)">Writing</NuxtLink>
-      <NuxtLink :to="{ path: '/', hash: '#contact' }" :class="[$style.item, isContactActive && $style.isActive]" @click="scrollToSection('contact', $event)">Contact</NuxtLink>
+      <NavLink
+        v-for="link in navLinks"
+        :key="link.id"
+        :to="link.to"
+        :is-active="link.isActive"
+        @click="scrollToSection(link.id, $event)"
+      >
+        {{ link.label }}
+      </NavLink>
     </div>
   </div>
 </template>
@@ -172,6 +177,13 @@ const isContactActive = computed(() => {
 const writingLinkTarget = computed(() => {
   return route.path === '/' ? { path: '/', hash: '#writing' } : '/writing';
 });
+
+const navLinks = computed(() => [
+  { id: 'about', label: 'About', to: { path: '/' }, isActive: isAboutActive.value },
+  { id: 'experience', label: 'Experience', to: { path: '/', hash: '#experience' }, isActive: isExperienceActive.value },
+  { id: 'writing', label: 'Writing', to: writingLinkTarget.value, isActive: isWritingActive.value },
+  { id: 'contact', label: 'Contact', to: { path: '/', hash: '#contact' }, isActive: isContactActive.value },
+]);
 
 const scrollToSection = (id: string, event: Event) => {
   if (route.path === '/') {
@@ -351,58 +363,7 @@ onMounted(() => {
   }
 }
 
-.item {
-  color: #A1A1AA;
-  transition: color 0.3s ease;
-  padding: 6px 0;
-  margin: 0 15px;
-  text-decoration: none;
-  z-index: 11;
-  font-weight: 500;
-  opacity: 0.8;
-  position: relative;
 
-  @media only screen and (max-width: 768px) {
-    margin: 20px 0px;
-    font-size: 24px;
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -6px;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background-color: #38bdf8;
-    border-radius: 2px;
-    box-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
-    opacity: 0;
-    transform: scaleX(0.5);
-    transform-origin: center;
-    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-
-    @media only screen and (max-width: 768px) {
-      display: none;
-    }
-  }
-
-  &.isActive {
-    color: #FAFAFA;
-    opacity: 1;
-    text-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
-
-    &::after {
-      opacity: 1;
-      transform: scaleX(1);
-    }
-  }
-
-  &:hover {
-    color: #FAFAFA;
-    opacity: 1;
-  }
-}
 
 @media print {
   .hamburger,

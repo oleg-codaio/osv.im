@@ -6,7 +6,7 @@
           <NuxtLink to="/writing" :class="$style.backLink">← Back to Writing</NuxtLink>
           <h1 :class="$style.title">{{ doc.title }}</h1>
           <div :class="$style.meta">
-            <span>{{ formatDate(doc.date) }}</span>
+            <span>{{ formatDate(doc.date, 'long') }}</span>
             <span :class="$style.separator">&middot;</span>
             <span>{{ doc.readTime }} min read</span>
           </div>
@@ -35,11 +35,7 @@ const { data: doc } = await useAsyncData(`writing-${route.path}`, () =>
   queryCollection('writing').path(route.path).first()
 );
 
-function formatDate(dateStr: string) {
-  if (!dateStr) return '';
-  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-  return new Date(dateStr).toLocaleDateString('en-US', options);
-}
+
 
 let scrollHandler: any = null;
 
@@ -63,8 +59,8 @@ onBeforeUnmount(() => {
 @import '~/assets/css/main.scss';
 
 .pageWrapper {
-  background-color: #0A0A0C;
-  color: #FAFAFA;
+  background-color: var(--bg-dark-alternate);
+  color: var(--text-main);
   min-height: 100vh;
   width: 100vw;
   padding-top: $header-size;
@@ -90,19 +86,19 @@ onBeforeUnmount(() => {
 .notFound {
   text-align: center;
   padding: 80px 0;
-  color: #8B949E;
+  color: var(--text-muted);
   font-family: 'Fira Code', 'JetBrains Mono', monospace;
 
   p {
     margin-bottom: 24px;
     font-size: 1.2rem;
-    color: #E4E4E7;
+    color: var(--text-muted-light);
   }
 }
 
 .backLink {
   font-family: monospace;
-  color: #38bdf8;
+  color: var(--primary-accent);
   text-decoration: none;
   font-size: 0.9rem;
   display: inline-block;
@@ -116,7 +112,7 @@ onBeforeUnmount(() => {
 }
 
 .title {
-  color: #FAFAFA;
+  color: var(--text-main);
   font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 800;
   letter-spacing: -0.02em;
@@ -126,7 +122,7 @@ onBeforeUnmount(() => {
 
 .meta {
   font-family: 'Fira Code', 'JetBrains Mono', monospace;
-  color: #8B949E;
+  color: var(--text-muted);
   font-size: 0.9rem;
   margin-bottom: 30px;
 }
@@ -138,7 +134,7 @@ onBeforeUnmount(() => {
 .heroImage {
   width: 100%;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-color);
   margin-top: 10px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
 }
@@ -146,7 +142,7 @@ onBeforeUnmount(() => {
 .content {
   font-size: 1.1rem;
   line-height: 1.7;
-  color: #E4E4E7; // Paragraphs: Off-white (#E4E4E7)
+  color: var(--text-muted-light);
 
   // Style HTML elements rendered by ContentRenderer
   p {
@@ -156,14 +152,14 @@ onBeforeUnmount(() => {
 
   p:first-of-type {
     font-size: 1.15em;
-    color: #FAFAFA;
+    color: var(--text-main);
     font-style: normal;
     font-weight: 400;
     margin-bottom: 2em;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    color: #FAFAFA; // Headings: Bright white (#FAFAFA)
+    color: var(--text-main);
     letter-spacing: -0.015em;
     margin-top: 40px;
     margin-bottom: 16px;
@@ -187,7 +183,7 @@ onBeforeUnmount(() => {
         content: '#';
         position: absolute;
         left: -1.2em;
-        color: #8B949E;
+        color: var(--text-muted);
         opacity: 0;
         font-weight: 400;
         transition: opacity 0.2s ease;
@@ -201,7 +197,7 @@ onBeforeUnmount(() => {
 
   // Paragraph & inline links — cyan with subtle faded underline that brightens on hover
   p a, li a, blockquote a {
-    color: #38bdf8;
+    color: var(--primary-accent);
     text-decoration: underline;
     text-decoration-thickness: 1px;
     text-underline-offset: 4px;
@@ -224,17 +220,17 @@ onBeforeUnmount(() => {
   }
 
   blockquote {
-    border-left: 4px solid #38bdf8;
+    border-left: 4px solid var(--primary-accent);
     margin: 0 0 24px 0;
     padding-left: 16px;
-    color: #A1A1AA;
+    color: var(--text-muted-light);
     font-style: italic;
   }
 
   pre {
-    background: rgba(22, 27, 34, 0.8) !important; // Deep, dark glassmorphism background
+    background: var(--bg-card) !important;
     backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 16px;
     overflow-x: auto;

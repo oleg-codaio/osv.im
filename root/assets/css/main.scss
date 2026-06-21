@@ -1,35 +1,47 @@
 @import url('https://fonts.googleapis.com/css?family=Arimo');
 
-$color1: #09090B;
-$color2: #3b82f6;
-$color3: #FAFAFA;
-$color4: #09090B;
-$color5: #60a5fa;
+:root {
+  --primary-accent: #38bdf8; /* cyan */
+  --primary-accent-hover: #0ea5e9; /* hover cyan */
+  --bg-dark: #09090b;
+  --bg-dark-alternate: #0a0a0c;
+  --bg-card: rgba(22, 27, 34, 0.6);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --text-main: #fafafa;
+  --text-muted: #8b949e;
+  --text-muted-light: #a1a1aa;
+}
 
-$main-text-color: #FAFAFA;
-$primary-color: #3b82f6;
-$primary-color-hover: #60a5fa;
-$primary-invert-color: #FAFAFA;
-$primary-invert-color-hover: #A1A1AA;
+$color1: var(--bg-dark);
+$color2: var(--primary-accent);
+$color3: var(--text-main);
+$color4: var(--bg-dark);
+$color5: var(--primary-accent-hover);
 
-$selection-color: #09090B;
-$selection-background-color: #3b82f6;
+$main-text-color: var(--text-main);
+$primary-color: var(--primary-accent);
+$primary-color-hover: var(--primary-accent-hover);
+$primary-invert-color: var(--text-main);
+$primary-invert-color-hover: var(--text-muted-light);
 
-$nav-bg-color: #09090B;
+$selection-color: var(--bg-dark);
+$selection-background-color: var(--primary-accent);
+
+$nav-bg-color: var(--bg-dark);
 $nav-accent-color: #1e293b;
-$nav-item-idle: #A1A1AA;
-$nav-item-hover: #FAFAFA;
-$nav-item-selected: #FAFAFA;
+$nav-item-idle: var(--text-muted-light);
+$nav-item-hover: var(--text-main);
+$nav-item-selected: var(--text-main);
 
 $header-size: 75px;
-$bg-accent-color: #09090B;
+$bg-accent-color: var(--bg-dark);
 
-$experience-background-color: #09090B;
+$experience-background-color: var(--bg-dark);
 $experience-background-accent-color: rgba(255, 255, 255, 0.03);
-$experience-line-start-color: #3b82f6;
-$experience-line-end-color: #60a5fa;
+$experience-line-start-color: var(--primary-accent);
+$experience-line-end-color: var(--primary-accent-hover);
 
-$contact-background-color: #09090B;
+$contact-background-color: var(--bg-dark);
 
 html {
   height: 100vh;
@@ -43,8 +55,8 @@ body {
   min-height: 100vh;
   font-family: 'Arimo', sans-serif;
   overflow-x: hidden;
-  background-color: #0A0A0C;
-  color: #FAFAFA;
+  background-color: var(--bg-dark-alternate);
+  color: var(--text-main);
   scrollbar-gutter: stable;
 }
 

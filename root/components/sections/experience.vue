@@ -11,8 +11,8 @@
         >
           <defs>
             <linearGradient id="progressGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#38bdf8" />
-              <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
+              <stop offset="0%" stop-color="var(--primary-accent)" />
+              <stop offset="100%" stop-color="var(--primary-accent)" stop-opacity="0" />
             </linearGradient>
           </defs>
           <!-- Layer 1: Static Faint Track -->
@@ -40,7 +40,7 @@
           <path
             :class="$style.pathDataFlow"
             fill="none"
-            stroke="#38bdf8"
+            stroke="var(--primary-accent)"
             stroke-linejoin="round"
             stroke-linecap="round"
             :stroke-width="strokeWidth"
@@ -52,41 +52,19 @@
             :cx="pathWidth / 2"
             cy="0"
             r="5"
-            fill="#38bdf8"
+            fill="var(--primary-accent)"
             :style="{ filter: 'drop-shadow(0 0 8px rgba(56, 189, 248, 0.9))' }"
           />
         </svg>
         <div :class="$style.leaves" ref="leavesRef">
-          <div
-            :class="[$style.leaf, { [$style.shown]: numShown > index }]"
+          <ExperienceCard
             v-for="(exp, index) in experiences"
             :key="exp.name + exp.when"
-          >
-            <!-- Node is now just a decorative timeline dot -->
-            <div :class="$style.node">
-              <div :class="$style.dot" />
-            </div>
-            
-            <!-- Info is the unified experience card containing both logo and details -->
-            <div :class="$style.info">
-              <div :class="$style.cardHeader">
-                <div
-                  :class="$style.logo"
-                  :style="isMounted ? {
-                    backgroundImage: `url('${exp.icon}')`,
-                  } : {}"
-                />
-                <div :class="$style.headerText">
-                  <div :class="$style.infoHeader">
-                    <span :class="$style.infoName">{{ exp.name }}</span>
-                    <span :class="$style.infoTime">{{ exp.when }}</span>
-                  </div>
-                  <div :class="$style.infoTitle">{{ exp.title }}</div>
-                </div>
-              </div>
-              <div :class="$style.infoDetails" v-html="exp.details" />
-            </div>
-          </div>
+            :experience="exp"
+            :is-shown="numShown > index"
+            :is-mounted="isMounted"
+            :class="[$style.leaf, { [$style.shown]: numShown > index }]"
+          />
         </div>
       </div>
     </article>
@@ -449,227 +427,6 @@ $pathWidth: 4px;
 }
 
 .leaf {
-  display: flex;
-  align-items: center;
-  flex-grow: 0;
-  padding-top: 5vw;
-  padding-bottom: 5vw;
-  width: 100%;
-  position: relative;
-  box-sizing: border-box;
-
-  @media only screen and (min-width: 800px) {
-    padding-top: 40px;
-    padding-bottom: 40px;
-  }
-
-  &:nth-child(odd) {
-    flex-direction: row-reverse;
-    
-    .node {
-      left: 92%;
-    }
-    
-    .info {
-      margin-left: 3%;
-      margin-right: 13%;
-      opacity: 0;
-      transform: translateX(-30px);
-      transition: opacity 0.4s ease, transform 0.4s ease;
-      will-change: opacity, transform;
-    }
-  }
-
-  &:nth-child(even) {
-    
-    .node {
-      left: 8%;
-    }
-    
-    .info {
-      margin-left: 13%;
-      margin-right: 3%;
-      opacity: 0;
-      transform: translateX(30px);
-      transition: opacity 0.4s ease, transform 0.4s ease;
-      will-change: opacity, transform;
-    }
-  }
-
-  &.shown {
-    .info {
-      opacity: 1;
-      transform: translateX(0);
-    }
-    
-    .dot {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
-    }
-  }
-
-  &:hover {
-    .logo {
-      transform: scale(1.08);
-    }
-    
-    .info {
-      transform: translateY(-4px);
-      border-color: rgba(255, 255, 255, 0.18);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 15px rgba(56, 189, 248, 0.1);
-    }
-    
-    .dot {
-      transform: translate(-50%, -50%) scale(1.25);
-      border-color: #38bdf8;
-      box-shadow: 0 0 15px rgba(56, 189, 248, 0.8);
-    }
-  }
-
-  @media only screen and (max-width: 768px) {
-    $mobilePadding: 5vw;
-
-    &.leaf {
-      flex-direction: column;
-      max-width: 100% !important;
-      width: 100% !important;
-      align-items: stretch !important;
-      padding-left: $mobilePadding !important;
-      padding-right: $mobilePadding !important;
-
-      &:nth-child(odd) {
-        text-align: left;
-        padding-right: $mobilePadding !important;
-        
-        .info {
-          margin-left: 0 !important;
-          margin-right: 0 !important;
-          transform: translateX(-30px);
-        }
-      }
-
-      &:nth-child(even) {
-        
-        .info {
-          margin-left: 0 !important;
-          margin-right: 0 !important;
-          transform: translateX(30px);
-        }
-      }
-
-      .node {
-        display: none;
-      }
-    }
-  }
-}
-
-.node {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 0;
-  height: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.dot {
-  width: 12px;
-  height: 12px;
-  background-color: #09090B;
-  border: 3px solid #38bdf8;
-  border-radius: 50%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  opacity: 0;
-  transform: translate(-50%, -50%) scale(0);
-  box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
-  transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.info {
-  font-family: $sans-font;
-  background: rgba(22, 27, 34, 0.4);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 20px 24px;
-  min-height: 110px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  width: 100%;
-  box-sizing: border-box;
-  text-align: left;
-}
-
-.cardHeader {
-  display: flex;
-  align-items: center;
-  margin-bottom: 12px;
-  width: 100%;
-}
-
-.logo {
-  width: 48px;
-  height: 48px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-color: transparent;
-  border-radius: 8px;
-  flex-shrink: 0;
-  margin-right: 16px;
-  padding: 4px;
-  box-sizing: border-box;
-  transition: transform 0.3s ease;
-}
-
-.headerText {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-}
-
-.infoDetails {
-  font-family: $sans-font;
-  color: #8b949e;
-  font-size: 0.95rem;
-  line-height: 1.5;
-  margin-top: 6px;
-}
-
-.infoHeader {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.infoName {
-  font-family: $sans-font;
-  font-weight: 700;
-  color: #FAFAFA;
-  font-size: 1.2rem;
-}
-
-.infoTitle {
-  font-family: $sans-font;
-  font-weight: 500;
-  color: #c9d1d9;
-  font-size: 1.0rem;
-  margin-top: 4px;
-}
-
-.infoTime {
-  font-family: $mono-font;
-  color: #8b949e;
-  font-size: 0.85rem;
+  /* Placeholder to generate CSS modules class name for measuring coordinates */
 }
 </style>

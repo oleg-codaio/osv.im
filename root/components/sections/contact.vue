@@ -128,9 +128,9 @@ const handleClick = (item: any, event: MouseEvent) => {
 }
 
 .terminalCard {
-  background: rgba(22, 27, 34, 0.6);
+  background: var(--bg-card);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-color);
   border-radius: 16px;
   padding: 24px 48px;
   max-width: max-content;
@@ -153,13 +153,13 @@ const handleClick = (item: any, event: MouseEvent) => {
 
 .prompt {
   font-family: monospace;
-  color: #38bdf8;
+  color: var(--primary-accent);
   font-weight: bold;
 }
 
 .command {
   font-family: monospace;
-  color: #A1A1AA;
+  color: var(--text-muted-light);
 
   &::after {
     content: ' _';
