@@ -54,7 +54,7 @@ let pulseTimeout: any = null;
 let resetTimeout: any = null;
 
 const isTerminalActive = ref(false);
-const inputValue = ref('ping oleg ');
+const inputValue = ref('ping oleg');
 const commandOutput = ref('');
 const inputRef = ref<HTMLInputElement | null>(null);
 
@@ -100,7 +100,7 @@ function handleCommand() {
 
 function resetTerminal() {
   isTerminalActive.value = false;
-  inputValue.value = 'ping oleg ';
+  inputValue.value = 'ping oleg';
   commandOutput.value = '';
 }
 
@@ -198,8 +198,8 @@ const handleClick = (item: any, event: MouseEvent) => {
   border: 1px solid var(--border-color);
   border-radius: 16px;
   padding: 24px 48px;
-  max-width: max-content;
-  width: 100%;
+  width: 280px;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
