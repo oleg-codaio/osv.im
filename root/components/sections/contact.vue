@@ -1,7 +1,7 @@
 <template>
   <footer :class="$style.footer">
     <div :class="[$style.terminalCard, isTarget && $style.isTarget]">
-      <div v-if="!isTerminalActive" :class="$style.terminalHeader" @click="activateTerminal" style="cursor: pointer;">
+      <div v-if="!isTerminalActive" :class="$style.terminalHeader" @click="activateTerminal">
         <span :class="$style.prompt">~/$</span> <span :class="$style.command">ping oleg</span>
       </div>
       <div v-else :class="$style.terminalHeaderActive">
@@ -11,6 +11,7 @@
           type="text"
           v-model="inputValue"
           @keydown.enter="handleCommand"
+          @keydown.esc="resetTerminal"
           :class="$style.terminalInput"
         />
       </div>
@@ -95,6 +96,12 @@ function handleCommand() {
   }
   
   inputValue.value = '';
+}
+
+function resetTerminal() {
+  isTerminalActive.value = false;
+  inputValue.value = 'ping oleg ';
+  commandOutput.value = '';
 }
 
 const handleTargetEvent = (delay = 0) => {
@@ -207,6 +214,7 @@ const handleClick = (item: any, event: MouseEvent) => {
   margin-bottom: 20px;
   font-size: 0.95rem;
   user-select: none;
+  cursor: text;
 }
 
 .terminalHeaderActive {
