@@ -26,7 +26,7 @@ When we noticed that Particle [supported IFTTT](https://docs.particle.io/guide/t
 
 The Webhooks service supports passing in a few values, so we set the data of the Particle event to:
 
-```json
+```
 {{OccurredAt}}  
 {{Value1}}  
 {{Value2}}  
@@ -43,7 +43,7 @@ Subscribing to "signup" from my personal stream (my devices only)
 Listening to: /v1/devices/events/signup
 ```
 
-We then got the webhook URL from the Webhook service settings in IFTTT (e.g., <https://maker.ifttt.com/trigger/signup/with/key/foo>), and fired up [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en) to POST to that URL with _{“value1”: “123”}_. A few seconds later, the message showed up.
+We then got the webhook URL from the Webhook service settings in IFTTT (e.g., `https://maker.ifttt.com/trigger/signup/with/key/foo`), and fired up [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en) to POST to that URL with _{“value1”: “123”}_. A few seconds later, the message showed up.
 
 # Putting the Circuit Together
 
@@ -70,9 +70,7 @@ The servo came with a few attachments, which we jerry-rigged to create a lever t
 
 With the hardware out of the way, it was time to actually hook this thing up! Here’s the code:
 
-<client-only>
-  <gist gist-id="763dd937f29c3ccc6bfdb3ed6a768b67" file="coda-bell.c"></gist>
-</client-only>
+<GistEmbed gist-id="763dd937f29c3ccc6bfdb3ed6a768b67" file="coda-bell.c"></GistEmbed>
 
 This was mostly straightforward, but there are a couple things worth pointing out:
 

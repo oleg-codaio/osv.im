@@ -12,7 +12,7 @@
           :href="item.link"
           :target="item.target || '_blank'"
           @click="handleClick(item, $event)"
-          rel="noopener"
+          :rel="item.target === '_self' ? undefined : 'noopener noreferrer'"
           :aria-label="item.name"
         >
           <div

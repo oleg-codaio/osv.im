@@ -16,17 +16,17 @@ Read on to find out how!
 
 ## Starting Out
 
-*Cat Chat* reminded me of IRC hacking challenges popular a decade ago, like the ones on [HackThisSite](https://www.hackthissite.org/). The premise is that there's a chat app run by someone bent against canines, and the goal is to steal the admin's credentials to get the flag.
+*Cat Chat* reminded me of IRC hacking challenges popular a decade ago, like the ones on [HackThisSite](https://www.hackthissite.org/). I'll let the screenshot speak for itself, but the premise is that there's a chat app run by someone bent against canines, and the goal is to (surprise!) steal the admin's credentials to get the flag.
 
 <figure>
   <img src="/images/writing/google-ctf-competition-2018-cat-chat/cat-chat-ui.webp" alt="Cat Chat UI" />
-  <figcaption>Sprinkle on a sidebar and some emojis, and you’ll have Slack. :)</figcaption>
+  <figcaption>Sprinkle on a sidebar and some emojis, and you'll have Slack. :)</figcaption>
 </figure>
 
-Reading over the preface, it looks like we get access to the [Express](https://expressjs.com/) server's source code! And naturally we have access to the client's source as well. In general with these types of challenges, an effective approach is to first explore the app itself, and then do a code review and spot any weaknesses that may have been (usually intentionally) introduced. [I'll denote those with a 🚩.]
+Reading over the preface, it looks like we get access to the [Express](https://expressjs.com/) server's source code! And naturally we have access to the client's source as well. In general with these types of challenges, an effective approach is to first explore the app itself, and then do a code review and spot any weaknesses that may have been (usually intentionally) introduced. \[I'll denote those with a 🚩.\]
 <figure>
   <img src="/images/writing/google-ctf-competition-2018-cat-chat/change-name-prompt.webp" alt="Change name prompt" />
-  <figcaption>The script kiddy’s favorite name, age, and location.</figcaption>
+  <figcaption>The script kiddy's favorite name, age, and location.</figcaption>
 </figure>
 
 ![Script injection attempt](/images/writing/google-ctf-competition-2018-cat-chat/script-injection-failed.webp)
@@ -53,8 +53,8 @@ Looking at the main page's source code, we get a huge hint about two secret comm
 We now know *how* the admin actually bans unwelcome 🐕 supporters, and more importantly we know *how* to become the admin. Running the `/secret` command authenticates the user; we'll later discover that using it sets a cookie named `flag` in the browser 🚩:
 
 <figure>
-  <img src="/images/writing/google-ctf-competition-2018-cat-chat/chrome-application-cookies.webp" alt="Chrome’s Application tab in Developer Tools" />
-  <figcaption>Chrome’s Application tab in Developer Tools</figcaption>
+  <img src="/images/writing/google-ctf-competition-2018-cat-chat/chrome-application-cookies.webp" alt="Chrome's Application tab in Developer Tools" />
+  <figcaption>Chrome's Application tab in Developer Tools</figcaption>
 </figure>
 
 So, to get the flag **we have to steal the admin's secret cookie**. Easier said than done!
@@ -182,7 +182,7 @@ We've now identified a number of useful deficiencies in the code to put together
 
 Now, writing this payload by hand is laborious, so let's write a snippet to do it for us:
 
-<GistEmbed gist-id="8547d242520567738e5ef8a0b9f9bb26" />
+<GistEmbed gist-id="8547d242520567738e5ef8a0b9f9bb26"></GistEmbed>
 
 Let's start out by opening two chat sessions in the same room, changing the name of one of the users, issuing a `/report`, and saying some poochy profanity. Success!
 
@@ -200,12 +200,12 @@ Rinse and repeat (clearing the banned cookie and refreshing each time in the ban
 
 While clearly staged, this was a fun challenge and I enjoyed putting together the fabled character-by-character CSS attack (you may have seen [this CSS keylogger Hacker News post](https://news.ycombinator.com/item?id=16422696) a few months ago). But there are some lessons to take away here:
 
-1. Set a [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) on your site to offer a last-resort protection against malicious user-injected content, and be extra careful about allowing access to sources you don't control, especially `unsafe-inline`. For inline scripts and styles, use a nonce.
-2. Don't leak the mechanisms of your admin functionality. While relying on security through obscurity is never good, this attack would have been significantly harder to execute without knowing the `/secret` and `/ban` commands; a separate admin client would have been a good deterrent.
-3. Follow the [REST spec for defining endpoints](https://www.w3.org/2001/tag/doc/whenToUseGet.html#checklist) — GET requests should be idempotent and never mutate any resources.
-4. Similar to [avoiding `goto`](https://xkcd.com/292/), be extra careful about complex `switch-case` statements, particularly jumping across cases. Doing otherwise can [set you up for failure](https://www.synopsys.com/blogs/software-security/gimme-a-break/).
-5. If you have to deal with banning users, don't rely on cookies; there are plenty of better alternatives (reCAPTCHAs, user accounts, Cloudflare, etc.).
-6. Escape user input, always use quotes around attributes, and URI-encode cookie header contents.
-7. Don't hate on dogs. :)
+- Set a [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) on your site to offer a last-resort protection against malicious user-injected content, and be extra careful about allowing access to sources you don't control, especially `unsafe-inline`. For inline scripts and styles, use a nonce. (This mechanism will become more secure as additional browsers support CSP v3.)
+- Don't leak the mechanisms of your admin functionality. While relying on security through obscurity is never good, this attack would have been significantly harder to execute without knowing the `/secret` and `/ban` commands; a separate admin client would have been a good deterrent.
+- Follow the [REST spec for defining endpoints](https://www.w3.org/2001/tag/doc/whenToUseGet.html#checklist) — GET requests should be idempotent and never mutate any resources.
+- Similar to [avoiding `goto`](https://xkcd.com/292/), be extra careful about complex `switch-case` statements, particularly jumping across cases (and if you have to, leave clear comments). Doing otherwise can [set you up for failure](https://www.synopsys.com/blogs/software-security/gimme-a-break/).
+- If you have to deal with banning users, don't rely on cookies; there are plenty of better alternatives (reCAPTCHAs, user accounts, Cloudflare, etc.).
+- Escape user input, always use quotes around attributes, and URI-encode cookie header contents (or use a library).
+- Don't hate on dogs. :)
 
 If you made it this far, I hope you enjoyed reading this and took something out of it! And if I missed something, please let me know. Happy hacking!

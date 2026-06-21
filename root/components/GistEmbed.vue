@@ -16,6 +16,7 @@ import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 const props = defineProps<{
   gistId?: string;
   id?: string;
+  file?: string;
 }>();
 
 const resolvedGistId = computed(() => props.gistId || props.id || '');
@@ -27,6 +28,12 @@ const iframeSrcdoc = computed(() => {
   const id = resolvedGistId.value;
   if (!id) return '';
   
+  // Construct script tags using string concatenation to avoid Vue template parser bugs
+  const fileParam = props.file ? `?file=${encodeURIComponent(props.file)}` : '';
+  const gistScript = '<' + `script src="https://gist.github.com/oleg-codaio/${id}.js${fileParam}"></` + 'script>';
+  const scriptOpen = '<' + 'script>';
+  const scriptClose = '<' + '/script>';
+  
   return `
     <!DOCTYPE html>
     <html data-color-mode="dark" data-dark-theme="dark">
@@ -36,7 +43,7 @@ const iframeSrcdoc = computed(() => {
           html, body { 
             margin: 0; 
             padding: 0; 
-            background: transparent;
+            background: transparent !important;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
             overflow-y: hidden; /* Hide iframe's vertical scrollbar */
           }
@@ -80,7 +87,7 @@ const iframeSrcdoc = computed(() => {
             --color-prettylights-syntax-markup-inserted: #aff5b4 !important;
             --color-prettylights-syntax-markup-deleted: #ffdcd7 !important;
             
-            background: #161b22 !important;
+            background: transparent !important;
             border-color: rgba(255, 255, 255, 0.08) !important;
             color: #e4e4e7 !important;
           }
@@ -88,6 +95,7 @@ const iframeSrcdoc = computed(() => {
           /* General overrides for the code container */
           .gist {
             font-size: 0.9rem !important;
+            background: transparent !important;
           }
           .gist .gist-file {
             border: 1px solid rgba(255, 255, 255, 0.08) !important;
@@ -104,7 +112,8 @@ const iframeSrcdoc = computed(() => {
           .gist .gist-meta {
             background: rgba(0, 0, 0, 0.3) !important;
             color: #8B949E !important;
-            border-top: 0 !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+            padding: 8px 16px !important;
           }
           .gist .gist-meta a {
             color: #38bdf8 !important;
@@ -125,20 +134,33 @@ const iframeSrcdoc = computed(() => {
             color: #4b5563 !important;
             border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
           }
+          
+          /* Force variable and parameter names to be off-white instead of dark gray */
           .gist .blob-code-inner {
-            color: inherit !important; /* Let highlight variables style variables */
+            color: #e4e4e7 !important;
           }
+
+          /* Direct high-contrast syntax highlighting overrides for dark background */
+          .gist .pl-c { color: #8b949e !important; } /* Comments */
+          .gist .pl-c1 { color: #79c0ff !important; } /* Constants like HOST, ROOM */
+          .gist .pl-s { color: #a5d6ff !important; } /* Strings */
+          .gist .pl-pds { color: #a5d6ff !important; } /* String delimiters */
+          .gist .pl-k { color: #ff7b72 !important; } /* Keywords like const, function */
+          .gist .pl-en { color: #d2a8ff !important; } /* Function names */
+          .gist .pl-s1 { color: #e4e4e7 !important; } /* Local variables like secret, payload */
+          .gist .pl-smi { color: #e4e4e7 !important; } /* Properties/identifiers */
+          .gist .pl-v { color: #ffa657 !important; } /* Variables */
+          .gist .pl-bu { color: #ffa657 !important; } /* Builtins */
+          .gist .pl-sr { color: #7ee787 !important; } /* Regular expressions */
+          .gist .pl-ii { color: #f0f6fc !important; background-color: #8e1519 !important; } /* Invalid tokens */
         </style>
       </head>
       <body>
-        <script src="https://gist.github.com/oleg-codaio/${id}.js"><\/script>
-        <script>
+        ${gistScript}
+        ${scriptOpen}
           function sendHeight() {
-            // Give it a tiny delay to ensure layout and styles are applied
-            setTimeout(() => {
-              const height = document.documentElement.scrollHeight || document.body.scrollHeight;
-              window.parent.postMessage({ sentinel: 'gist-resize', height: height, id: '${id}' }, '*');
-            }, 60);
+            const height = document.documentElement.scrollHeight || document.body.scrollHeight;
+            window.parent.postMessage({ sentinel: 'gist-resize', height: height, id: '${id}' }, '*');
           }
           
           function forceDarkMode() {
@@ -154,12 +176,17 @@ const iframeSrcdoc = computed(() => {
             sendHeight();
           };
 
+          // Poll height to ensure it updates when async styles/fonts load
+          for (let delay of [100, 300, 600, 1000, 1500, 2000, 3000, 5000]) {
+            setTimeout(sendHeight, delay);
+          }
+
           const observer = new MutationObserver(() => {
             forceDarkMode();
             sendHeight();
           });
           observer.observe(document.body, { childList: true, subtree: true });
-        <\/script>
+        ${scriptClose}
       </body>
     </html>
   `;
@@ -168,7 +195,7 @@ const iframeSrcdoc = computed(() => {
 function handleMessage(event: MessageEvent) {
   if (event.data && event.data.sentinel === 'gist-resize' && event.data.id === resolvedGistId.value) {
     if (typeof event.data.height === 'number' && event.data.height > 0) {
-      iframeHeight.value = event.data.height + 'px';
+      iframeHeight.value = (event.data.height + 4) + 'px'; // Add 4px padding to prevent bottom border cutoff
     }
   }
 }
