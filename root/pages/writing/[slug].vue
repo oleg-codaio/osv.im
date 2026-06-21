@@ -42,7 +42,7 @@ let scrollHandler: any = null;
 onMounted(() => {
   scrollHandler = () => {
     if (window.scrollY === 0 && window.location.hash) {
-      history.pushState(null, '', window.location.pathname);
+      history.replaceState(history.state, '', window.location.pathname);
     }
   };
   window.addEventListener('scroll', scrollHandler, { passive: true });

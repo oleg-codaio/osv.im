@@ -3,7 +3,8 @@ export function formatDate(dateStr: string, monthFormat: 'short' | 'long' = 'sho
   const options: Intl.DateTimeFormatOptions = {
     year: 'numeric',
     month: monthFormat,
-    day: 'numeric'
+    day: 'numeric',
+    timeZone: 'UTC'
   };
   return new Date(dateStr).toLocaleDateString('en-US', options);
 }

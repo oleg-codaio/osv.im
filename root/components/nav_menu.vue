@@ -197,7 +197,7 @@ const scrollToSection = (id: string, event: Event) => {
         top: 0,
         behavior: 'smooth',
       });
-      history.pushState(null, '', '/');
+      history.replaceState(history.state, '', '/');
       if (scrollTimeout) clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(clearProgrammaticScroll, 800);
       return;
@@ -217,7 +217,7 @@ const scrollToSection = (id: string, event: Event) => {
         behavior: 'smooth',
       });
 
-      history.pushState(null, '', `#${id}`);
+      history.replaceState(history.state, '', `#${id}`);
 
       if (id === 'contact') {
         window.dispatchEvent(new CustomEvent('contact-targeted', { detail: { delay } }));
