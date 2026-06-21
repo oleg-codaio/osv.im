@@ -24,11 +24,8 @@ useParticles(canvasRef);
 function handleMouseMove(e: MouseEvent) {
   const container = rootRef.value;
   if (!container) return;
-  const rect = container.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
-  container.style.setProperty('--mouse-x', `${x}px`);
-  container.style.setProperty('--mouse-y', `${y}px`);
+  container.style.setProperty('--mouse-x', `${e.clientX}px`);
+  container.style.setProperty('--mouse-y', `${e.clientY}px`);
 }
 
 function handleMouseLeave() {
@@ -45,7 +42,6 @@ function handleMouseLeave() {
 .root {
   position: relative;
   background-color: transparent;
-  background-image: radial-gradient(600px circle at var(--mouse-x, -1000px) var(--mouse-y, -1000px), rgba(56, 189, 248, 0.05), transparent 40%);
   color: white;
   min-height: 85vh;
   display: flex;
@@ -96,9 +92,18 @@ function handleMouseLeave() {
 .description {
   font-size: clamp(1.05rem, 2.5vw, 1.25rem);
   line-height: 1.7;
-  color: var(--text-muted);
+  color: var(--text-muted-light, #A1A1AA);
   margin: 0 0 1.5rem 0;
   max-width: 680px;
+  background-image: radial-gradient(150px circle at var(--mouse-x, -1000px) var(--mouse-y, -1000px), var(--primary-accent, #38bdf8), rgba(161, 161, 170, 0.2) 100%);
+  background-attachment: fixed;
+  background-clip: text;
+  -webkit-background-clip: text;
+  transition: color 0.3s;
+
+  &:hover {
+    color: transparent;
+  }
 
   a {
     color: var(--primary-accent);
