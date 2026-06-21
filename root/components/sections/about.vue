@@ -1,5 +1,5 @@
 <template>
-  <section :class="$style.root">
+  <section ref="rootRef" :class="$style.root" @mousemove="handleMouseMove" @mouseleave="handleMouseLeave">
     <canvas ref="canvasRef" :class="$style.canvas" />
     <article :class="$style.contents">
       <h1 :class="$style.name">Oleg Vaskevich</h1>
@@ -17,8 +17,26 @@
 import { ref } from 'vue';
 
 const canvasRef = ref<HTMLCanvasElement | null>(null);
+const rootRef = ref<HTMLElement | null>(null);
 
 useParticles(canvasRef);
+
+function handleMouseMove(e: MouseEvent) {
+  const container = rootRef.value;
+  if (!container) return;
+  const rect = container.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  container.style.setProperty('--mouse-x', `${x}px`);
+  container.style.setProperty('--mouse-y', `${y}px`);
+}
+
+function handleMouseLeave() {
+  const container = rootRef.value;
+  if (!container) return;
+  container.style.setProperty('--mouse-x', '-1000px');
+  container.style.setProperty('--mouse-y', '-1000px');
+}
 </script>
 
 <style lang="scss" module>
@@ -27,6 +45,7 @@ useParticles(canvasRef);
 .root {
   position: relative;
   background-color: transparent;
+  background-image: radial-gradient(600px circle at var(--mouse-x, -1000px) var(--mouse-y, -1000px), rgba(56, 189, 248, 0.05), transparent 40%);
   color: white;
   min-height: 85vh;
   display: flex;
