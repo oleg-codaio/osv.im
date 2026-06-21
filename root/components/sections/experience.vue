@@ -354,8 +354,8 @@ const experiences = ref([
 </script>
 
 <style lang="scss" module>
-@import 'sass-svg-uri';
-@import '~/assets/css/main.scss';
+@use 'sass-svg-uri' as *;
+@use '~/assets/css/main.scss' as *;
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap');
 
 $sans-font: 'Inter', system-ui, -apple-system, sans-serif;

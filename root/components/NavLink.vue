@@ -20,7 +20,7 @@ function handleClick(event: MouseEvent) {
 </script>
 
 <style lang="scss" module>
-@import '~/assets/css/main.scss';
+@use '~/assets/css/main.scss' as *;
 
 .item {
   color: var(--text-muted-light, #A1A1AA);

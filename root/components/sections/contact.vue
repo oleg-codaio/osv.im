@@ -180,7 +180,7 @@ const handleClick = (item: any, event: MouseEvent) => {
 </script>
 
 <style lang="scss" module>
-@import '~/assets/css/main.scss';
+@use '~/assets/css/main.scss' as *;
 
 .footer {
   display: flex;

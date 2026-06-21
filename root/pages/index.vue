@@ -17,7 +17,7 @@ import Contact from '~/components/sections/contact.vue';
 </script>
 
 <style lang="scss" module>
-@import '~/assets/css/main.scss';
+@use '~/assets/css/main.scss' as *;
 
 .root {
   display: inline-block;

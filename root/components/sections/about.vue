@@ -37,7 +37,7 @@ function handleMouseLeave() {
 </script>
 
 <style lang="scss" module>
-@import '~/assets/css/main.scss';
+@use '~/assets/css/main.scss' as *;
 
 .root {
   position: relative;

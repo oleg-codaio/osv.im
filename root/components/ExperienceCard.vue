@@ -44,7 +44,7 @@ defineProps<{
 </script>
 
 <style lang="scss" module>
-@import '~/assets/css/main.scss';
+@use '~/assets/css/main.scss' as *;
 
 $sans-font: 'Inter', system-ui, -apple-system, sans-serif;
 $mono-font: 'Fira Code', monospace;

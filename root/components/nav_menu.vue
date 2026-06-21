@@ -265,8 +265,8 @@ onMounted(() => {
 </script>
 
 <style lang="scss" module>
-@import 'sass-svg-uri';
-@import '~/assets/css/main.scss';
+@use 'sass-svg-uri' as *;
+@use '~/assets/css/main.scss' as *;
 
 .root {
   align-items: center;

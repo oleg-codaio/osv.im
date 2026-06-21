@@ -25,7 +25,7 @@ const { data: posts } = await useAsyncData('writing-archive', () =>
 </script>
 
 <style lang="scss" module>
-@import '~/assets/css/main.scss';
+@use '~/assets/css/main.scss' as *;
 
 $mono-font: 'Fira Code', 'JetBrains Mono', monospace;
 

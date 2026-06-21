@@ -56,7 +56,7 @@ onBeforeUnmount(() => {
 </script>
 
 <style lang="scss" module>
-@import '~/assets/css/main.scss';
+@use '~/assets/css/main.scss' as *;
 
 .pageWrapper {
   background-color: var(--bg-dark-alternate);
