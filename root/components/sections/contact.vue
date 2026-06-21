@@ -1,6 +1,6 @@
 <template>
   <footer :class="$style.footer">
-    <div :class="[$style.terminalCard, isTarget && $style.isTarget]">
+    <div :class="[$style.terminalCard, isTarget && $style.isTarget, isTerminalActive && $style.isActive]">
       <div v-if="!isTerminalActive" :class="$style.terminalHeader" @click="activateTerminal">
         <span :class="$style.prompt">~/$</span> <span :class="$style.command">ping oleg</span>
       </div>
@@ -197,14 +197,21 @@ const handleClick = (item: any, event: MouseEvent) => {
   backdrop-filter: blur(12px);
   border: 1px solid var(--border-color);
   border-radius: 16px;
-  padding: 24px 40px;
-  width: 440px;
-  max-width: 100%;
+  padding: 24px 48px;
+  max-width: max-content;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   box-sizing: border-box;
+}
+
+.isActive {
+  padding: 24px 40px;
+  width: 440px;
+  max-width: 100%;
 }
 
 .isTarget {
