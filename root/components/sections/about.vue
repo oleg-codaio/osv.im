@@ -95,7 +95,7 @@ function handleMouseLeave() {
   color: var(--text-muted-light, #A1A1AA);
   margin: 0 0 1.5rem 0;
   max-width: 680px;
-  background-image: radial-gradient(150px circle at var(--mouse-x, -1000px) var(--mouse-y, -1000px), var(--primary-accent, #38bdf8), rgba(161, 161, 170, 0.2) 100%);
+  background-image: radial-gradient(150px circle at var(--mouse-x, -1000px) var(--mouse-y, -1000px), var(--text-main, #FAFAFA), var(--text-muted-light, #A1A1AA) 100%);
   background-attachment: fixed;
   background-clip: text;
   -webkit-background-clip: text;
