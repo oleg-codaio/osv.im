@@ -290,14 +290,16 @@ const experiences = ref([
     title: 'Technical Lead, Cross-Product Services',
     details:
       'Architected the backbone of the Superhuman suite—unifying identity, provisioning, billing, and migration flows between products.',
+    transitionText: '→ Rebranded to Superhuman',
   },
   {
     name: 'Coda',
     when: 'Aug 2020 — Dec 2024',
     icon: codaIcon,
-    title: 'Tech Lead, Monetization & Enterprise',
+    title: 'Technical Lead, Monetization & Enterprise',
     details:
       'Scaled the platform from pre-revenue to millions of users, engineering the core billing engine, Packs marketplace, growth experiments, and later parts of Coda Brain.',
+    transitionText: '→ Acquired by Grammarly',
   },
   {
     name: 'Coda',
@@ -305,14 +307,14 @@ const experiences = ref([
     icon: codaIcon,
     title: 'Software Engineer, Core Product, Foundation, & Packs',
     details:
-      'Early engineer on the core document editor. Shipped the Packs ecosystem and managed foundational security, DevOps, and SRE to scale the platform',
+      'Early engineer on the core document editor. Shipped the Packs ecosystem and managed foundational security, DevOps, and SRE to scale the platform.',
   },
   {
     name: 'Northeastern University',
     when: 'Sept 2011 — May 2016',
     icon: northeasternIcon,
-    title: 'BS in Computer Engineering, Minors in Computer Science and Music Performance',
-    details: '<i>summa cum laude</i>, Tau Beta Pi, Eta Kappa Nu, Beta Theta Pi',
+    title: 'BS in Computer Engineering, Minors in CS and Music Performance',
+    details: '<i>summa cum laude</i>, Tau Beta Pi, Eta Kappa Nu, Beta Theta Pi.',
   },
   {
     name: 'Google',
@@ -329,25 +331,27 @@ const experiences = ref([
     details: 'Selected from over 2,500 applicants.',
   },
   {
-    name: 'Shape Security (acquired by F5)',
+    name: 'Shape Security',
     when: 'Summer 2015',
     icon: shapeIcon,
     title: 'Software Engineering Intern',
     details: 'Worked on botwall platform, map-reduce data processing, and visualization.',
+    transitionText: '→ Acquired by F5',
   },
   {
     name: 'Google',
     when: 'Summer - Fall 2014',
     icon: googleIcon,
     title: 'Software Engineering Intern, Search Infrastructure',
-    details: 'Worked on on Google Web Server',
+    details: 'Worked on Google Web Server.',
   },
   {
-    name: 'Twitter (now X)',
+    name: 'Twitter',
     when: 'Summer - Fall 2013',
     icon: twitterIcon,
     title: 'Software Engineering Intern, Crashlytics',
-    details: 'Automated mobile app crash reporting and beta testing (Twitter Fabric / Google Firebase)',
+    details: 'Automated mobile app crash reporting and beta testing (Fabric / Google Firebase).',
+    transitionText: '→ Now X',
   },
   {
     name: 'Nullient',
@@ -406,7 +410,10 @@ $pathWidth: 4px;
 }
 
 .pathProgress {
-  transition: stroke-width 0.3s;
+  transition:
+    stroke-width 0.3s,
+    stroke-dashoffset 0.15s ease-out;
+  will-change: stroke-dashoffset;
   filter: drop-shadow(0 0 3px rgb(37 99 235 / 50%)) drop-shadow(0 0 6px rgb(6 182 212 / 30%));
 }
 

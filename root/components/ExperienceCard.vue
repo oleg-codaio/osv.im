@@ -20,7 +20,12 @@
         />
         <div :class="$style.headerText">
           <div :class="$style.infoHeader">
-            <span :class="$style.infoName">{{ experience.name }}</span>
+            <span :class="$style.infoName">
+              {{ experience.name }}
+              <span v-if="experience.transitionText" :class="$style.transitionText">
+                {{ experience.transitionText }}
+              </span>
+            </span>
             <span :class="$style.infoTime">{{ experience.when }}</span>
           </div>
           <div :class="$style.infoTitle">{{ experience.title }}</div>
@@ -38,6 +43,7 @@ interface Experience {
   icon: string;
   title: string;
   details: string;
+  transitionText?: string;
 }
 
 defineProps<{
@@ -274,6 +280,15 @@ $mono-font: 'Fira Code', monospace;
   font-weight: 700;
   color: var(--text-main, #fafafa);
   font-size: 1.2rem;
+}
+
+.transitionText {
+  font-size: 0.8rem;
+  color: var(--color-text-muted, #a1a1aa);
+  font-weight: 400;
+  margin-left: 8px;
+  letter-spacing: 0.05em;
+  display: inline-block;
 }
 
 .infoTitle {
