@@ -282,11 +282,11 @@ onMounted(() => {
   transition: all 0.3s ease;
   width: 100%;
   z-index: 10;
-  background: rgba(9, 9, 11, 0.7);
+  background: rgb(9 9 11 / 70%);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgb(255 255 255 / 5%);
 
-  @media only screen and (max-width: 768px) {
+  @media only screen and (width <= 768px) {
     pointer-events: none;
     opacity: 0;
     flex-direction: column;
@@ -297,7 +297,7 @@ onMounted(() => {
     width: 100vw;
     margin-top: 0;
     height: 100vh;
-    background: rgba(9, 9, 11, 0.95);
+    background: rgb(9 9 11 / 95%);
     backdrop-filter: blur(20px);
     border-bottom: none;
 
@@ -311,9 +311,9 @@ onMounted(() => {
 
 .hamburger {
   align-content: center;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgb(255 255 255 / 5%);
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgb(255 255 255 / 8%);
   border-bottom-left-radius: 12px;
   display: none;
   height: 50px;
@@ -326,7 +326,7 @@ onMounted(() => {
   top: 0;
   z-index: 15;
 
-  @media only screen and (max-width: 768px) {
+  @media only screen and (width <= 768px) {
     display: block;
     margin-top: 0;
   }

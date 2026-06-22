@@ -44,8 +44,8 @@ $mono-font: 'Fira Code', 'JetBrains Mono', monospace;
   font-weight: 800;
   margin-top: 0;
   margin-bottom: 40px;
-  background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 100%);
-  -webkit-background-clip: text;
+  background: linear-gradient(135deg, #fff 0%, #a1a1aa 100%);
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -55,11 +55,11 @@ $mono-font: 'Fira Code', 'JetBrains Mono', monospace;
   gap: 24px;
   width: 100%;
 
-  @media only screen and (max-width: 900px) {
+  @media only screen and (width <= 900px) {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (width <= 600px) {
     grid-template-columns: 1fr;
   }
 }

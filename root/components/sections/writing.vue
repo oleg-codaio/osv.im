@@ -54,24 +54,24 @@ $mono-font: 'Fira Code', 'JetBrains Mono', monospace;
   width: 100%;
   margin-bottom: 30px;
 
-  @media only screen and (max-width: 900px) {
+  @media only screen and (width <= 900px) {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (width <= 600px) {
     display: flex;
     flex-wrap: nowrap;
     overflow-x: auto;
     gap: 16px;
     padding: 10px 20px;
-    margin: 0 -20px 20px -20px;
+    margin: 0 -20px 20px;
     -webkit-overflow-scrolling: touch;
     width: calc(100% + 40px);
   }
 }
 
 .postContainer {
-  @media only screen and (max-width: 600px) {
+  @media only screen and (width <= 600px) {
     flex: 0 0 280px;
     max-width: 75vw;
   }

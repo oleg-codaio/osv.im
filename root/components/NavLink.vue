@@ -33,8 +33,8 @@ function handleClick(event: MouseEvent) {
   opacity: 0.8;
   position: relative;
 
-  @media only screen and (max-width: 768px) {
-    margin: 20px 0px;
+  @media only screen and (width <= 768px) {
+    margin: 20px 0;
     font-size: 24px;
   }
 
@@ -47,7 +47,7 @@ function handleClick(event: MouseEvent) {
     height: 2px;
     background-color: var(--primary-accent, #38bdf8);
     border-radius: 2px;
-    box-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
+    box-shadow: 0 0 8px rgb(56 189 248 / 60%);
     opacity: 0;
     transform: scaleX(0.5);
     transform-origin: center;
@@ -55,7 +55,7 @@ function handleClick(event: MouseEvent) {
       opacity 0.3s ease,
       transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 
-    @media only screen and (max-width: 768px) {
+    @media only screen and (width <= 768px) {
       display: none;
     }
   }
@@ -63,7 +63,7 @@ function handleClick(event: MouseEvent) {
   &.isActive {
     color: var(--text-main, #fafafa);
     opacity: 1;
-    text-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+    text-shadow: 0 0 12px rgb(56 189 248 / 40%);
 
     &::after {
       opacity: 1;

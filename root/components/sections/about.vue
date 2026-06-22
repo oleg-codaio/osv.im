@@ -52,7 +52,7 @@ function handleMouseLeave() {
   overflow: hidden;
   cursor: default;
 
-  @media only screen and (max-width: 768px) {
+  @media only screen and (width <= 768px) {
     min-height: 90vh;
   }
 }
@@ -74,7 +74,7 @@ function handleMouseLeave() {
   padding: 4rem 2rem;
   margin-left: 5%;
 
-  @media only screen and (max-width: 768px) {
+  @media only screen and (width <= 768px) {
     margin-left: 0;
     padding: 3rem 1.5rem;
   }
@@ -85,18 +85,18 @@ function handleMouseLeave() {
   font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1.2;
-  margin: 0 0 1rem 0;
+  margin: 0 0 1rem;
   padding-bottom: 0.1em;
-  background: linear-gradient(135deg, #ffffff 30%, #93c5fd 100%);
-  -webkit-background-clip: text;
+  background: linear-gradient(135deg, #fff 30%, #93c5fd 100%);
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
 .description {
   font-size: clamp(1.05rem, 2.5vw, 1.25rem);
   line-height: 1.7;
   color: var(--text-muted-light, #a1a1aa);
-  margin: 0 0 1.5rem 0;
+  margin: 0 0 1.5rem;
   max-width: 680px;
   background-image: radial-gradient(
     150px circle at var(--mouse-x, -1000px) var(--mouse-y, -1000px),
@@ -105,7 +105,6 @@ function handleMouseLeave() {
   );
   background-attachment: fixed;
   background-clip: text;
-  -webkit-background-clip: text;
   transition: color 0.3s;
 
   &:hover {
@@ -115,14 +114,14 @@ function handleMouseLeave() {
   a {
     color: var(--primary-accent);
     font-weight: 500;
-    border-bottom: 1px dashed rgba(56, 189, 248, 0.4);
+    border-bottom: 1px dashed rgb(56 189 248 / 40%);
     padding-bottom: 2px;
     transition: all 0.2s ease;
 
     &:hover {
       color: var(--primary-accent-hover);
       border-bottom-color: var(--primary-accent-hover);
-      text-shadow: 0 0 8px rgba(14, 165, 233, 0.4);
+      text-shadow: 0 0 8px rgb(14 165 233 / 40%);
     }
   }
 }

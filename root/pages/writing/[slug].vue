@@ -68,7 +68,7 @@ onBeforeUnmount(() => {
 .mainContent {
   max-width: 800px;
   margin: 0 auto;
-  padding: 40px 20px 80px 20px;
+  padding: 40px 20px 80px;
   box-sizing: border-box;
 }
 
@@ -105,7 +105,7 @@ onBeforeUnmount(() => {
 
   &:hover {
     opacity: 0.8;
-    text-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
+    text-shadow: 0 0 8px rgb(56 189 248 / 40%);
   }
 }
 
@@ -115,7 +115,7 @@ onBeforeUnmount(() => {
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1.2;
-  margin: 0 0 16px 0;
+  margin: 0 0 16px;
 }
 
 .meta {
@@ -134,7 +134,7 @@ onBeforeUnmount(() => {
   border-radius: 12px;
   border: 1px solid var(--border-color);
   margin-top: 10px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 30px rgb(0 0 0 / 30%);
 }
 
 .content {
@@ -173,9 +173,11 @@ onBeforeUnmount(() => {
   h1 {
     font-size: 1.8rem;
   }
+
   h2 {
     font-size: 1.5rem;
   }
+
   h3 {
     font-size: 1.3rem;
   }
@@ -217,11 +219,11 @@ onBeforeUnmount(() => {
     text-decoration: underline;
     text-decoration-thickness: 1px;
     text-underline-offset: 4px;
-    text-decoration-color: rgba(56, 189, 248, 0.4);
+    text-decoration-color: rgb(56 189 248 / 40%);
     transition: text-decoration-color 0.2s ease;
 
     &:hover {
-      text-decoration-color: rgba(56, 189, 248, 1);
+      text-decoration-color: rgb(56 189 248 / 100%);
     }
   }
 
@@ -238,7 +240,7 @@ onBeforeUnmount(() => {
 
   blockquote {
     border-left: 4px solid var(--primary-accent);
-    margin: 0 0 24px 0;
+    margin: 0 0 24px;
     padding-left: 16px;
     color: var(--text-muted-light);
     font-style: italic;
@@ -259,7 +261,7 @@ onBeforeUnmount(() => {
     font-family: 'Fira Code', 'JetBrains Mono', monospace;
     font-size: 0.9rem;
     padding: 2px 6px;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgb(255 255 255 / 5%);
     border-radius: 4px;
     color: #e4e4e7;
   }
@@ -306,14 +308,14 @@ onBeforeUnmount(() => {
 @media print {
   :global(body),
   :global(html) {
-    background-color: #ffffff !important;
+    background-color: #fff !important;
     background-image: none !important;
-    color: #000000 !important;
+    color: #000 !important;
   }
 
   .pageWrapper {
-    background-color: #ffffff !important;
-    color: #000000 !important;
+    background-color: #fff !important;
+    color: #000 !important;
     padding-top: 0 !important;
   }
 
@@ -326,22 +328,22 @@ onBeforeUnmount(() => {
   }
 
   .title {
-    color: #000000 !important;
+    color: #000 !important;
   }
 
   .meta {
-    color: #555555 !important;
+    color: #555 !important;
   }
 
   .content {
-    color: #000000 !important;
+    color: #000 !important;
 
     p {
-      color: #000000 !important;
+      color: #000 !important;
     }
 
     p:first-of-type {
-      color: #000000 !important;
+      color: #000 !important;
     }
 
     h1,
@@ -350,38 +352,38 @@ onBeforeUnmount(() => {
     h4,
     h5,
     h6 {
-      color: #000000 !important;
+      color: #000 !important;
     }
 
     a {
-      color: #0066cc !important;
+      color: #06c !important;
       text-decoration: underline !important;
     }
 
     pre {
       background: #f4f4f5 !important;
-      color: #000000 !important;
+      color: #000 !important;
       border: 1px solid #e4e4e7 !important;
       box-shadow: none !important;
     }
 
     code {
       background: #f4f4f5 !important;
-      color: #000000 !important;
+      color: #000 !important;
     }
 
     blockquote {
-      border-left-color: #0066cc !important;
-      color: #333333 !important;
+      border-left-color: #06c !important;
+      color: #333 !important;
       background: #f9f9f9 !important;
     }
 
     figcaption {
-      color: #555555 !important;
+      color: #555 !important;
     }
 
     :global(.footnote) {
-      color: #555555 !important;
+      color: #555 !important;
     }
   }
 

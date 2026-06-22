@@ -362,7 +362,7 @@ const experiences = ref([
 <style lang="scss" module>
 @use 'sass-svg-uri' as *;
 @use '~/assets/css/main.scss' as *;
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap');
+@import 'https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap';
 
 $sans-font:
   'Inter',
@@ -394,14 +394,10 @@ $pathWidth: 4px;
 .svg {
   pointer-events: none;
   position: absolute;
-  left: 0;
-  right: 0;
+  inset: 0;
   width: 100%;
   overflow: hidden;
   height: 100%;
-  top: 0;
-  bottom: 0;
-  -webkit-mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
   mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
 }
 
@@ -411,7 +407,7 @@ $pathWidth: 4px;
 
 .pathProgress {
   transition: stroke-width 0.3s;
-  filter: drop-shadow(0 0 3px rgba(37, 99, 235, 0.5)) drop-shadow(0 0 6px rgba(6, 182, 212, 0.3));
+  filter: drop-shadow(0 0 3px rgb(37 99 235 / 50%)) drop-shadow(0 0 6px rgb(6 182 212 / 30%));
 }
 
 .pathDataFlow {

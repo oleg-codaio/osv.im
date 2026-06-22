@@ -55,6 +55,11 @@ jobs:
           cd root
           pnpm run lint
 
+      - name: Run Stylelint Check
+        run: |
+          cd root
+          pnpm run lint:style
+
   deploy:
     name: Deploy Website & Assets
     runs-on: ubuntu-latest

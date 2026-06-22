@@ -67,7 +67,7 @@ $mono-font: 'Fira Code', monospace;
   position: relative;
   box-sizing: border-box;
 
-  @media only screen and (min-width: 800px) {
+  @media only screen and (width >= 800px) {
     padding-top: 40px;
     padding-bottom: 40px;
   }
@@ -127,20 +127,20 @@ $mono-font: 'Fira Code', monospace;
 
     .info {
       transform: translateY(-4px);
-      border-color: rgba(255, 255, 255, 0.18);
+      border-color: rgb(255 255 255 / 18%);
       box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.4),
-        0 0 15px rgba(56, 189, 248, 0.1);
+        0 10px 30px rgb(0 0 0 / 40%),
+        0 0 15px rgb(56 189 248 / 10%);
     }
 
     .dot {
       transform: translate(-50%, -50%) scale(1.25);
       border-color: var(--primary-accent, #38bdf8);
-      box-shadow: 0 0 15px rgba(56, 189, 248, 0.8);
+      box-shadow: 0 0 15px rgb(56 189 248 / 80%);
     }
   }
 
-  @media only screen and (max-width: 768px) {
+  @media only screen and (width <= 768px) {
     $mobilePadding: 5vw;
 
     &.leaf {
@@ -199,7 +199,7 @@ $mono-font: 'Fira Code', monospace;
   left: 50%;
   opacity: 0;
   transform: translate(-50%, -50%) scale(0);
-  box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+  box-shadow: 0 0 10px rgb(56 189 248 / 60%);
   transition:
     opacity 0.4s ease,
     transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
@@ -209,16 +209,16 @@ $mono-font: 'Fira Code', monospace;
 
 .info {
   font-family: $sans-font;
-  background: var(--bg-card, rgba(22, 27, 34, 0.4));
+  background: var(--bg-card, rgb(22 27 34 / 40%));
   backdrop-filter: blur(8px);
-  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+  border: 1px solid var(--border-color, rgb(255 255 255 / 8%));
   border-radius: 12px;
   padding: 20px 24px;
   min-height: 110px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 30px rgb(0 0 0 / 20%);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   width: 100%;
   box-sizing: border-box;

@@ -23,8 +23,8 @@ import Contact from '~/components/sections/contact.vue';
   display: inline-block;
   margin-top: $header-size;
 
-  @media only screen and (max-width: 768px) {
-    margin-top: 0px;
+  @media only screen and (width <= 768px) {
+    margin-top: 0;
   }
 }
 
@@ -40,8 +40,8 @@ import Contact from '~/components/sections/contact.vue';
   flex-direction: column;
   scroll-margin-top: $header-size;
 
-  @media only screen and (max-width: 768px) {
-    scroll-margin-top: 0px;
+  @media only screen and (width <= 768px) {
+    scroll-margin-top: 0;
   }
 
   article {
@@ -49,7 +49,7 @@ import Contact from '~/components/sections/contact.vue';
     flex: auto;
   }
 
-  @media only screen and (max-width: 768px) and (orientation: portrait) {
+  @media only screen and (width <= 768px) and (orientation: portrait) {
     // Mobile-only workaround for iOS Chrome/Instagram/Firefox/others.
     min-height: calc(100 * var(--vh, 1vh));
   }
@@ -58,18 +58,18 @@ import Contact from '~/components/sections/contact.vue';
 .aboutSection {
   min-height: 80vh;
 
-  @media only screen and (max-width: 768px) and (orientation: portrait) {
+  @media only screen and (width <= 768px) and (orientation: portrait) {
     min-height: calc(80 * var(--vh, 1vh));
   }
 }
 
 .writingSection {
   min-height: auto;
-  padding: 120px 0 40px 0;
+  padding: 120px 0 40px;
 
-  @media only screen and (max-width: 768px) and (orientation: portrait) {
+  @media only screen and (width <= 768px) and (orientation: portrait) {
     min-height: auto;
-    padding: 80px 0 30px 0;
+    padding: 80px 0 30px;
   }
 }
 
@@ -77,7 +77,7 @@ import Contact from '~/components/sections/contact.vue';
   min-height: auto;
   margin-top: 64px;
 
-  @media only screen and (max-width: 768px) and (orientation: portrait) {
+  @media only screen and (width <= 768px) and (orientation: portrait) {
     min-height: auto;
     margin-top: 32px;
   }

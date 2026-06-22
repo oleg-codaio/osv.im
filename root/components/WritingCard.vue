@@ -46,24 +46,24 @@ defineProps<{
 $mono-font: 'Fira Code', 'JetBrains Mono', monospace;
 
 .postContainer {
-  background: var(--bg-card, rgba(22, 27, 34, 0.6));
+  background: var(--bg-card, rgb(22 27 34 / 60%));
   backdrop-filter: blur(12px);
-  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
+  border: 1px solid var(--border-color, rgb(255 255 255 / 8%));
   border-radius: 12px;
   padding: 20px;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 30px rgb(0 0 0 / 20%);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-sizing: border-box;
   text-decoration: none;
 
   &:hover {
     transform: translateY(-4px);
-    border-color: rgba(255, 255, 255, 0.2);
+    border-color: rgb(255 255 255 / 20%);
     box-shadow:
-      0 10px 30px rgba(0, 0, 0, 0.4),
-      0 0 15px rgba(59, 130, 246, 0.1);
+      0 10px 30px rgb(0 0 0 / 40%),
+      0 0 15px rgb(59 130 246 / 10%);
   }
 }
 
@@ -80,7 +80,7 @@ $mono-font: 'Fira Code', 'JetBrains Mono', monospace;
   border-radius: 50%;
   background-size: cover;
   background-position: center;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgb(255 255 255 / 10%);
 }
 
 .metadata {
@@ -131,7 +131,7 @@ $mono-font: 'Fira Code', 'JetBrains Mono', monospace;
   font-size: 1.25rem;
   font-weight: 700;
   line-height: 1.4;
-  margin: 0 0 8px 0;
+  margin: 0 0 8px;
   transition: color 0.3s ease;
 
   .postContainer:hover & {

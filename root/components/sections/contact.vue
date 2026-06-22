@@ -187,7 +187,7 @@ const handleClick = (item: any, event: MouseEvent) => {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 40px 20px 60px 20px;
+  padding: 40px 20px 60px;
   width: 100%;
   box-sizing: border-box;
   background: transparent;
@@ -204,7 +204,7 @@ const handleClick = (item: any, event: MouseEvent) => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 30px rgb(0 0 0 / 20%);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   box-sizing: border-box;
 }
@@ -256,7 +256,6 @@ const handleClick = (item: any, event: MouseEvent) => {
   margin-bottom: 20px;
   text-align: center;
   overflow-wrap: break-word;
-  word-break: break-word;
   max-width: 100%;
 }
 
@@ -320,18 +319,20 @@ const handleClick = (item: any, event: MouseEvent) => {
 @keyframes targetPulse {
   0% {
     box-shadow:
-      0 4px 30px rgba(0, 0, 0, 0.2),
-      0 0 0 0 rgba(56, 189, 248, 0);
+      0 4px 30px rgb(0 0 0 / 20%),
+      0 0 0 0 rgb(56 189 248 / 0%);
   }
+
   20% {
     box-shadow:
-      0 4px 30px rgba(0, 0, 0, 0.2),
-      0 0 20px 2px rgba(56, 189, 248, 0.4);
+      0 4px 30px rgb(0 0 0 / 20%),
+      0 0 20px 2px rgb(56 189 248 / 40%);
   }
+
   100% {
     box-shadow:
-      0 4px 30px rgba(0, 0, 0, 0.2),
-      0 0 0 0 rgba(56, 189, 248, 0);
+      0 4px 30px rgb(0 0 0 / 20%),
+      0 0 0 0 rgb(56 189 248 / 0%);
   }
 }
 </style>

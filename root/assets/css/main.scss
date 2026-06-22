@@ -1,12 +1,12 @@
-@import url('https://fonts.googleapis.com/css?family=Arimo');
+@import 'https://fonts.googleapis.com/css?family=Arimo';
 
 :root {
   --primary-accent: #38bdf8; /* cyan */
   --primary-accent-hover: #0ea5e9; /* hover cyan */
   --bg-dark: #09090b;
   --bg-dark-alternate: #0a0a0c;
-  --bg-card: rgba(22, 27, 34, 0.6);
-  --border-color: rgba(255, 255, 255, 0.08);
+  --bg-card: rgb(22 27 34 / 60%);
+  --border-color: rgb(255 255 255 / 8%);
   --text-main: #fafafa;
   --text-muted: #8b949e;
   --text-muted-light: #a1a1aa;
@@ -17,30 +17,24 @@ $color2: var(--primary-accent);
 $color3: var(--text-main);
 $color4: var(--bg-dark);
 $color5: var(--primary-accent-hover);
-
 $main-text-color: var(--text-main);
 $primary-color: var(--primary-accent);
 $primary-color-hover: var(--primary-accent-hover);
 $primary-invert-color: var(--text-main);
 $primary-invert-color-hover: var(--text-muted-light);
-
 $selection-color: var(--bg-dark);
 $selection-background-color: var(--primary-accent);
-
 $nav-bg-color: var(--bg-dark);
 $nav-accent-color: #1e293b;
 $nav-item-idle: var(--text-muted-light);
 $nav-item-hover: var(--text-main);
 $nav-item-selected: var(--text-main);
-
 $header-size: 75px;
 $bg-accent-color: var(--bg-dark);
-
 $experience-background-color: var(--bg-dark);
-$experience-background-accent-color: rgba(255, 255, 255, 0.03);
+$experience-background-accent-color: rgb(255 255 255 / 3%);
 $experience-line-start-color: var(--primary-accent);
 $experience-line-end-color: var(--primary-accent-hover);
-
 $contact-background-color: var(--bg-dark);
 
 html {
@@ -53,7 +47,7 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  font-family: 'Arimo', sans-serif;
+  font-family: Arimo, sans-serif;
   overflow-x: hidden;
   background-color: var(--bg-dark-alternate);
   color: var(--text-main);
