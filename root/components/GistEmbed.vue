@@ -6,7 +6,7 @@
       style="width: 100%; border: 0; overflow: hidden; background: transparent; transition: height 0.25s ease"
       :style="{height: iframeHeight}"
       scrolling="no"
-    ></iframe>
+    />
   </div>
 </template>
 

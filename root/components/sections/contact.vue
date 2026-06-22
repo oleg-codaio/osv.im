@@ -8,12 +8,12 @@
         <span :class="$style.prompt">~/$</span>
         <input
           ref="inputRef"
-          type="text"
           v-model="inputValue"
+          type="text"
+          :class="$style.terminalInput"
           @keydown.enter="handleCommand"
           @keydown.esc="resetTerminal"
           @blur="resetTerminal"
-          :class="$style.terminalInput"
         />
       </div>
       <div v-if="commandOutput" :class="$style.terminalOutput">
@@ -22,13 +22,13 @@
       <div :class="$style.items">
         <a
           v-for="item in items"
-          :class="$style.item"
           :key="item.name"
+          :class="$style.item"
           :href="item.link"
           :target="item.target || '_blank'"
-          @click="handleClick(item, $event)"
           :rel="item.target === '_self' ? undefined : 'noopener noreferrer'"
           :aria-label="item.name"
+          @click="handleClick(item, $event)"
         >
           <div
             :class="$style.icon"

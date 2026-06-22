@@ -3,10 +3,10 @@
     <article :class="$style.contents">
       <div :class="$style.timeline" :style="{maxWidth: maxSvgWidthPx + 'px'}">
         <svg
+          ref="svg"
           :class="$style.svg"
           preserveAspectRatio="none"
           :viewBox="`0 0 ${pathWidth} ${pathHeight}`"
-          ref="svg"
           xmlns="http://www.w3.org/2000/svg"
         >
           <defs>
@@ -27,8 +27,8 @@
           />
           <!-- Layer 2: Scroll-Synced Progress -->
           <path
-            :class="$style.pathProgress"
             ref="pathRef"
+            :class="$style.pathProgress"
             fill="none"
             stroke="url(#progressGradient)"
             stroke-linejoin="round"
@@ -56,7 +56,7 @@
             :style="{filter: 'drop-shadow(0 0 8px rgba(56, 189, 248, 0.9))'}"
           />
         </svg>
-        <div :class="$style.leaves" ref="leavesRef">
+        <div ref="leavesRef" :class="$style.leaves">
           <ExperienceCard
             v-for="(exp, index) in experiences"
             :key="exp.name + exp.when"

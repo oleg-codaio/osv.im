@@ -33,6 +33,7 @@ $mono-font: 'Fira Code', 'JetBrains Mono', monospace;
 
 .root {
   background: transparent;
+  overflow: hidden;
 }
 
 .container {

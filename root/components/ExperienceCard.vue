@@ -31,6 +31,7 @@
           <div :class="$style.infoTitle">{{ experience.title }}</div>
         </div>
       </div>
+      <!-- eslint-disable-next-line vue/no-v-html -- The details HTML content is locally authored in experience.vue and contains safe formatting tags. -->
       <div :class="$style.infoDetails" v-html="experience.details" />
     </div>
   </div>
