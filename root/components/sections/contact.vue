@@ -12,6 +12,7 @@
           v-model="inputValue"
           @keydown.enter="handleCommand"
           @keydown.esc="resetTerminal"
+          @blur="resetTerminal"
           :class="$style.terminalInput"
         />
       </div>
