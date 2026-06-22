@@ -1,4 +1,4 @@
-import { ref, onMounted, onBeforeUnmount, type Ref } from 'vue';
+import {ref, onMounted, onBeforeUnmount, type Ref} from 'vue';
 
 interface ParticleNode {
   x: number;
@@ -20,7 +20,7 @@ export function useParticles(canvasRef: Ref<HTMLCanvasElement | null>) {
   let animationFrameId = 0;
   const nodes: ParticleNode[] = [];
   const packets: DataPacket[] = [];
-  const timelineAnchor = ref<{ x: number; y: number } | null>(null);
+  const timelineAnchor = ref<{x: number; y: number} | null>(null);
 
   // Mouse tracking
   const mouse = {
@@ -29,7 +29,7 @@ export function useParticles(canvasRef: Ref<HTMLCanvasElement | null>) {
     radius: 180,
   };
 
-  function handleAnchorUpdate(e: CustomEvent<{ x: number; y: number }>) {
+  function handleAnchorUpdate(e: CustomEvent<{x: number; y: number}>) {
     const canvas = canvasRef.value;
     if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
@@ -94,20 +94,20 @@ export function useParticles(canvasRef: Ref<HTMLCanvasElement | null>) {
 
     // 1. Determine which nodes are pulled towards the timeline anchor
     let pulledNodes = new Set<ParticleNode>();
-    const ax = timelineAnchor.value?.x ?? (width / 2);
+    const ax = timelineAnchor.value?.x ?? width / 2;
     const ay = timelineAnchor.value?.y ?? height;
 
     if (nodes.length > 0) {
       const sorted = [...nodes]
-        .map(node => {
+        .map((node) => {
           const dx = ax - node.x;
           const dy = ay - node.y;
-          return { node, dist: Math.hypot(dx, dy) };
+          return {node, dist: Math.hypot(dx, dy)};
         })
         .sort((a, b) => a.dist - b.dist);
-      
+
       // Select the 3 closest nodes
-      pulledNodes = new Set(sorted.slice(0, 3).map(item => item.node));
+      pulledNodes = new Set(sorted.slice(0, 3).map((item) => item.node));
     }
 
     // 2. Update and Draw Nodes
@@ -186,7 +186,7 @@ export function useParticles(canvasRef: Ref<HTMLCanvasElement | null>) {
       // Draw node
       ctx.beginPath();
       ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
-      
+
       if (isPulled) {
         // Shift color towards timeline bright blue/cyan as it gets closer
         const ratio = 1 - Math.min(dist / 200, 1);
@@ -194,7 +194,7 @@ export function useParticles(canvasRef: Ref<HTMLCanvasElement | null>) {
       } else {
         ctx.fillStyle = 'rgba(147, 197, 253, 0.4)'; // light blue accent
       }
-      
+
       ctx.fill();
     }
 
@@ -231,15 +231,15 @@ export function useParticles(canvasRef: Ref<HTMLCanvasElement | null>) {
       const conn = connections[Math.floor(Math.random() * connections.length)];
       // Random direction
       const [fromNode, toNode] = Math.random() > 0.5 ? [conn[0], conn[1]] : [conn[1], conn[0]];
-      
+
       // Check if a packet is already traveling this direction on this node pair
-      const exists = packets.some(p => p.fromNode === fromNode && p.toNode === toNode);
+      const exists = packets.some((p) => p.fromNode === fromNode && p.toNode === toNode);
       if (!exists) {
         packets.push({
           fromNode,
           toNode,
           progress: 0,
-          speed: (Math.random() * 0.01) + 0.005, // travel speed percentage per frame
+          speed: Math.random() * 0.01 + 0.005, // travel speed percentage per frame
         });
       }
     }
@@ -282,14 +282,14 @@ export function useParticles(canvasRef: Ref<HTMLCanvasElement | null>) {
       // Setup ResizeObserver to handle element size changes accurately
       resizeObserver = new ResizeObserver((entries) => {
         for (const entry of entries) {
-          const { width, height } = entry.contentRect;
+          const {width, height} = entry.contentRect;
           canvas.width = width;
           canvas.height = height;
           initParticles(width, height);
         }
       });
       resizeObserver.observe(parent);
-      
+
       // Fallback/Initial sizing
       const rect = parent.getBoundingClientRect();
       canvas.width = rect.width;

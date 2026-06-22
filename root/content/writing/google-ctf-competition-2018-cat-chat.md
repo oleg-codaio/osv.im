@@ -1,5 +1,5 @@
 ---
-title: "Google CTF Competition 2018: Cat Chat"
+title: 'Google CTF Competition 2018: Cat Chat'
 date: 2018-06-25
 readTime: 10
 image: /images/writing/google-ctf-competition-2018-cat-chat/flag-unlocked.webp
@@ -16,7 +16,7 @@ Read on to find out how!
 
 ## Starting Out
 
-*Cat Chat* reminded me of IRC hacking challenges popular a decade ago, like the ones on [HackThisSite](https://www.hackthissite.org/). I'll let the screenshot speak for itself, but the premise is that there's a chat app run by someone bent against canines, and the goal is to (surprise!) steal the admin's credentials to get the flag.
+_Cat Chat_ reminded me of IRC hacking challenges popular a decade ago, like the ones on [HackThisSite](https://www.hackthissite.org/). I'll let the screenshot speak for itself, but the premise is that there's a chat app run by someone bent against canines, and the goal is to (surprise!) steal the admin's credentials to get the flag.
 
 <figure>
   <img src="/images/writing/google-ctf-competition-2018-cat-chat/cat-chat-ui.webp" alt="Cat Chat UI" />
@@ -24,6 +24,7 @@ Read on to find out how!
 </figure>
 
 Reading over the preface, it looks like we get access to the [Express](https://expressjs.com/) server's source code! And naturally we have access to the client's source as well. In general with these types of challenges, an effective approach is to first explore the app itself, and then do a code review and spot any weaknesses that may have been (usually intentionally) introduced. \[I'll denote those with a 🚩.\]
+
 <figure>
   <img src="/images/writing/google-ctf-competition-2018-cat-chat/change-name-prompt.webp" alt="Change name prompt" />
   <figcaption>The script kiddy's favorite name, age, and location.</figcaption>
@@ -33,7 +34,7 @@ Reading over the preface, it looks like we get access to the [Express](https://e
 
 To start things off, we can change our name 🚩 to anything, so why not do the quick-n-dirty inline script test? Unfortunately, no dice — the input is escaped.
 
-Moving on, the admin *really*, ***really*** hates dogs. As a test, let's see what happens when we join the same room as another user (i.e., in an incognito window) and start talking about dogs. The admin comes in, bans anyone who utters the word (ahem, **red_bombay**), and promptly disconnects. That's interesting — we can summon the admin to our chatroom at any time. Once we figure out what exactly makes the admin an admin, maybe we can somehow compromise them?
+Moving on, the admin _really_, **_really_** hates dogs. As a test, let's see what happens when we join the same room as another user (i.e., in an incognito window) and start talking about dogs. The admin comes in, bans anyone who utters the word (ahem, **red_bombay**), and promptly disconnects. That's interesting — we can summon the admin to our chatroom at any time. Once we figure out what exactly makes the admin an admin, maybe we can somehow compromise them?
 
 Before we go on, let's also look at one more thing: whether the client sets a [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP). If it does (as any modern web app should), that will significantly decrease our client-side attack vectors.
 
@@ -50,7 +51,7 @@ Looking at the main page's source code, we get a huge hint about two secret comm
 
 ![Client secret commands](/images/writing/google-ctf-competition-2018-cat-chat/client-secret-commands.webp)
 
-We now know *how* the admin actually bans unwelcome 🐕 supporters, and more importantly we know *how* to become the admin. Running the `/secret` command authenticates the user; we'll later discover that using it sets a cookie named `flag` in the browser 🚩:
+We now know _how_ the admin actually bans unwelcome 🐕 supporters, and more importantly we know _how_ to become the admin. Running the `/secret` command authenticates the user; we'll later discover that using it sets a cookie named `flag` in the browser 🚩:
 
 <figure>
   <img src="/images/writing/google-ctf-competition-2018-cat-chat/chrome-application-cookies.webp" alt="Chrome's Application tab in Developer Tools" />
@@ -73,7 +74,7 @@ Rats — the code escapes all untrusted user input with an `esc()` function, so 
 
 1. Whenever someone runs the `/secret` command, the password gets stashed under a `<span>` into its `data-secret` attribute. So in addition to living in the cookie, the secret also gets written into the page. 🚩
 2. Banning is strictly a client-side thing — the server just sets a `banned` cookie that we can easily clear out. 🚩
-3. Remember how a banned user becomes red in the chat room? Apparently that's done using some CSS that matches all divs whose `data-name` attribute *starts with* the banned user's name 🚩. Looks like the developer forgot to quote the name though, and there's no good reason to use `^=` instead of `=` for the predicate. ¯\\\_(ツ)\_/¯
+3. Remember how a banned user becomes red in the chat room? Apparently that's done using some CSS that matches all divs whose `data-name` attribute _starts with_ the banned user's name 🚩. Looks like the developer forgot to quote the name though, and there's no good reason to use `^=` instead of `=` for the predicate. ¯\\\_(ツ)\_/¯
 
 Other than that, the code looks reasonably robust. The rest of it deals with handling reporting user a [reCAPTCHA](https://www.google.com/recaptcha/intro/v3beta.html) to prevent spamming the admin and generating a new name upon connection. We've gleaned enough from here, so let's hop over and look at the server's source code.
 
@@ -147,7 +148,7 @@ Then, once we get the first letter (let's say it's `C`):
 
 The next step is to actually log these requests, so that we know when we've guessed a letter correctly. Let's just spin up a quick Droplet and run `python -m SimpleHTTPServer 80`, right?
 
-*Not so fast!* The server's CSP actually prevents embedding any external images. But, recall that we can actually send messages to any chatroom via a simple URL. So we could instead use an image source like:
+_Not so fast!_ The server's CSP actually prevents embedding any external images. But, recall that we can actually send messages to any chatroom via a simple URL. So we could instead use an image source like:
 
 ```
 https://cat-chat.web.ctfcompetition.com/room/<room-id>/send?name=name&msg=message
@@ -156,8 +157,8 @@ https://cat-chat.web.ctfcompetition.com/room/<room-id>/send?name=name&msg=messag
 To put this into context, the CSS rule would look like this:
 
 ```css
-span[data-secret^=A] {
-  background: url(https://cat-chat.web.ctfcompetition.com/room/<room-id>/send?name=the%20password%20is&msg=A)
+span[data-secret^='A'] {
+  background: url(https://cat-chat.web.ctfcompetition.com/room/<room-id>/send?name=the%20password%20is&msg=A);
 }
 ```
 
@@ -194,7 +195,6 @@ Rinse and repeat (clearing the banned cookie and refreshing each time in the ban
   <img src="/images/writing/google-ctf-competition-2018-cat-chat/payload-generator-draft.png" alt="Payload generator draft" />
   <figcaption>Before I tidied up the payload generator. :)</figcaption>
 </figure>
-
 
 ## Learnings
 

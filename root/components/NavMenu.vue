@@ -21,8 +21,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, computed, watch, nextTick } from 'vue';
-import { useRoute } from 'vue-router';
+import {ref, onMounted, onBeforeUnmount, computed, watch, nextTick} from 'vue';
+import {useRoute} from 'vue-router';
 
 const shown = ref(false);
 const route = useRoute();
@@ -35,7 +35,7 @@ let observer: IntersectionObserver | null = null;
 let setupRetryTimeout: any = null;
 
 const updateActiveSectionFromScroll = () => {
-  if (!process.client) return;
+  if (!import.meta.client) return;
   if (route.path !== '/') return;
 
   if (window.scrollY <= 0) {
@@ -78,17 +78,17 @@ const clearProgrammaticScroll = () => {
 };
 
 const setupObserver = () => {
-  if (!process.client) return;
-  
+  if (!import.meta.client) return;
+
   if (setupRetryTimeout) clearTimeout(setupRetryTimeout);
-  
+
   if (observer) {
     observer.disconnect();
   }
 
   const sections = ['about', 'experience', 'writing', 'contact'];
-  const elements = sections.map(id => document.getElementById(id)).filter(Boolean);
-  
+  const elements = sections.map((id) => document.getElementById(id)).filter(Boolean);
+
   if (route.path === '/' && elements.length < sections.length) {
     setupRetryTimeout = setTimeout(setupObserver, 100);
     return;
@@ -102,11 +102,11 @@ const setupObserver = () => {
 
   observer = new IntersectionObserver((entries) => {
     if (isProgrammaticScrolling.value) return;
-    
+
     entries.forEach((entry) => {
       const scrollPosition = window.scrollY + window.innerHeight;
       const bottomPosition = document.documentElement.scrollHeight;
-      const isAtBottom = (window.scrollY > 100) && (scrollPosition >= bottomPosition - 50);
+      const isAtBottom = window.scrollY > 100 && scrollPosition >= bottomPosition - 50;
 
       if (entry.isIntersecting && !isAtBottom) {
         activeSection.value = entry.target.id;
@@ -123,7 +123,7 @@ const setupObserver = () => {
 watch(
   () => route.fullPath,
   () => {
-    const currentHash = route.hash || (process.client ? window.location.hash : '');
+    const currentHash = route.hash || (import.meta.client ? window.location.hash : '');
     if (route.path === '/' && currentHash) {
       isProgrammaticScrolling.value = true;
       activeSection.value = currentHash.replace('#', '');
@@ -145,13 +145,13 @@ watch(
       }
       if (setupRetryTimeout) clearTimeout(setupRetryTimeout);
     }
-  }
+  },
 );
 
 watch(activeSection, (newSection, oldSection) => {
   if (newSection === 'contact' && oldSection !== 'contact') {
     if (!isProgrammaticScrolling.value) {
-      window.dispatchEvent(new CustomEvent('contact-targeted', { detail: { delay: 0 } }));
+      window.dispatchEvent(new CustomEvent('contact-targeted', {detail: {delay: 0}}));
     }
   }
 });
@@ -175,14 +175,14 @@ const isContactActive = computed(() => {
 
 // Dynamic Link Targets
 const writingLinkTarget = computed(() => {
-  return route.path === '/' ? { path: '/', hash: '#writing' } : '/writing';
+  return route.path === '/' ? {path: '/', hash: '#writing'} : '/writing';
 });
 
 const navLinks = computed(() => [
-  { id: 'about', label: 'About', to: { path: '/' }, isActive: isAboutActive.value },
-  { id: 'experience', label: 'Experience', to: { path: '/', hash: '#experience' }, isActive: isExperienceActive.value },
-  { id: 'writing', label: 'Writing', to: writingLinkTarget.value, isActive: isWritingActive.value },
-  { id: 'contact', label: 'Contact', to: { path: '/', hash: '#contact' }, isActive: isContactActive.value },
+  {id: 'about', label: 'About', to: {path: '/'}, isActive: isAboutActive.value},
+  {id: 'experience', label: 'Experience', to: {path: '/', hash: '#experience'}, isActive: isExperienceActive.value},
+  {id: 'writing', label: 'Writing', to: writingLinkTarget.value, isActive: isWritingActive.value},
+  {id: 'contact', label: 'Contact', to: {path: '/', hash: '#contact'}, isActive: isContactActive.value},
 ]);
 
 const scrollToSection = (id: string, event: Event) => {
@@ -207,7 +207,7 @@ const scrollToSection = (id: string, event: Event) => {
     if (el) {
       isProgrammaticScrolling.value = true;
       activeSection.value = id;
-      
+
       const targetTop = el.getBoundingClientRect().top + window.scrollY - 99;
       const distance = Math.abs(window.scrollY - targetTop);
       const delay = distance < 50 ? 100 : 800;
@@ -220,7 +220,7 @@ const scrollToSection = (id: string, event: Event) => {
       history.replaceState(history.state, '', `#${id}`);
 
       if (id === 'contact') {
-        window.dispatchEvent(new CustomEvent('contact-targeted', { detail: { delay } }));
+        window.dispatchEvent(new CustomEvent('contact-targeted', {detail: {delay}}));
       }
 
       if (scrollTimeout) clearTimeout(scrollTimeout);
@@ -234,7 +234,7 @@ const scrollToSection = (id: string, event: Event) => {
 onMounted(() => {
   // Block scroll updates on mount if arriving with a hash or at top
   if (route.path === '/') {
-    const currentHash = route.hash || (window.location.hash || '');
+    const currentHash = route.hash || window.location.hash || '';
     if (currentHash) {
       isProgrammaticScrolling.value = true;
       activeSection.value = currentHash.replace('#', '');
@@ -253,7 +253,7 @@ onMounted(() => {
     if (isProgrammaticScrolling.value) return;
     updateActiveSectionFromScroll();
   };
-  window.addEventListener('scroll', handleScroll, { passive: true });
+  window.addEventListener('scroll', handleScroll, {passive: true});
 
   onBeforeUnmount(() => {
     window.removeEventListener('scroll', handleScroll);
@@ -335,12 +335,14 @@ onMounted(() => {
 .hamburgerTop::before,
 .hamburgerMiddle::before,
 .hamburgerBottom::before {
-  background: #FAFAFA;
+  background: #fafafa;
   content: ' ';
   display: block;
   height: 3px;
   margin-top: 6px;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
   width: 24px;
 }
 
@@ -362,8 +364,6 @@ onMounted(() => {
     transform: rotateZ(45deg) translate(-5px, -6px);
   }
 }
-
-
 
 @media print {
   .hamburger,

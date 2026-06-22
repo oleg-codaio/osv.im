@@ -1,11 +1,11 @@
-import { defineNuxtConfig } from 'nuxt/config';
+import {defineNuxtConfig} from 'nuxt/config';
 
 export default defineNuxtConfig({
   app: {
     head: {
       title: 'Oleg Vaskevich',
       meta: [
-        { charset: 'utf-8' },
+        {charset: 'utf-8'},
         {
           name: 'viewport',
           content: 'width=device-width, initial-scale=1.0',
@@ -30,10 +30,7 @@ export default defineNuxtConfig({
   },
 
   css: ['~/assets/css/main.scss'],
-  modules: [
-    '~/modules/data',
-    '@nuxt/content',
-  ],
+  modules: ['~/modules/data', '@nuxt/content', '@nuxt/eslint'],
 
   compatibilityDate: '2024-04-03',
 });

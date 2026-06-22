@@ -3,15 +3,15 @@
     <iframe
       ref="iframeRef"
       :srcdoc="iframeSrcdoc"
-      style="width: 100%; border: 0; overflow: hidden; background: transparent; transition: height 0.25s ease;"
-      :style="{ height: iframeHeight }"
+      style="width: 100%; border: 0; overflow: hidden; background: transparent; transition: height 0.25s ease"
+      :style="{height: iframeHeight}"
       scrolling="no"
     ></iframe>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import {ref, computed, onMounted, onBeforeUnmount} from 'vue';
 
 const props = defineProps<{
   gistId?: string;
@@ -27,13 +27,13 @@ const iframeHeight = ref('200px'); // default fallback height
 const iframeSrcdoc = computed(() => {
   const id = resolvedGistId.value;
   if (!id) return '';
-  
+
   // Construct script tags using string concatenation to avoid Vue template parser bugs
   const fileParam = props.file ? `?file=${encodeURIComponent(props.file)}` : '';
   const gistScript = '<' + `script src="https://gist.github.com/oleg-codaio/${id}.js${fileParam}"></` + 'script>';
   const scriptOpen = '<' + 'script>';
   const scriptClose = '<' + '/script>';
-  
+
   return `
     <!DOCTYPE html>
     <html data-color-mode="dark" data-dark-theme="dark">
@@ -195,7 +195,7 @@ const iframeSrcdoc = computed(() => {
 function handleMessage(event: MessageEvent) {
   if (event.data && event.data.sentinel === 'gist-resize' && event.data.id === resolvedGistId.value) {
     if (typeof event.data.height === 'number' && event.data.height > 0) {
-      iframeHeight.value = (event.data.height + 4) + 'px'; // Add 4px padding to prevent bottom border cutoff
+      iframeHeight.value = event.data.height + 4 + 'px'; // Add 4px padding to prevent bottom border cutoff
     }
   }
 }

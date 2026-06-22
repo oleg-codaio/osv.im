@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
+import {ref, onMounted, onBeforeUnmount, nextTick} from 'vue';
 import emailIcon from '~/assets/contact/email.png';
 import linkedinIcon from '~/assets/contact/linkedin.png';
 import twitterIcon from '~/assets/contact/twitter.png';
@@ -72,13 +72,13 @@ function activateTerminal() {
 
 function handleCommand() {
   const cmd = inputValue.value.trim().toLowerCase();
-  
+
   if (cmd === 'clear') {
     commandOutput.value = '';
     inputValue.value = '';
     return;
   }
-  
+
   switch (cmd) {
     case 'help':
       commandOutput.value = 'Available commands: whoami, sudo, clear';
@@ -95,7 +95,7 @@ function handleCommand() {
     default:
       commandOutput.value = `Command not found: ${inputValue.value}. Type 'help' for available commands.`;
   }
-  
+
   inputValue.value = '';
 }
 
@@ -107,7 +107,7 @@ function resetTerminal() {
 
 const handleTargetEvent = (delay = 0) => {
   if (pulseTimeout) clearTimeout(pulseTimeout);
-  
+
   pulseTimeout = setTimeout(() => {
     isTarget.value = false;
     nextTick(() => {
@@ -128,7 +128,7 @@ onMounted(() => {
     handleTargetEvent(delay);
   };
   window.addEventListener('contact-targeted', targetListener);
-  
+
   if (window.location.hash === '#contact') {
     handleTargetEvent(150);
   }
@@ -319,13 +319,19 @@ const handleClick = (item: any, event: MouseEvent) => {
 
 @keyframes targetPulse {
   0% {
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2), 0 0 0 0 rgba(56, 189, 248, 0);
+    box-shadow:
+      0 4px 30px rgba(0, 0, 0, 0.2),
+      0 0 0 0 rgba(56, 189, 248, 0);
   }
   20% {
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2), 0 0 20px 2px rgba(56, 189, 248, 0.4);
+    box-shadow:
+      0 4px 30px rgba(0, 0, 0, 0.2),
+      0 0 20px 2px rgba(56, 189, 248, 0.4);
   }
   100% {
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2), 0 0 0 0 rgba(56, 189, 248, 0);
+    box-shadow:
+      0 4px 30px rgba(0, 0, 0, 0.2),
+      0 0 0 0 rgba(56, 189, 248, 0);
   }
 }
 </style>

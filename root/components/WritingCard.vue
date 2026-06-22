@@ -61,7 +61,9 @@ $mono-font: 'Fira Code', 'JetBrains Mono', monospace;
   &:hover {
     transform: translateY(-4px);
     border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 15px rgba(59, 130, 246, 0.1);
+    box-shadow:
+      0 10px 30px rgba(0, 0, 0, 0.4),
+      0 0 15px rgba(59, 130, 246, 0.1);
   }
 }
 
@@ -88,14 +90,14 @@ $mono-font: 'Fira Code', 'JetBrains Mono', monospace;
 }
 
 .name {
-  color: var(--text-main, #FAFAFA);
+  color: var(--text-main, #fafafa);
   font-size: 0.95rem;
   font-weight: 600;
 }
 
 .postInfo {
   font-family: $mono-font;
-  color: var(--text-muted, #8B949E);
+  color: var(--text-muted, #8b949e);
   font-size: 0.8rem;
   margin-top: 2px;
 }
@@ -114,7 +116,9 @@ $mono-font: 'Fira Code', 'JetBrains Mono', monospace;
   background-position: center;
   background-repeat: no-repeat;
   filter: grayscale(80%) opacity(0.8);
-  transition: filter 0.4s ease, opacity 0.4s ease;
+  transition:
+    filter 0.4s ease,
+    opacity 0.4s ease;
   margin-bottom: 16px;
 }
 
@@ -123,7 +127,7 @@ $mono-font: 'Fira Code', 'JetBrains Mono', monospace;
 }
 
 .title {
-  color: var(--text-main, #FAFAFA);
+  color: var(--text-main, #fafafa);
   font-size: 1.25rem;
   font-weight: 700;
   line-height: 1.4;
@@ -136,7 +140,7 @@ $mono-font: 'Fira Code', 'JetBrains Mono', monospace;
 }
 
 .subtitle {
-  color: var(--text-muted-light, #A1A1AA);
+  color: var(--text-muted-light, #a1a1aa);
   font-size: 0.95rem;
   line-height: 1.5;
   margin: 0;

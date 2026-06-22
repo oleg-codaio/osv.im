@@ -53,7 +53,7 @@
             cy="0"
             r="5"
             fill="var(--primary-accent)"
-            :style="{ filter: 'drop-shadow(0 0 8px rgba(56, 189, 248, 0.9))' }"
+            :style="{filter: 'drop-shadow(0 0 8px rgba(56, 189, 248, 0.9))'}"
           />
         </svg>
         <div :class="$style.leaves" ref="leavesRef">
@@ -63,7 +63,7 @@
             :experience="exp"
             :is-shown="numShown > index"
             :is-mounted="isMounted"
-            :class="[$style.leaf, { [$style.shown]: numShown > index }]"
+            :class="[$style.leaf, {[$style.shown]: numShown > index}]"
           />
         </div>
       </div>
@@ -72,7 +72,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, nextTick, useCssModule } from 'vue';
+import {ref, onMounted, onBeforeUnmount, nextTick, useCssModule} from 'vue';
 import superhumanIcon from '~/assets/experience/superhuman.png';
 import grammarlyIcon from '~/assets/experience/grammarly.png';
 import codaIcon from '~/assets/experience/coda.png';
@@ -110,18 +110,18 @@ function generateDynamicPath(
   totalWidth: number,
   leftLine: number,
   rightLine: number,
-  curveSize: number
+  curveSize: number,
 ): string {
   if (centers.length === 0) return '';
-  
+
   const midX = totalWidth / 2;
   let path = `M ${midX} 0`;
-  
+
   // Transition to the first card's line (above Card 0 top)
   const firstCenter = centers[0];
   const firstHeight = heights[0];
   const topClearanceY = firstCenter - firstHeight / 2 - 30; // 30px clearance above Card 0
-  
+
   path += `
     L ${midX} ${topClearanceY - curveSize}
     Q ${midX} ${topClearanceY}, ${midX + curveSize} ${topClearanceY}
@@ -129,22 +129,22 @@ function generateDynamicPath(
     Q ${rightLine} ${topClearanceY}, ${rightLine} ${topClearanceY + curveSize}
     L ${rightLine} ${firstCenter}
   `;
-  
+
   // Transition between cards (snaking in the gaps)
   for (let i = 0; i < centers.length - 1; i++) {
     const currentY = centers[i];
     const nextY = centers[i + 1];
-    
+
     const currentBottom = currentY + heights[i] / 2;
     const nextTop = nextY - heights[i + 1] / 2;
     const midY = (currentBottom + nextTop) / 2;
-    
-    const currentX = (i % 2 === 0) ? rightLine : leftLine;
-    const nextX = (i % 2 === 0) ? leftLine : rightLine;
-    
-    const currentDx = (i % 2 === 0) ? -curveSize : curveSize;
-    const nextDx = (i % 2 === 0) ? curveSize : -curveSize;
-    
+
+    const currentX = i % 2 === 0 ? rightLine : leftLine;
+    const nextX = i % 2 === 0 ? leftLine : rightLine;
+
+    const currentDx = i % 2 === 0 ? -curveSize : curveSize;
+    const nextDx = i % 2 === 0 ? curveSize : -curveSize;
+
     path += `
       L ${currentX} ${midY - curveSize}
       Q ${currentX} ${midY}, ${currentX + currentDx} ${midY}
@@ -153,16 +153,16 @@ function generateDynamicPath(
       L ${nextX} ${nextY}
     `;
   }
-  
+
   // Transition from last card to bottom center (below Card N-1 bottom)
   const lastIndex = centers.length - 1;
   const lastY = centers[lastIndex];
   const lastHeight = heights[lastIndex];
   const bottomClearanceY = lastY + lastHeight / 2 + 30; // 30px clearance below Card N-1
-  
-  const lastX = (lastIndex % 2 === 0) ? rightLine : leftLine;
-  const lastDx = (lastIndex % 2 === 0) ? -curveSize : curveSize;
-  
+
+  const lastX = lastIndex % 2 === 0 ? rightLine : leftLine;
+  const lastDx = lastIndex % 2 === 0 ? -curveSize : curveSize;
+
   path += `
     L ${lastX} ${bottomClearanceY - curveSize}
     Q ${lastX} ${bottomClearanceY}, ${lastX + lastDx} ${bottomClearanceY}
@@ -170,16 +170,16 @@ function generateDynamicPath(
     Q ${midX} ${bottomClearanceY}, ${midX} ${bottomClearanceY + curveSize}
     L ${midX} ${totalHeight}
   `;
-  
+
   return path;
 }
 
 function getPathAndLength() {
   const path = pathRef.value;
-  if (!path) return { path: null, rect: null, len: 0 };
+  if (!path) return {path: null, rect: null, len: 0};
   const rect = path.getBoundingClientRect();
   const len = path.getTotalLength();
-  return { path, rect, len };
+  return {path, rect, len};
 }
 
 function handleResize() {
@@ -204,7 +204,7 @@ function handleResize() {
 
     const totalWidth = timelineRect.width;
     const totalHeight = timelineRect.height;
-    
+
     pathHeight.value = totalHeight;
     pathWidth.value = totalWidth;
 
@@ -216,7 +216,7 @@ function handleResize() {
     strokeWidth.value = 5;
 
     nextTick(() => {
-      const { path, len } = getPathAndLength();
+      const {path, len} = getPathAndLength();
       if (!path) return;
       path.style.strokeDasharray = `${len}`;
       handleScroll();
@@ -224,12 +224,14 @@ function handleResize() {
       // Dispatch anchor coordinate update
       const svgRect = svg.value?.getBoundingClientRect();
       if (svgRect) {
-        window.dispatchEvent(new CustomEvent('timeline-anchor-updated', {
-          detail: {
-            x: svgRect.left + svgRect.width / 2,
-            y: svgRect.top,
-          }
-        }));
+        window.dispatchEvent(
+          new CustomEvent('timeline-anchor-updated', {
+            detail: {
+              x: svgRect.left + svgRect.width / 2,
+              y: svgRect.top,
+            },
+          }),
+        );
       }
     });
   });
@@ -237,14 +239,14 @@ function handleResize() {
 
 function paint(): void {
   animationFrameRequested = false;
-  const { path } = getPathAndLength();
+  const {path} = getPathAndLength();
   if (!path) return;
 
   path.style.strokeDashoffset = `${appliedStrokeDashOffset}`;
 }
 
 function handleScroll() {
-  const { rect, len } = getPathAndLength();
+  const {rect, len} = getPathAndLength();
   if (!rect) return;
 
   const offsetPx = window.innerHeight / 2.5;
@@ -278,28 +280,32 @@ const experiences = ref([
     when: 'Feb 2026 — Present',
     icon: superhumanIcon,
     title: 'Engineering Manager / Technical Lead',
-    details: 'Building the cross-product platform architecture and enterprise integrations powering the unified Superhuman bundle.',
+    details:
+      'Building the cross-product platform architecture and enterprise integrations powering the unified Superhuman bundle.',
   },
   {
     name: 'Grammarly',
     when: 'Jan 2025 — Jan 2026',
     icon: grammarlyIcon,
     title: 'Technical Lead, Cross-Product Services',
-    details: 'Architected the backbone of the Superhuman suite—unifying identity, provisioning, billing, and migration flows between products.',
+    details:
+      'Architected the backbone of the Superhuman suite—unifying identity, provisioning, billing, and migration flows between products.',
   },
   {
     name: 'Coda',
     when: 'Aug 2020 — Dec 2024',
     icon: codaIcon,
     title: 'Tech Lead, Monetization & Enterprise',
-    details: 'Scaled the platform from pre-revenue to millions of users, engineering the core billing engine, Packs marketplace, growth experiments, and later parts of Coda Brain.',
+    details:
+      'Scaled the platform from pre-revenue to millions of users, engineering the core billing engine, Packs marketplace, growth experiments, and later parts of Coda Brain.',
   },
   {
     name: 'Coda',
     when: 'June 2016 — July 2020',
     icon: codaIcon,
     title: 'Software Engineer, Core Product, Foundation, & Packs',
-    details: 'Early engineer on the core document editor. Shipped the Packs ecosystem and managed foundational security, DevOps, and SRE to scale the platform',
+    details:
+      'Early engineer on the core document editor. Shipped the Packs ecosystem and managed foundational security, DevOps, and SRE to scale the platform',
   },
   {
     name: 'Northeastern University',
@@ -358,7 +364,11 @@ const experiences = ref([
 @use '~/assets/css/main.scss' as *;
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap');
 
-$sans-font: 'Inter', system-ui, -apple-system, sans-serif;
+$sans-font:
+  'Inter',
+  system-ui,
+  -apple-system,
+  sans-serif;
 $mono-font: 'Fira Code', monospace;
 $pathWidth: 4px;
 

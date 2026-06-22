@@ -11,27 +11,19 @@
         />
       </div>
       <div :class="$style.moreLink">
-        <NuxtLink to="/writing" :class="$style.viewAll">
-          Read archive <span :class="$style.arrow">→</span>
-        </NuxtLink>
+        <NuxtLink to="/writing" :class="$style.viewAll"> Read archive <span :class="$style.arrow">→</span> </NuxtLink>
       </div>
     </article>
   </section>
 </template>
 
 <script setup lang="ts">
-import { useAsyncData } from '#app';
+import {useAsyncData} from '#app';
 import mediumData from '~/assets/data/medium.json';
 
-const { user } = mediumData;
+const {user} = mediumData;
 
-const { data: posts } = await useAsyncData('writing-posts', () => 
-  queryCollection('writing')
-    .order('date', 'DESC')
-    .all()
-);
-
-
+const {data: posts} = await useAsyncData('writing-posts', () => queryCollection('writing').order('date', 'DESC').all());
 </script>
 
 <style lang="scss" module>

@@ -4,7 +4,7 @@ export function formatDate(dateStr: string, monthFormat: 'short' | 'long' = 'sho
     year: 'numeric',
     month: monthFormat,
     day: 'numeric',
-    timeZone: 'UTC'
+    timeZone: 'UTC',
   };
   return new Date(dateStr).toLocaleDateString('en-US', options);
 }

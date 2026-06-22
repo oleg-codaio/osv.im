@@ -10,18 +10,14 @@
 </template>
 
 <script setup lang="ts">
-import { useAsyncData } from '#app';
+import {useAsyncData} from '#app';
 import mediumData from '~/assets/data/medium.json';
 
-const { user } = mediumData;
+const {user} = mediumData;
 
-const { data: posts } = await useAsyncData('writing-archive', () =>
-  queryCollection('writing')
-    .order('date', 'DESC')
-    .all()
+const {data: posts} = await useAsyncData('writing-archive', () =>
+  queryCollection('writing').order('date', 'DESC').all(),
 );
-
-
 </script>
 
 <style lang="scss" module>
@@ -30,8 +26,8 @@ const { data: posts } = await useAsyncData('writing-archive', () =>
 $mono-font: 'Fira Code', 'JetBrains Mono', monospace;
 
 .pageWrapper {
-  background-color: #0A0A0C;
-  color: #FAFAFA;
+  background-color: #0a0a0c;
+  color: #fafafa;
   min-height: 100vh;
   padding-top: calc(#{$header-size} + 40px);
   box-sizing: border-box;
@@ -67,5 +63,4 @@ $mono-font: 'Fira Code', 'JetBrains Mono', monospace;
     grid-template-columns: 1fr;
   }
 }
-
 </style>

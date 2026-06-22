@@ -23,7 +23,7 @@ function handleClick(event: MouseEvent) {
 @use '~/assets/css/main.scss' as *;
 
 .item {
-  color: var(--text-muted-light, #A1A1AA);
+  color: var(--text-muted-light, #a1a1aa);
   transition: color 0.3s ease;
   padding: 6px 0;
   margin: 0 15px;
@@ -51,7 +51,9 @@ function handleClick(event: MouseEvent) {
     opacity: 0;
     transform: scaleX(0.5);
     transform-origin: center;
-    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 
     @media only screen and (max-width: 768px) {
       display: none;
@@ -59,7 +61,7 @@ function handleClick(event: MouseEvent) {
   }
 
   &.isActive {
-    color: var(--text-main, #FAFAFA);
+    color: var(--text-main, #fafafa);
     opacity: 1;
     text-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
 
@@ -70,7 +72,7 @@ function handleClick(event: MouseEvent) {
   }
 
   &:hover {
-    color: var(--text-main, #FAFAFA);
+    color: var(--text-main, #fafafa);
     opacity: 1;
   }
 }

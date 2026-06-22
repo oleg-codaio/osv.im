@@ -27,9 +27,9 @@ When we noticed that Particle [supported IFTTT](https://docs.particle.io/guide/t
 The Webhooks service supports passing in a few values, so we set the data of the Particle event to:
 
 ```
-{{OccurredAt}}  
-{{Value1}}  
-{{Value2}}  
+{{OccurredAt}}
+{{Value1}}
+{{Value2}}
 {{Value3}}
 ```
 
@@ -38,8 +38,8 @@ The Webhooks service supports passing in a few values, so we set the data of the
 Now, to test that it worked, we used the _particle-cli_ Node package to listen to the event:
 
 ```sh
-$ particle subscribe signup mine  
-Subscribing to "signup" from my personal stream (my devices only)  
+$ particle subscribe signup mine
+Subscribing to "signup" from my personal stream (my devices only)
 Listening to: /v1/devices/events/signup
 ```
 
@@ -65,7 +65,6 @@ The servo came with a few attachments, which we jerry-rigged to create a lever t
   <figcaption>Underside of the bell, showing the mechanics of the servo ringing it.</figcaption>
 </figure>
 
-
 # Writing the Firmware
 
 With the hardware out of the way, it was time to actually hook this thing up! Here’s the code:
@@ -80,9 +79,9 @@ Particle ships with a [servo library](https://docs.particle.io/reference/firmwar
 
 ## IFTTT
 
-Thanks to [Particle Cloud](https://docs.particle.io/reference/firmware/photon/#particle-subscribe-), listening to the webhook was as easy as calling _Particle.subscribe(“signup”, onIfttt, MY\_DEVICES)_. Our handler here assumes that the second line of the message contains an integer with the number of signups that have occurred since the last event, and the main loop handles consuming this count and ringing that number of times.
+Thanks to [Particle Cloud](https://docs.particle.io/reference/firmware/photon/#particle-subscribe-), listening to the webhook was as easy as calling _Particle.subscribe(“signup”, onIfttt, MY_DEVICES)_. Our handler here assumes that the second line of the message contains an integer with the number of signups that have occurred since the last event, and the main loop handles consuming this count and ringing that number of times.
 
-Since user signups can be viewed as a [Poisson process](http://www.rle.mit.edu/rgallager/documents/6.262lateweb2.pdf), we wanted to make sure that the bell is able to cope with sudden bursts of people signing up, and this approach established a queue of sorts for ringing the bell. We put the counting logic in a critical section (via _ATOMIC\_BLOCK()_) to make sure there weren’t any race conditions between writing and reading the count.
+Since user signups can be viewed as a [Poisson process](http://www.rle.mit.edu/rgallager/documents/6.262lateweb2.pdf), we wanted to make sure that the bell is able to cope with sudden bursts of people signing up, and this approach established a queue of sorts for ringing the bell. We put the counting logic in a critical section (via _ATOMIC_BLOCK()_) to make sure there weren’t any race conditions between writing and reading the count.
 
 # Finishing Touches
 

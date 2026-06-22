@@ -4,17 +4,20 @@
     <article :class="$style.contents">
       <h1 :class="$style.name">Oleg Vaskevich</h1>
       <p :class="$style.description">
-        I'm a full-stack software engineer who builds robust, high-scale products. My experience is built on solving complex, ambiguous problems, spanning everything from UI and APIs to site reliability, security, and deep LLM integrations.
+        I'm a full-stack software engineer who builds robust, high-scale products. My experience is built on solving
+        complex, ambiguous problems, spanning everything from UI and APIs to site reliability, security, and deep LLM
+        integrations.
       </p>
       <p :class="$style.description">
-        I bridge the gap between technical execution and business strategy, shipping enterprise platforms that millions rely on.
+        I bridge the gap between technical execution and business strategy, shipping enterprise platforms that millions
+        rely on.
       </p>
     </article>
   </section>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import {ref} from 'vue';
 
 const canvasRef = ref<HTMLCanvasElement | null>(null);
 const rootRef = ref<HTMLElement | null>(null);
@@ -92,10 +95,14 @@ function handleMouseLeave() {
 .description {
   font-size: clamp(1.05rem, 2.5vw, 1.25rem);
   line-height: 1.7;
-  color: var(--text-muted-light, #A1A1AA);
+  color: var(--text-muted-light, #a1a1aa);
   margin: 0 0 1.5rem 0;
   max-width: 680px;
-  background-image: radial-gradient(150px circle at var(--mouse-x, -1000px) var(--mouse-y, -1000px), var(--text-main, #FAFAFA), var(--text-muted-light, #A1A1AA) 100%);
+  background-image: radial-gradient(
+    150px circle at var(--mouse-x, -1000px) var(--mouse-y, -1000px),
+    var(--text-main, #fafafa),
+    var(--text-muted-light, #a1a1aa) 100%
+  );
   background-attachment: fixed;
   background-clip: text;
   -webkit-background-clip: text;

@@ -18,7 +18,7 @@ So what did it take? If you've used Coda before, you'll likely be familiar with 
 
 ## Getting started
 
-The first step to putting together a doc like this is to think through the *schema*, i.e., the different kinds of data or entities that comprise a poker game, which in Coda are collected into tables.
+The first step to putting together a doc like this is to think through the _schema_, i.e., the different kinds of data or entities that comprise a poker game, which in Coda are collected into tables.
 
 ### Cards
 
@@ -45,7 +45,7 @@ Thanks to Coda's [conditional formats](https://help.superhuman.com/hc/en-us/arti
 
 ## Game Logic
 
-With the foundations put in place\*, the next step was putting together the game logic that actually allows playing the game, which is made up of two things: *state* and *procedures*. Nearly every game needs to keep track of state, and for poker that includes whose turn it is, who's the dealer, the size of the bet, etc. In addition to that, each action that a player takes results in a procedure, or set of steps, happening. An example is that starting a new game should cause the cards to get shuffled. In Coda, this can be accomplished using [buttons](https://blog.coda.io/introducing-buttons-8acda6413030).
+With the foundations put in place\*, the next step was putting together the game logic that actually allows playing the game, which is made up of two things: _state_ and _procedures_. Nearly every game needs to keep track of state, and for poker that includes whose turn it is, who's the dealer, the size of the bet, etc. In addition to that, each action that a player takes results in a procedure, or set of steps, happening. An example is that starting a new game should cause the cards to get shuffled. In Coda, this can be accomplished using [buttons](https://blog.coda.io/introducing-buttons-8acda6413030).
 
 <figure>
   <img src="/images/writing/online-poker-in-a-document/game-state.webp" alt="State and game engine internals" />

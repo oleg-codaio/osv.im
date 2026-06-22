@@ -12,7 +12,7 @@
           </div>
           <img v-if="doc.image" :src="doc.image" :alt="doc.title" :class="$style.heroImage" />
         </header>
-        
+
         <div :class="$style.content">
           <ContentRenderer :value="doc" />
         </div>
@@ -26,16 +26,14 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount } from 'vue';
-import { useAsyncData, useRoute } from '#app';
+import {onMounted, onBeforeUnmount} from 'vue';
+import {useAsyncData, useRoute} from '#app';
 
 const route = useRoute();
 
-const { data: doc } = await useAsyncData(`writing-${route.path}`, () => 
-  queryCollection('writing').path(route.path).first()
+const {data: doc} = await useAsyncData(`writing-${route.path}`, () =>
+  queryCollection('writing').path(route.path).first(),
 );
-
-
 
 let scrollHandler: any = null;
 
@@ -45,7 +43,7 @@ onMounted(() => {
       history.replaceState(history.state, '', window.location.pathname);
     }
   };
-  window.addEventListener('scroll', scrollHandler, { passive: true });
+  window.addEventListener('scroll', scrollHandler, {passive: true});
 });
 
 onBeforeUnmount(() => {
@@ -158,7 +156,12 @@ onBeforeUnmount(() => {
     margin-bottom: 2em;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     color: var(--text-main);
     letter-spacing: -0.015em;
     margin-top: 40px;
@@ -167,12 +170,23 @@ onBeforeUnmount(() => {
     position: relative; // Needed for the absolute-positioned hash anchor
   }
 
-  h1 { font-size: 1.8rem; }
-  h2 { font-size: 1.5rem; }
-  h3 { font-size: 1.3rem; }
+  h1 {
+    font-size: 1.8rem;
+  }
+  h2 {
+    font-size: 1.5rem;
+  }
+  h3 {
+    font-size: 1.3rem;
+  }
 
   // Heading anchor links — reset global link styles
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     a {
       color: inherit;
       text-decoration: none;
@@ -196,7 +210,9 @@ onBeforeUnmount(() => {
   }
 
   // Paragraph & inline links — cyan with subtle faded underline that brightens on hover
-  p a, li a, blockquote a {
+  p a,
+  li a,
+  blockquote a {
     color: var(--primary-accent);
     text-decoration: underline;
     text-decoration-thickness: 1px;
@@ -209,7 +225,8 @@ onBeforeUnmount(() => {
     }
   }
 
-  ul, ol {
+  ul,
+  ol {
     margin-top: 0;
     margin-bottom: 24px;
     padding-left: 24px;
@@ -265,7 +282,7 @@ onBeforeUnmount(() => {
 
   :global(.footnote) {
     font-size: 0.85rem;
-    color: #8B949E;
+    color: #8b949e;
     line-height: 1.6;
     margin: 20px 0;
     opacity: 0.85;
@@ -273,7 +290,7 @@ onBeforeUnmount(() => {
 
   figcaption {
     font-size: 0.9rem;
-    color: #8B949E;
+    color: #8b949e;
     text-align: center;
     margin-top: 8px;
     margin-bottom: 24px;
@@ -287,14 +304,15 @@ onBeforeUnmount(() => {
 }
 
 @media print {
-  :global(body), :global(html) {
-    background-color: #FFFFFF !important;
+  :global(body),
+  :global(html) {
+    background-color: #ffffff !important;
     background-image: none !important;
     color: #000000 !important;
   }
 
   .pageWrapper {
-    background-color: #FFFFFF !important;
+    background-color: #ffffff !important;
     color: #000000 !important;
     padding-top: 0 !important;
   }
@@ -326,7 +344,12 @@ onBeforeUnmount(() => {
       color: #000000 !important;
     }
 
-    h1, h2, h3, h4, h5, h6 {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
       color: #000000 !important;
     }
 
@@ -336,21 +359,21 @@ onBeforeUnmount(() => {
     }
 
     pre {
-      background: #F4F4F5 !important;
+      background: #f4f4f5 !important;
       color: #000000 !important;
-      border: 1px solid #E4E4E7 !important;
+      border: 1px solid #e4e4e7 !important;
       box-shadow: none !important;
     }
 
     code {
-      background: #F4F4F5 !important;
+      background: #f4f4f5 !important;
       color: #000000 !important;
     }
 
     blockquote {
       border-left-color: #0066cc !important;
       color: #333333 !important;
-      background: #F9F9F9 !important;
+      background: #f9f9f9 !important;
     }
 
     figcaption {
@@ -364,7 +387,7 @@ onBeforeUnmount(() => {
 
   .heroImage {
     box-shadow: none !important;
-    border: 1px solid #E4E4E7 !important;
+    border: 1px solid #e4e4e7 !important;
   }
 }
 </style>

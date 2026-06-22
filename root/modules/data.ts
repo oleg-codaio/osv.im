@@ -1,4 +1,4 @@
-import { defineNuxtModule } from '@nuxt/kit';
+import {defineNuxtModule} from '@nuxt/kit';
 import fs from 'fs-extra';
 import path from 'path';
 

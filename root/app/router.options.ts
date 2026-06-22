@@ -1,5 +1,5 @@
-import type { RouterConfig } from '@nuxt/schema';
-import { useNuxtApp } from '#app';
+import type {RouterConfig} from '@nuxt/schema';
+import {useNuxtApp} from '#app';
 
 export default <RouterConfig>{
   scrollBehavior(to, from, savedPosition) {
@@ -16,7 +16,7 @@ export default <RouterConfig>{
           } else if (repeats < 20) {
             setTimeout(() => checkEl(repeats + 1), 100);
           } else {
-            resolve({ top: 0 });
+            resolve({top: 0});
           }
         };
         // Give Nuxt/Vue page transition a small initial delay to render
@@ -30,10 +30,10 @@ export default <RouterConfig>{
       if (import.meta.client) {
         const nuxtApp = useNuxtApp();
         nuxtApp.hooks.hookOnce('page:finish', () => {
-          resolve(savedPosition || { top: 0 });
+          resolve(savedPosition || {top: 0});
         });
       } else {
-        resolve(savedPosition || { top: 0 });
+        resolve(savedPosition || {top: 0});
       }
     });
   },

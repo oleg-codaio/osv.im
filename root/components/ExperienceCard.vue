@@ -1,18 +1,22 @@
 <template>
-  <div :class="[$style.leaf, { [$style.shown]: isShown }]">
+  <div :class="[$style.leaf, {[$style.shown]: isShown}]">
     <!-- Node is a decorative timeline dot -->
     <div :class="$style.node">
       <div :class="$style.dot" />
     </div>
-    
+
     <!-- Info is the unified experience card containing both logo and details -->
     <div :class="$style.info">
       <div :class="$style.cardHeader">
         <div
           :class="$style.logo"
-          :style="isMounted ? {
-            backgroundImage: `url('${experience.icon}')`,
-          } : {}"
+          :style="
+            isMounted
+              ? {
+                  backgroundImage: `url('${experience.icon}')`,
+                }
+              : {}
+          "
         />
         <div :class="$style.headerText">
           <div :class="$style.infoHeader">
@@ -46,7 +50,11 @@ defineProps<{
 <style lang="scss" module>
 @use '~/assets/css/main.scss' as *;
 
-$sans-font: 'Inter', system-ui, -apple-system, sans-serif;
+$sans-font:
+  'Inter',
+  system-ui,
+  -apple-system,
+  sans-serif;
 $mono-font: 'Fira Code', monospace;
 
 .leaf {
@@ -66,17 +74,19 @@ $mono-font: 'Fira Code', monospace;
 
   &:nth-child(odd) {
     flex-direction: row-reverse;
-    
+
     .node {
       left: 92%;
     }
-    
+
     .info {
       margin-left: 3%;
       margin-right: 13%;
       opacity: 0;
       transform: translateX(-30px);
-      transition: opacity 0.4s ease, transform 0.4s ease;
+      transition:
+        opacity 0.4s ease,
+        transform 0.4s ease;
       will-change: opacity, transform;
     }
   }
@@ -85,13 +95,15 @@ $mono-font: 'Fira Code', monospace;
     .node {
       left: 8%;
     }
-    
+
     .info {
       margin-left: 13%;
       margin-right: 3%;
       opacity: 0;
       transform: translateX(30px);
-      transition: opacity 0.4s ease, transform 0.4s ease;
+      transition:
+        opacity 0.4s ease,
+        transform 0.4s ease;
       will-change: opacity, transform;
     }
   }
@@ -101,7 +113,7 @@ $mono-font: 'Fira Code', monospace;
       opacity: 1;
       transform: translateX(0);
     }
-    
+
     .dot {
       opacity: 1;
       transform: translate(-50%, -50%) scale(1);
@@ -112,13 +124,15 @@ $mono-font: 'Fira Code', monospace;
     .logo {
       transform: scale(1.08);
     }
-    
+
     .info {
       transform: translateY(-4px);
       border-color: rgba(255, 255, 255, 0.18);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 15px rgba(56, 189, 248, 0.1);
+      box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.4),
+        0 0 15px rgba(56, 189, 248, 0.1);
     }
-    
+
     .dot {
       transform: translate(-50%, -50%) scale(1.25);
       border-color: var(--primary-accent, #38bdf8);
@@ -140,7 +154,7 @@ $mono-font: 'Fira Code', monospace;
       &:nth-child(odd) {
         text-align: left;
         padding-right: $mobilePadding !important;
-        
+
         .info {
           margin-left: 0 !important;
           margin-right: 0 !important;
@@ -177,7 +191,7 @@ $mono-font: 'Fira Code', monospace;
 .dot {
   width: 12px;
   height: 12px;
-  background-color: var(--bg-dark, #09090B);
+  background-color: var(--bg-dark, #09090b);
   border: 3px solid var(--primary-accent, #38bdf8);
   border-radius: 50%;
   position: absolute;
@@ -186,7 +200,11 @@ $mono-font: 'Fira Code', monospace;
   opacity: 0;
   transform: translate(-50%, -50%) scale(0);
   box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
-  transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    opacity 0.4s ease,
+    transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .info {
@@ -254,7 +272,7 @@ $mono-font: 'Fira Code', monospace;
 .infoName {
   font-family: $sans-font;
   font-weight: 700;
-  color: var(--text-main, #FAFAFA);
+  color: var(--text-main, #fafafa);
   font-size: 1.2rem;
 }
 
@@ -262,7 +280,7 @@ $mono-font: 'Fira Code', monospace;
   font-family: $sans-font;
   font-weight: 500;
   color: #c9d1d9;
-  font-size: 1.0rem;
+  font-size: 1rem;
   margin-top: 4px;
 }
 
