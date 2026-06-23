@@ -2,7 +2,8 @@
   <footer :class="$style.footer">
     <div :class="[$style.terminalCard, isTarget && $style.isTarget, isTerminalActive && $style.isActive]">
       <div v-if="!isTerminalActive" :class="$style.terminalHeader" @click="activateTerminal">
-        <span :class="$style.prompt">~/$</span> <span :class="$style.command">ping oleg</span>
+        <span :class="$style.prompt">~/$</span>
+        <span :class="$style.command">ping oleg</span>
       </div>
       <div v-else :class="$style.terminalHeaderActive">
         <span :class="$style.prompt">~/$</span>
@@ -220,6 +221,11 @@ const handleClick = (item: any, event: MouseEvent) => {
 }
 
 .terminalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 24px;
   margin-bottom: 20px;
   font-size: 0.95rem;
   user-select: none;
@@ -227,13 +233,14 @@ const handleClick = (item: any, event: MouseEvent) => {
 }
 
 .terminalHeaderActive {
-  margin-bottom: 20px;
-  font-size: 0.95rem;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   width: 100%;
+  height: 24px;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
 }
 
 .terminalInput {
@@ -246,6 +253,9 @@ const handleClick = (item: any, event: MouseEvent) => {
   caret-color: var(--primary-accent);
   width: 150px;
   cursor: text;
+  padding: 0;
+  margin: 0;
+  line-height: inherit;
 }
 
 .terminalOutput {

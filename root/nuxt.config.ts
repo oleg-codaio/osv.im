@@ -26,6 +26,21 @@ export default defineNuxtConfig({
           href: '/favicon.ico?v=3',
         },
       ],
+      script: [
+        {
+          async: true,
+          type: 'text/javascript',
+          src: 'https://www.tracemyip.org/vLg/lgUrl.php?pidnVar2=324472731&prtVar2=18&stlVar2=1110&rgtype=4684NR-IPIB&scvVar2=12&gustInvT=fzize0',
+          tagPosition: 'bodyClose',
+        },
+      ],
+      noscript: [
+        {
+          innerHTML:
+            '<a href="https://www.tracemyip.org/GDPR-compliant-website-tracking-software.htm"><img src="https://www.tracemyip.org/vLg/1110/4684NR-IPIB/324472731/18/12/ans/" alt="GDPR compliant web site visits tracking" referrerpolicy="no-referrer-when-downgrade" style="border:0px;"></a>',
+          tagPosition: 'bodyClose',
+        },
+      ],
     },
   },
 
