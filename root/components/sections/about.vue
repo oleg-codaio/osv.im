@@ -70,6 +70,9 @@ function handleMouseLeave() {
 .contents {
   position: relative;
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   max-width: 800px;
   padding: 4rem 2rem;
   margin-left: 5%;
