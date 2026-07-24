@@ -5,6 +5,31 @@
 locals {
   s3_origin_id = "S3-${var.name}"
   domain_name  = "${var.name != "root" ? "${var.name}." : ""}osv.im"
+  aliases      = concat([local.domain_name], var.extra_aliases)
+}
+
+resource "aws_cloudfront_function" "www_redirect" {
+  count   = var.redirect_www ? 1 : 0
+  name    = "${var.name}-www-redirect"
+  runtime = "cloudfront-js-2.0"
+  comment = "Redirect www.${local.domain_name} to ${local.domain_name}"
+  publish = true
+  code    = <<-EOT
+    function handler(event) {
+        var request = event.request;
+        var host = request.headers.host.value;
+        if (host.startsWith('www.')) {
+            return {
+                statusCode: 301,
+                statusDescription: 'Moved Permanently',
+                headers: {
+                    'location': { value: 'https://${local.domain_name}' + request.uri }
+                }
+            };
+        }
+        return request;
+    }
+  EOT
 }
 
 // Create an S3 bucket to hold these assets.
@@ -68,7 +93,7 @@ resource "aws_cloudfront_distribution" "root" {
   }
 
   comment             = var.name
-  aliases             = [local.domain_name]
+  aliases             = local.aliases
   enabled             = true
   is_ipv6_enabled     = true
   default_root_object = "index.html"
@@ -86,6 +111,14 @@ resource "aws_cloudfront_distribution" "root" {
 
       cookies {
         forward = "none"
+      }
+    }
+
+    dynamic "function_association" {
+      for_each = var.redirect_www ? [1] : []
+      content {
+        event_type   = "viewer-request"
+        function_arn = aws_cloudfront_function.www_redirect[0].arn
       }
     }
   }

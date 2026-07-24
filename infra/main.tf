@@ -38,6 +38,8 @@ module "root_cdn_storage" {
   name             = "root"
   zone_id          = aws_route53_zone.root.zone_id
   acm_ssl_cert_arn = aws_acm_certificate.root.arn
+  extra_aliases    = ["www.osv.im"]
+  redirect_www     = true
 }
 
 module "legal_cdn_storage" {

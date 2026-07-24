@@ -24,3 +24,16 @@ variable "shortcuts" {
   description = "A map of short URLs with redirect URLs"
   default     = {}
 }
+
+variable "extra_aliases" {
+  description = "Additional CNAME aliases for the CloudFront distribution"
+  type        = list(string)
+  default     = []
+}
+
+variable "redirect_www" {
+  description = "Whether to issue a 301 HTTP redirect from www.domain to the root domain"
+  type        = bool
+  default     = false
+}
+
