@@ -45,7 +45,7 @@ export default defineNuxtConfig({
   },
 
   css: ['~/assets/css/main.scss'],
-  modules: ['~/modules/data', '@nuxt/content', '@nuxt/eslint'],
+  modules: ['@nuxt/content', '@nuxt/eslint'],
 
   compatibilityDate: '2024-04-03',
 });

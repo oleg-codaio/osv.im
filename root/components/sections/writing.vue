@@ -2,13 +2,7 @@
   <section :class="$style.root">
     <article :class="$style.container">
       <div :class="$style.posts">
-        <WritingCard
-          v-for="post in posts?.slice(0, 3)"
-          :key="post.path"
-          :post="post"
-          :user="user"
-          :class="$style.postContainer"
-        />
+        <WritingCard v-for="post in posts?.slice(0, 3)" :key="post.path" :post="post" :class="$style.postContainer" />
       </div>
       <div :class="$style.moreLink">
         <NuxtLink to="/writing" :class="$style.viewAll"> Read archive <span :class="$style.arrow">→</span> </NuxtLink>
@@ -19,9 +13,6 @@
 
 <script setup lang="ts">
 import {useAsyncData} from '#app';
-import mediumData from '~/assets/data/medium.json';
-
-const {user} = mediumData;
 
 const {data: posts} = await useAsyncData('writing-posts', () => queryCollection('writing').order('date', 'DESC').all());
 </script>

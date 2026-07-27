@@ -34,10 +34,18 @@ interface User {
   image: string;
 }
 
-defineProps<{
-  post: Post;
-  user: User;
-}>();
+withDefaults(
+  defineProps<{
+    post: Post;
+    user?: User;
+  }>(),
+  {
+    user: () => ({
+      name: 'Oleg Vaskevich',
+      image: '/images/oleg.jpeg',
+    }),
+  },
+);
 </script>
 
 <style lang="scss" module>

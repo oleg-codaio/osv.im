@@ -3,7 +3,7 @@
     <main :class="$style.mainContent">
       <h1 :class="$style.pageTitle">Writing</h1>
       <div :class="$style.posts">
-        <WritingCard v-for="post in posts" :key="post.path" :post="post" :user="user" />
+        <WritingCard v-for="post in posts" :key="post.path" :post="post" />
       </div>
     </main>
   </div>
@@ -11,9 +11,6 @@
 
 <script setup lang="ts">
 import {useAsyncData} from '#app';
-import mediumData from '~/assets/data/medium.json';
-
-const {user} = mediumData;
 
 const {data: posts} = await useAsyncData('writing-archive', () =>
   queryCollection('writing').order('date', 'DESC').all(),
