@@ -13,5 +13,20 @@ export default defineContentConfig({
         excerpt: z.string(),
       }),
     }),
+    papers: defineCollection({
+      type: 'data',
+      source: 'papers.yml',
+      schema: z.object({
+        body: z.array(
+          z.object({
+            title: z.string(),
+            fullTitle: z.string().optional(),
+            meta: z.string(),
+            year: z.string(),
+            url: z.string(),
+          }),
+        ),
+      }),
+    }),
   },
 });

@@ -5,16 +5,50 @@
       <div :class="$style.posts">
         <WritingCard v-for="post in posts" :key="post.path" :post="post" />
       </div>
+
+      <footer :class="$style.papersFooter">
+        <span :class="$style.footerLabel">Academic Archive (2014–2015):</span>
+        <span v-for="(paper, index) in papers" :key="paper.url" :class="$style.paperInlineItem">
+          <a
+            :href="paper.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            :title="paper.fullTitle || paper.title"
+            :class="$style.paperLink"
+          >
+            {{ paper.title }}
+          </a>
+          <span :class="$style.paperMeta">({{ paper.year }} · {{ paper.meta }})</span>
+          <span v-if="index < papers.length - 1" :class="$style.separator">·</span>
+        </span>
+      </footer>
     </main>
   </div>
 </template>
 
 <script setup lang="ts">
+import {computed} from 'vue';
 import {useAsyncData} from '#app';
+
+interface Paper {
+  title: string;
+  fullTitle?: string;
+  meta: string;
+  year: string;
+  url: string;
+}
 
 const {data: posts} = await useAsyncData('writing-archive', () =>
   queryCollection('writing').order('date', 'DESC').all(),
 );
+
+const {data: papersDoc} = await useAsyncData('writing-papers', () => queryCollection('papers').first());
+
+const papers = computed<Paper[]>(() => {
+  if (!papersDoc.value) return [];
+  const val = (papersDoc.value as Record<string, any>).body ?? papersDoc.value;
+  return Array.isArray(val) ? val : [];
+});
 </script>
 
 <style lang="scss" module>
@@ -59,5 +93,51 @@ $mono-font: 'Fira Code', 'JetBrains Mono', monospace;
   @media only screen and (width <= 600px) {
     grid-template-columns: 1fr;
   }
+}
+
+.papersFooter {
+  margin-top: 80px;
+  padding-top: 24px;
+  border-top: 1px solid rgb(255 255 255 / 6%);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-family: $mono-font;
+  font-size: 0.8rem;
+  color: #52525b;
+}
+
+.footerLabel {
+  font-weight: 600;
+  color: #71717a;
+}
+
+.paperInlineItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.paperLink {
+  color: #a1a1aa;
+  text-decoration: underline;
+  text-decoration-color: rgb(161 161 170 / 30%);
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: #38bdf8;
+    text-decoration-color: #38bdf8;
+  }
+}
+
+.paperMeta {
+  color: #52525b;
+  font-size: 0.75rem;
+}
+
+.separator {
+  color: #3f3f46;
+  margin-left: 2px;
 }
 </style>
