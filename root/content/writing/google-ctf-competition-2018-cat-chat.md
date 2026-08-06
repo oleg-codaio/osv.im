@@ -14,7 +14,7 @@ This challenge wasn't trivial, but in the end I was able to get the flag:
 
 Read on to find out how!
 
-## Starting Out
+## Starting out
 
 _Cat Chat_ reminded me of IRC hacking challenges popular a decade ago, like the ones on [HackThisSite](https://www.hackthissite.org/). I'll let the screenshot speak for itself, but the premise is that there's a chat app run by someone bent against canines, and the goal is to (surprise!) steal the admin's credentials to get the flag.
 
@@ -88,7 +88,7 @@ Looking through the server's source resulted in a number of interesting observat
 
 As we saw earlier, the server sets a CSP to help prevent cross-site scripting and the like.
 
-### Incoming Messages Handler
+### Incoming messages handler
 
 This handler is the meat of the chat server; it handles all incoming messages:
 
@@ -162,7 +162,7 @@ span[data-secret^='A'] {
 }
 ```
 
-### Proof-of-concept
+### Proof of concept
 
 Provided that the character set of the flag is restricted (we'll assume uppercase letters, numbers, and `{` and `}` for now), let's try this out on ourselves first. We can't try too many characters at once [because URLs can only be so big](https://tools.ietf.org/html/rfc7230#section-3.1.1). Note that to make the rest of the CSS valid we can simply end with a `/*`.
 
