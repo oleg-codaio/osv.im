@@ -4,13 +4,11 @@
     <article :class="$style.contents">
       <h1 :class="$style.name">Oleg Vaskevich</h1>
       <p :class="$style.description">
-        I'm a full-stack software engineer who builds robust, high-scale products. My experience is built on solving
-        complex, ambiguous problems, spanning everything from UI and APIs to site reliability, security, and deep LLM
-        integrations.
+        <strong>I like building systems that are hard to get right.</strong>
       </p>
       <p :class="$style.description">
-        I bridge the gap between technical execution and business strategy, shipping enterprise platforms that millions
-        rely on.
+        Over the past decade, I’ve worked across collaborative products, distributed infrastructure, billing, identity,
+        security, and AI tooling—from early product development through large-scale enterprise platforms.
       </p>
     </article>
   </section>
@@ -100,7 +98,7 @@ function handleMouseLeave() {
   line-height: 1.7;
   color: var(--text-muted-light, #a1a1aa);
   margin: 0 0 1.5rem;
-  max-width: 680px;
+  max-width: 700px;
   background-image: radial-gradient(
     150px circle at var(--mouse-x, -1000px) var(--mouse-y, -1000px),
     var(--text-main, #fafafa),

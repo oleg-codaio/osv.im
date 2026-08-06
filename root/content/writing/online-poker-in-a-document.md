@@ -26,7 +26,7 @@ Naturally the first thing my mind jumped to when putting together a poker game w
 
 ![Cards Coda table](/images/writing/online-poker-in-a-document/cards-table.webp)
 
-### Ranks and Suits
+### Ranks and suits
 
 Ranks in Poker can be numeric (2–10) or face cards (J, Q, K, and A), and I had a hunch that only keeping around the value as shown on the card wasn't going to be that useful, since Coda won't just magically know that a King is better than a Queen. So, I added another table for Ranks, and while I was at it, one for Suits as well. Later on this turned out useful for adding a "sort value" for each rank to enable us to sort cards by how strong they are.
 
@@ -43,7 +43,7 @@ The last major set of entities in poker is the set of players in the game, which
 
 Thanks to Coda's [conditional formats](https://help.superhuman.com/hc/en-us/articles/46210184375437-Add-color-and-formatting-to-your-tables), it was relatively easy to improve the readability of this table to highlight the current player or someone's turn.
 
-## Game Logic
+## Game logic
 
 With the foundations put in place\*, the next step was putting together the game logic that actually allows playing the game, which is made up of two things: _state_ and _procedures_. Nearly every game needs to keep track of state, and for poker that includes whose turn it is, who's the dealer, the size of the bet, etc. In addition to that, each action that a player takes results in a procedure, or set of steps, happening. An example is that starting a new game should cause the cards to get shuffled. In Coda, this can be accomplished using [buttons](https://blog.coda.io/introducing-buttons-8acda6413030).
 
@@ -56,7 +56,7 @@ I created a new single-row table called "State" to contain all the state and but
 
 <p class="footnote">* Actually making this doc involved a lot of back and forth between updating the schema and the game logic, since the latter often depended on updates to the former. For instance, when someone takes their turn, we want to update "Current Player" to be the next player to take their turn. This meant adding a new column to the Players table called "Next Player", which contains a formula that determines the next, non-folded player in the round.</p>
 
-## Ranking Hands
+## Ranking hands
 
 At the end of a poker hand, the player with the best cards takes the pot (well, without getting into complexities). To determine the winning player, we need to convert each player's hands — which might be a list of the individual cards they're holding — into a sortable representation reflecting the strength of the game. Sorts in Coda are done lexicographically, meaning sequential numbers come before alphabetical letters. For example:
 

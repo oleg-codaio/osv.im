@@ -82,8 +82,4 @@ import Contact from '~/components/sections/contact.vue';
     margin-top: 32px;
   }
 }
-
-.section p {
-  max-width: 600px;
-}
 </style>

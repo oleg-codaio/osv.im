@@ -281,7 +281,7 @@ const experiences = ref([
     icon: superhumanIcon,
     title: 'Engineering Manager / Technical Lead',
     details:
-      'Building the cross-product platform architecture and enterprise integrations powering the unified Superhuman bundle.',
+      'Building the shared platform for identity, provisioning, entitlements, billing, and enterprise integrations across the Superhuman product suite.',
   },
   {
     name: 'Grammarly',
@@ -289,7 +289,7 @@ const experiences = ref([
     icon: grammarlyIcon,
     title: 'Technical Lead, Cross-Product Services',
     details:
-      'Architected the backbone of the Superhuman suite—unifying identity, provisioning, billing, and migration flows between products.',
+      'Built the cross-product foundation for identity, provisioning, billing, and migration flows across the Superhuman suite.',
     transitionText: '→ Rebranded to Superhuman',
   },
   {
@@ -298,7 +298,7 @@ const experiences = ref([
     icon: codaIcon,
     title: 'Technical Lead, Monetization & Enterprise',
     details:
-      'Scaled the platform from pre-revenue to millions of users, engineering the core billing engine, Packs marketplace, growth experiments, and later parts of Coda Brain.',
+      'Built Coda’s billing platform from first paid launch to eight-figure ARR, then led marketplace, AI metering, growth, and enterprise systems.',
     transitionText: '→ Acquired by Grammarly',
   },
   {

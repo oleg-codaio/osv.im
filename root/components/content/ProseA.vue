@@ -31,12 +31,25 @@ const isExternal = computed(() => {
   return host !== 'osv.im' && host !== 'localhost' && !host.endsWith('.osv.im');
 });
 
+const isImageOrAsset = computed(() => {
+  const url = resolvedHref.value;
+  if (!url) return false;
+
+  return (
+    url.startsWith('/images/') || url.includes('/images/') || /\.(pdf|png|jpe?g|gif|webp|svg|glb|gltf)$/i.test(url)
+  );
+});
+
+const shouldOpenInNewTab = computed(() => {
+  return isExternal.value || isImageOrAsset.value;
+});
+
 const computedTarget = computed(() => {
   if (props.target) return props.target;
-  return isExternal.value ? '_blank' : undefined;
+  return shouldOpenInNewTab.value ? '_blank' : undefined;
 });
 
 const computedRel = computed(() => {
-  return isExternal.value ? 'noopener noreferrer' : undefined;
+  return shouldOpenInNewTab.value ? 'noopener noreferrer' : undefined;
 });
 </script>

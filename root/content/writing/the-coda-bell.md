@@ -12,13 +12,13 @@ A few weeks ago, I got to be part of something special: the launch of [Coda](htt
 
 One of our product managers, Matt Hudson, actually deserves credit for the whole idea. He had a [call bell](https://www.amazon.com/gp/product/B001B095E0/) lying around, so we just needed to pick up a few extra parts and go from there. This post goes into how we built the Coda Bell.
 
-# Parts and Equipment
+## Parts and equipment
 
 The most important part of a project like this is the brains — the microcontroller. I’ve personally used a bunch, ranging from a Raspberry Pi (one of the smallest Linux boxes out there) to an ESP8266 (awesome cheap WiFi chip!), but for the purpose of this project, we decided to go with a [Particle Photon](https://www.particle.io/products/hardware/photon-wifi-dev-kit), for its excellent out-of-the-box cloud integration (we didn’t have a lot of time to mess with the TCP stack).
 
 There wasn’t too much hardware complexity in the remaining parts: we just used an [SG90 servo](http://akizukidenshi.com/download/ds/towerpro/SG90.pdf), an [enclosure](https://www.amazon.com/gp/product/B0734ZLSQG) off Amazon, some wires and spare electronics parts, and a breadboard. No soldering necessary!
 
-# From Cloud to Device
+## From cloud to device
 
 When we noticed that Particle [supported IFTTT](https://docs.particle.io/guide/tools-and-features/ifttt/) (IF This Then That), we knew there was no chance we’d bother with polling our servers or dealing with interrupts for something like this. Instead, we went on IFTTT and configured the [Webhooks service](https://ifttt.com/maker_webhooks), linked our [Particle account](https://ifttt.com/particle), and created a simple applet to publish a private _signup_ event to the Particle Cloud every time the webhook URL was hit, which we’d set up to happen when someone signed up.
 
@@ -33,7 +33,7 @@ The Webhooks service supports passing in a few values, so we set the data of the
 {{Value3}}
 ```
 
-## Testing the IFTTT Applet
+### Testing the IFTTT applet
 
 Now, to test that it worked, we used the _particle-cli_ Node package to listen to the event:
 
@@ -45,7 +45,7 @@ Listening to: /v1/devices/events/signup
 
 We then got the webhook URL from the Webhook service settings in IFTTT (e.g., `https://maker.ifttt.com/trigger/signup/with/key/foo`), and fired up [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en) to POST to that URL with _{“value1”: “123”}_. A few seconds later, the message showed up.
 
-# Putting the Circuit Together
+## Putting the circuit together
 
 The whole project ended up being relatively straightforward with these components.
 
@@ -56,7 +56,7 @@ The whole project ended up being relatively straightforward with these component
 
 When powering the Photon via USB, pin 1 supplies 4.8 V, which is in line with the operating voltage of the servo. The bypass capacitor _C1_ and bleeder resistor _R2_ in parallel with the servo act as a reservoir of energy for the power-hungry motor, which may otherwise behave erratically and draw too much current, while the _D1_ and _R1_ at the bottom are there for blinking a status LED.
 
-# Making the Bell Ring
+## Making the bell ring
 
 The servo came with a few attachments, which we jerry-rigged to create a lever that swings to knock the clapper of the bell into the metal bowl. We then used epoxy to secure the servo in place.
 
@@ -65,7 +65,7 @@ The servo came with a few attachments, which we jerry-rigged to create a lever t
   <figcaption>Underside of the bell, showing the mechanics of the servo ringing it.</figcaption>
 </figure>
 
-# Writing the Firmware
+## Writing the firmware
 
 With the hardware out of the way, it was time to actually hook this thing up! Here’s the code:
 
@@ -73,17 +73,17 @@ With the hardware out of the way, it was time to actually hook this thing up! He
 
 This was mostly straightforward, but there are a couple things worth pointing out:
 
-## Servo Library
+### Servo library
 
 Particle ships with a [servo library](https://docs.particle.io/reference/firmware/photon/#servo), which handled sending a pulse-width modulation (PWM) signal to the motor for us. We just tell it what position (in degrees) to go to, delay as needed, and it does the rest.
 
-## IFTTT
+### IFTTT
 
 Thanks to [Particle Cloud](https://docs.particle.io/reference/firmware/photon/#particle-subscribe-), listening to the webhook was as easy as calling _Particle.subscribe(“signup”, onIfttt, MY_DEVICES)_. Our handler here assumes that the second line of the message contains an integer with the number of signups that have occurred since the last event, and the main loop handles consuming this count and ringing that number of times.
 
 Since user signups can be viewed as a [Poisson process](http://www.rle.mit.edu/rgallager/documents/6.262lateweb2.pdf), we wanted to make sure that the bell is able to cope with sudden bursts of people signing up, and this approach established a queue of sorts for ringing the bell. We put the counting logic in a critical section (via _ATOMIC_BLOCK()_) to make sure there weren’t any race conditions between writing and reading the count.
 
-# Finishing Touches
+## Finishing touches
 
 The last part of the puzzle was getting the server to hit the webhook URL when users signed up. We decided to throttle to 5 seconds to avoid overwhelming the IFTTT API. So, after a signup, we essentially deferred POSTing for that amount of time, and then batched together signups into a count that we then passed through as _value1_ in the request body to IFTTT.
 
