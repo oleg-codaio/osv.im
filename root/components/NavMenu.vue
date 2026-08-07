@@ -28,6 +28,15 @@ const shown = ref(false);
 const route = useRoute();
 const activeSection = ref('about');
 
+watch(shown, (val) => {
+  if (!import.meta.client) return;
+  if (val) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = '';
+  }
+});
+
 const isProgrammaticScrolling = ref(false);
 let scrollTimeout: any = null;
 
@@ -256,6 +265,7 @@ onMounted(() => {
   window.addEventListener('scroll', handleScroll, {passive: true});
 
   onBeforeUnmount(() => {
+    if (import.meta.client) document.body.style.overflow = '';
     window.removeEventListener('scroll', handleScroll);
     if (observer) observer.disconnect();
     if (scrollTimeout) clearTimeout(scrollTimeout);
@@ -279,9 +289,11 @@ onMounted(() => {
   left: 0;
   padding-right: 40px;
   position: fixed;
-  transition: all 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
   width: 100%;
-  z-index: 10;
+  z-index: 90;
   background: rgb(9 9 11 / 70%);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgb(255 255 255 / 5%);
@@ -289,20 +301,24 @@ onMounted(() => {
   @media only screen and (width <= 768px) {
     pointer-events: none;
     opacity: 0;
+    visibility: hidden;
     flex-direction: column;
-    padding-top: $header-size;
-    padding-bottom: 150px;
-    padding-right: 0;
+    justify-content: center;
+    padding: 20px;
     position: fixed;
+    inset: 0;
     width: 100vw;
-    margin-top: 0;
     height: 100vh;
-    background: rgb(9 9 11 / 95%);
-    backdrop-filter: blur(20px);
+    height: 100dvh;
+    margin: 0;
+    background: rgb(9 9 11 / 98%);
+    backdrop-filter: blur(24px);
     border-bottom: none;
+    z-index: 99;
 
     &.shown {
       opacity: 1;
+      visibility: visible;
       pointer-events: all;
       display: flex;
     }
@@ -324,7 +340,7 @@ onMounted(() => {
   right: 0;
   text-align: right;
   top: 0;
-  z-index: 15;
+  z-index: 100;
 
   @media only screen and (width <= 768px) {
     display: block;
