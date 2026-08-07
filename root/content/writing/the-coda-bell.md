@@ -3,7 +3,7 @@ title: The Coda Bell
 date: 2017-11-08
 readTime: 4
 image: /images/writing/the-coda-bell/bell_final.jpg
-excerpt: A fun IoT project using a Particle Photon, servo motor, and IFTTT to build a physical bell that rings on user signups.
+description: A fun IoT project using a Particle Photon, servo motor, and IFTTT to build a physical bell that rings on user signups.
 ---
 
 A few weeks ago, I got to be part of something special: the launch of [Coda](https://blog.coda.io/its-a-new-day-for-docs-2643fb16f05a). To add a little ceremony to the occasion (it’s not every day you get to launch a company!), my coworker Chris Eck and I rigged up an old call bell to ring every time someone signed up. Here’s what it looked like:

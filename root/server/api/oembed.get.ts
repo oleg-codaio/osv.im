@@ -25,6 +25,7 @@ export default defineEventHandler(async (event) => {
 
   const post = await queryCollection(event, 'writing')
     .path(pathname)
+    .select('title', 'description', 'excerpt', 'image')
     .first()
     .catch(() => null);
 
@@ -32,8 +33,9 @@ export default defineEventHandler(async (event) => {
     throw createError({statusCode: 404, statusMessage: 'Post not found'});
   }
 
+  const rawPost = post as any;
   const title = post.title || 'Oleg Vaskevich';
-  const description = (post as any).excerpt || (post as any).description || '';
+  const description = rawPost.excerpt || rawPost.meta?.excerpt || rawPost.description || '';
   const authorName = 'Oleg Vaskevich';
   const imageUrl = post.image ? (post.image.startsWith('http') ? post.image : `${siteUrl}${post.image}`) : undefined;
 

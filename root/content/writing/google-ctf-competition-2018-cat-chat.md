@@ -3,7 +3,7 @@ title: 'Google CTF Competition 2018: Cat Chat'
 date: 2018-06-25
 readTime: 10
 image: /images/writing/google-ctf-competition-2018-cat-chat/flag-unlocked.webp
-excerpt: A writeup of the "Cat Chat" web security challenge from Google CTF 2018 qualification round, demonstrating CSS injection, logic flaws, and CSP bypass.
+description: A writeup of the "Cat Chat" web security challenge from Google CTF 2018 qualification round, demonstrating CSS injection, logic flaws, and CSP bypass.
 ---
 
 This past weekend Google held the qualification round for its third annual [Capture the Flag competition](https://security.googleblog.com/2018/05/google-ctf-2018-is-here.html), with 25 demanding challenges in categories ranging from cryptography to web to binary exploits. While my skillset goes nowhere near close to that of the [talented teams](https://ctftime.org/event/623) participating from all over the world, I had some time to try my hand at one of the web challenges, Cat Chat, and wanted to document my approach. In my opinion, CTFs can be a great learning experience and taking a stab at some challenges as well as reading people's write-ups after can be great for becoming a better engineer.

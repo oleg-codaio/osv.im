@@ -89,7 +89,9 @@ const siteUrl = 'https://osv.im';
 const canonicalUrl = computed(() => `${siteUrl}${route.path}`);
 const articleTitle = computed(() => (doc.value?.title ? `${doc.value.title} | Oleg Vaskevich` : 'Oleg Vaskevich'));
 const rawTitle = computed(() => doc.value?.title || 'Oleg Vaskevich');
-const articleDesc = computed(() => doc.value?.excerpt || 'Software engineer living and working in Silicon Valley.');
+const articleDesc = computed(
+  () => doc.value?.description || doc.value?.excerpt || 'Software engineer living and working in Silicon Valley.',
+);
 const articleImage = computed(() => {
   if (!doc.value?.image) return `${siteUrl}/og-image.jpg`;
   return doc.value.image.startsWith('http') ? doc.value.image : `${siteUrl}${doc.value.image}`;

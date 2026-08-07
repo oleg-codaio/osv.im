@@ -10,7 +10,8 @@ export default defineContentConfig({
         date: z.string(),
         readTime: z.number(),
         image: z.string(),
-        excerpt: z.string(),
+        description: z.string(),
+        excerpt: z.string().optional(),
       }),
     }),
     papers: defineCollection({

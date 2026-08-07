@@ -14,7 +14,7 @@
     <div :class="$style.post">
       <div :class="$style.image" :style="'background-image: url(' + post.image + ')'" />
       <h2 :class="$style.title">{{ post.title }}</h2>
-      <p :class="$style.subtitle">{{ post.excerpt }}</p>
+      <p :class="$style.subtitle">{{ post.description || post.excerpt }}</p>
     </div>
   </NuxtLink>
 </template>
@@ -24,7 +24,8 @@ interface Post {
   path: string;
   image: string;
   title: string;
-  excerpt: string;
+  description?: string;
+  excerpt?: string;
   date: string;
   readTime: number;
 }

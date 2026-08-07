@@ -3,7 +3,7 @@ title: Online Poker in a Document
 date: 2020-02-29
 readTime: 6
 image: /images/writing/online-poker-in-a-document/cover.png
-excerpt: Over the winter holidays, I built a functional multiplayer poker game entirely within a Coda document using only formulas and buttons.
+description: Over the winter holidays, I built a functional multiplayer poker game entirely within a Coda document using only formulas and buttons.
 ---
 
 Over the winter holidays, I found some time to work on improving my poker game, reading a couple [great](https://www.amazon.com/Harrington-Expert-Strategy-Limit-Tournaments-ebook/dp/B002XQ2C6O) [books](https://www.amazon.com/Theory-Poker-Professional-Player-Teaches-ebook/dp/B001QCYJQ2) and then applying their theories into practice. While there is no substitute for playing in a casino or at someone's house, one of the quickest ways to get into a game is to play online poker. There are hundreds of platforms out there, and after playing on a few I thought it would be a fun learning experience to create my own, but with a twist: what if you could have a doc that lets you play poker? Our goal at [Coda](https://osv.im/coda) is to precisely to facilitate that: creating docs as powerful as apps (with the help of formulas, not code), so I set out on an attempt. Read on to see the result and go behind the scenes.

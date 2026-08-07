@@ -3,7 +3,7 @@ title: Building My Own Smart Roller Shades
 date: 2026-08-06
 readTime: 20
 image: /images/writing/building-my-own-smart-roller-shades/shado.jpg
-excerpt: Designing a custom PCB, firmware, 3D-printed mechanism, and Google Assistant integration to automate my apartment's roller shades.
+description: Designing a custom PCB, firmware, 3D-printed mechanism, and Google Assistant integration to automate my apartment's roller shades.
 ---
 
 A few weeks after moving into a new apartment, I started getting annoyed by a minor yet recurring problem: having to raise and lower my shades every morning and night.
