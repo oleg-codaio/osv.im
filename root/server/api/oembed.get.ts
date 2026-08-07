@@ -33,7 +33,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const title = post.title || 'Oleg Vaskevich';
-  const description = post.excerpt || post.description || '';
+  const description = (post as any).excerpt || (post as any).description || '';
   const authorName = 'Oleg Vaskevich';
   const imageUrl = post.image ? (post.image.startsWith('http') ? post.image : `${siteUrl}${post.image}`) : undefined;
 

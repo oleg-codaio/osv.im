@@ -30,7 +30,7 @@ const iframeSrcdoc = computed(() => {
 
   // Construct script tags using string concatenation to avoid Vue template parser bugs
   const fileParam = props.file ? `?file=${encodeURIComponent(props.file)}` : '';
-  const gistScript = '<' + `script src="https://gist.github.com/oleg-codaio/${id}.js${fileParam}"></` + 'script>';
+  const gistScript = '<' + `script src="https://gist.github.com/vaskevich/${id}.js${fileParam}"></` + 'script>';
   const scriptOpen = '<' + 'script>';
   const scriptClose = '<' + '/script>';
 
