@@ -14,6 +14,17 @@ import About from '~/components/sections/about.vue';
 import Experience from '~/components/sections/experience.vue';
 import Writing from '~/components/sections/writing.vue';
 import Contact from '~/components/sections/contact.vue';
+
+useSeoMeta({
+  title: 'Oleg Vaskevich',
+  ogTitle: 'Oleg Vaskevich',
+  description: 'Software engineer living and working in Silicon Valley.',
+  ogDescription: 'Software engineer living and working in Silicon Valley.',
+  ogUrl: 'https://osv.im',
+  ogType: 'website',
+  ogSiteName: 'Oleg Vaskevich',
+  twitterCard: 'summary_large_image',
+});
 </script>
 
 <style lang="scss" module>

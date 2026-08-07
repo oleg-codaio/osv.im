@@ -84,6 +84,82 @@ const {data: doc} = await useAsyncData(`writing-${route.path}`, () =>
   queryCollection('writing').path(route.path).first(),
 );
 
+const siteUrl = 'https://osv.im';
+
+const canonicalUrl = computed(() => `${siteUrl}${route.path}`);
+const articleTitle = computed(() => (doc.value?.title ? `${doc.value.title} | Oleg Vaskevich` : 'Oleg Vaskevich'));
+const rawTitle = computed(() => doc.value?.title || 'Oleg Vaskevich');
+const articleDesc = computed(
+  () => doc.value?.excerpt || doc.value?.description || 'Software engineer living and working in Silicon Valley.',
+);
+const articleImage = computed(() => {
+  if (!doc.value?.image) return `${siteUrl}/og-image.jpg`;
+  return doc.value.image.startsWith('http') ? doc.value.image : `${siteUrl}${doc.value.image}`;
+});
+const formattedDate = computed(() => (doc.value?.date ? new Date(doc.value.date).toISOString() : ''));
+
+useSeoMeta({
+  title: articleTitle,
+  ogTitle: rawTitle,
+  description: articleDesc,
+  ogDescription: articleDesc,
+  ogImage: articleImage,
+  ogUrl: canonicalUrl,
+  ogType: 'article',
+  ogSiteName: 'Oleg Vaskevich',
+  twitterCard: 'summary_large_image',
+  twitterSite: '@ohleg',
+  twitterCreator: '@ohleg',
+  twitterTitle: rawTitle,
+  twitterDescription: articleDesc,
+  twitterImage: articleImage,
+  twitterLabel1: 'Written by',
+  twitterData1: 'Oleg Vaskevich',
+  twitterLabel2: 'Est. reading time',
+  twitterData2: () => (doc.value?.readTime ? `${doc.value.readTime} min read` : ''),
+});
+
+useHead(() => ({
+  link: [
+    {rel: 'canonical', href: canonicalUrl.value},
+    {
+      rel: 'alternate',
+      type: 'application/json+oembed',
+      href: `${siteUrl}/api/oembed?url=${encodeURIComponent(canonicalUrl.value)}`,
+      title: rawTitle.value,
+    },
+  ],
+  script: doc.value
+    ? [
+        {
+          type: 'application/ld+json',
+          innerHTML: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BlogPosting',
+            headline: doc.value.title,
+            description: articleDesc.value,
+            image: [articleImage.value],
+            datePublished: formattedDate.value,
+            author: {
+              '@type': 'Person',
+              name: 'Oleg Vaskevich',
+              url: siteUrl,
+            },
+            publisher: {
+              '@type': 'Person',
+              name: 'Oleg Vaskevich',
+              url: siteUrl,
+            },
+            mainEntityOfPage: {
+              '@type': 'WebPage',
+              '@id': canonicalUrl.value,
+            },
+          }),
+        },
+      ]
+    : [],
+}));
+
 const activeHeadingId = ref<string>('');
 const showTopButton = ref(false);
 let scrollHandler: (() => void) | null = null;

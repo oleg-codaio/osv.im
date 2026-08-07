@@ -49,6 +49,17 @@ const papers = computed<Paper[]>(() => {
   const val = (papersDoc.value as Record<string, any>).body ?? papersDoc.value;
   return Array.isArray(val) ? val : [];
 });
+
+useSeoMeta({
+  title: 'Writing | Oleg Vaskevich',
+  ogTitle: 'Writing | Oleg Vaskevich',
+  description: 'Technical articles and writing by Oleg Vaskevich.',
+  ogDescription: 'Technical articles and writing by Oleg Vaskevich.',
+  ogUrl: 'https://osv.im/writing',
+  ogType: 'website',
+  ogSiteName: 'Oleg Vaskevich',
+  twitterCard: 'summary_large_image',
+});
 </script>
 
 <style lang="scss" module>

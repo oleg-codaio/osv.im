@@ -14,6 +14,11 @@ export default defineNuxtConfig({
           name: 'description',
           content: 'Software engineer living and working in Silicon Valley.',
         },
+        {property: 'og:site_name', content: 'Oleg Vaskevich'},
+        {property: 'og:type', content: 'website'},
+        {name: 'twitter:card', content: 'summary_large_image'},
+        {name: 'twitter:site', content: '@ohleg'},
+        {name: 'twitter:creator', content: '@ohleg'},
       ],
       link: [
         {
