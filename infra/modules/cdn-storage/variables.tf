@@ -37,3 +37,14 @@ variable "redirect_www" {
   default     = false
 }
 
+variable "normalize_html_routes" {
+  description = "Whether to serve extensionless HTML routes and redirect trailing-slash and index.html variants"
+  type        = bool
+  default     = false
+}
+
+variable "html_route_exclusions" {
+  description = "Extensionless paths that must pass through without HTML route normalization"
+  type        = list(string)
+  default     = []
+}

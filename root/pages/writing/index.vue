@@ -50,15 +50,21 @@ const papers = computed<Paper[]>(() => {
   return Array.isArray(val) ? val : [];
 });
 
+const canonicalUrl = 'https://osv.im/writing';
+
 useSeoMeta({
   title: 'Writing | Oleg Vaskevich',
   ogTitle: 'Writing | Oleg Vaskevich',
   description: 'Technical articles and writing by Oleg Vaskevich.',
   ogDescription: 'Technical articles and writing by Oleg Vaskevich.',
-  ogUrl: 'https://osv.im/writing',
+  ogUrl: canonicalUrl,
   ogType: 'website',
   ogSiteName: 'Oleg Vaskevich',
   twitterCard: 'summary_large_image',
+});
+
+useHead({
+  link: [{rel: 'canonical', href: canonicalUrl}],
 });
 </script>
 

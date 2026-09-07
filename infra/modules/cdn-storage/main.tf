@@ -9,24 +9,64 @@ locals {
 }
 
 resource "aws_cloudfront_function" "www_redirect" {
-  count   = var.redirect_www ? 1 : 0
+  count   = var.redirect_www || var.normalize_html_routes ? 1 : 0
   name    = "${var.name}-www-redirect"
   runtime = "cloudfront-js-2.0"
-  comment = "Redirect www.${local.domain_name} to ${local.domain_name}"
+  comment = "Normalize requests for ${local.domain_name}"
   publish = true
   code    = <<-EOT
     function handler(event) {
         var request = event.request;
         var host = request.headers.host.value;
-        if (host.startsWith('www.')) {
+        var canonicalHost = host;
+        var canonicalUri = request.uri;
+        var exclusions = ${jsonencode(var.html_route_exclusions)};
+        var queryParts = [];
+
+        Object.keys(request.querystring).forEach(function (key) {
+            var parameter = request.querystring[key];
+            var values = parameter.multiValue || [parameter];
+            values.forEach(function (value) {
+                queryParts.push(key + '=' + value.value);
+            });
+        });
+
+        if (${var.redirect_www} && host.indexOf('www.') === 0) {
+            canonicalHost = '${local.domain_name}';
+        }
+
+        if (${var.normalize_html_routes}) {
+            if (canonicalUri === '/index.html') {
+                canonicalUri = '/';
+            } else if (canonicalUri.endsWith('/index.html')) {
+                canonicalUri = canonicalUri.slice(0, -11);
+            } else if (canonicalUri.length > 1 && canonicalUri.endsWith('/')) {
+                canonicalUri = canonicalUri.slice(0, -1);
+            }
+        }
+
+        if (canonicalHost !== host || canonicalUri !== request.uri) {
             return {
                 statusCode: 301,
                 statusDescription: 'Moved Permanently',
                 headers: {
-                    'location': { value: 'https://${local.domain_name}' + request.uri }
+                    'location': {
+                        value: 'https://' + canonicalHost + canonicalUri +
+                            (queryParts.length ? '?' + queryParts.join('&') : '')
+                    }
                 }
             };
         }
+
+        if (
+            ${var.normalize_html_routes} &&
+            request.uri !== '/' &&
+            exclusions.indexOf(request.uri) === -1 &&
+            request.uri.substring(request.uri.lastIndexOf('/') + 1).indexOf('.') === -1
+        ) {
+            request.uri += '/index.html';
+        }
+
         return request;
     }
   EOT
@@ -115,7 +155,7 @@ resource "aws_cloudfront_distribution" "root" {
     }
 
     dynamic "function_association" {
-      for_each = var.redirect_www ? [1] : []
+      for_each = var.redirect_www || var.normalize_html_routes ? [1] : []
       content {
         event_type   = "viewer-request"
         function_arn = aws_cloudfront_function.www_redirect[0].arn
@@ -210,4 +250,3 @@ resource "aws_s3_object" "shortcut" {
   key              = each.key
   website_redirect = each.value
 }
-

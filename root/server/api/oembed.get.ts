@@ -18,6 +18,8 @@ export default defineEventHandler(async (event) => {
     pathname = targetUrl.startsWith('/') ? targetUrl : `/${targetUrl}`;
   }
 
+  pathname = pathname.replace(/\/index\.html$/, '');
+
   // Remove trailing slash if present (except root)
   if (pathname.length > 1 && pathname.endsWith('/')) {
     pathname = pathname.slice(0, -1);

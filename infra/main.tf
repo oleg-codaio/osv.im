@@ -34,12 +34,14 @@ resource "aws_acm_certificate" "root" {
 // Set up S3-backed CloudFront CDN distributions.
 
 module "root_cdn_storage" {
-  source           = "./modules/cdn-storage"
-  name             = "root"
-  zone_id          = aws_route53_zone.root.zone_id
-  acm_ssl_cert_arn = aws_acm_certificate.root.arn
-  extra_aliases    = ["www.osv.im"]
-  redirect_www     = true
+  source                = "./modules/cdn-storage"
+  name                  = "root"
+  zone_id               = aws_route53_zone.root.zone_id
+  acm_ssl_cert_arn      = aws_acm_certificate.root.arn
+  extra_aliases         = ["www.osv.im"]
+  redirect_www          = true
+  normalize_html_routes = true
+  html_route_exclusions = ["/coda", "/jsx"]
 }
 
 module "legal_cdn_storage" {
@@ -71,4 +73,3 @@ resource "aws_cloudformation_stack" "alerts_sns_topic" {
     EmailAddress = var.sns_alert_email
   }
 }
-

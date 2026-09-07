@@ -80,13 +80,15 @@ interface TocLink {
 
 const route = useRoute();
 
-const {data: doc} = await useAsyncData(`writing-${route.path}`, () =>
-  queryCollection('writing').path(route.path).first(),
+const articlePath = computed(() => route.path.replace(/\/index\.html$/, '').replace(/\/$/, '') || '/');
+
+const {data: doc} = await useAsyncData(`writing-${articlePath.value}`, () =>
+  queryCollection('writing').path(articlePath.value).first(),
 );
 
 const siteUrl = 'https://osv.im';
 
-const canonicalUrl = computed(() => `${siteUrl}${route.path}`);
+const canonicalUrl = computed(() => `${siteUrl}${articlePath.value}`);
 const articleTitle = computed(() => (doc.value?.title ? `${doc.value.title} | Oleg Vaskevich` : 'Oleg Vaskevich'));
 const rawTitle = computed(() => doc.value?.title || 'Oleg Vaskevich');
 const articleDesc = computed(

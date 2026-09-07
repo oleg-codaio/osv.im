@@ -20,10 +20,14 @@ useSeoMeta({
   ogTitle: 'Oleg Vaskevich',
   description: 'Software engineer living and working in Silicon Valley.',
   ogDescription: 'Software engineer living and working in Silicon Valley.',
-  ogUrl: 'https://osv.im',
+  ogUrl: 'https://osv.im/',
   ogType: 'website',
   ogSiteName: 'Oleg Vaskevich',
   twitterCard: 'summary_large_image',
+});
+
+useHead({
+  link: [{rel: 'canonical', href: 'https://osv.im/'}],
 });
 </script>
 
